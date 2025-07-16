@@ -24,6 +24,8 @@ if(localStorage.getItem("userName")){
     navbar.innerHTML = `${userName}'s Notebook`;
     localStorage.setItem("userName",userName.trim());
   }
+  alert("please wait for few seconds after clicking on add note button,")
+   
 }
 
 
@@ -151,6 +153,5 @@ const updateNote = (index) =>{
   });
 
   window.onload = displayNotes;
-
 
  
