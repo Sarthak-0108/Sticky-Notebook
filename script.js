@@ -10,12 +10,20 @@ let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
 let updateNoteBtn;
 
 let navbar = document.getElementById("navbar-branding");
+let userName;
 
-let userName = prompt('please enter your name :');
-if(userName.trim () === ""){
-  navbar.innerHTML = `Sarthak's Notebook`;
-}else{
-navbar.innerHTML = `${userName}'s Notebook`;
+if(localStorage.getItem("userName")){
+   userName = localStorage.getItem("userName");
+   navbar.innerHTML = `${userName}'s Notebook`;
+} else {
+   userName = prompt('please enter your name :');
+
+    if(userName === null || !userName){ //agar user input na  de
+      navbar.innerHTML = `Sarthak's Notebook`;
+  } else {
+    navbar.innerHTML = `${userName}'s Notebook`;
+    localStorage.setItem("userName",userName.trim());
+  }
 }
 
 
