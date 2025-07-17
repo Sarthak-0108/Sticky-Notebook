@@ -20,14 +20,13 @@ if(localStorage.getItem("userName")){
 
     if(userName === null || !userName){ //agar user input na  de
       navbar.innerHTML = `Sarthak's Notebook`;
+      localStorage.setItem("userName","Sarthak");
   } else {
     navbar.innerHTML = `${userName}'s Notebook`;
     localStorage.setItem("userName",userName.trim());
   }
-  alert("please wait for few seconds after clicking on add note button,")
-   
+    alert("please wait for few seconds after clicking on add note button")
 }
-
 
  const createNotes = () => {
   class Note {
@@ -49,11 +48,11 @@ if(localStorage.getItem("userName")){
 const displayNotes = () => {
     noteContainer.innerHTML = "";
 
-    notesArray.forEach((note, index) => {   
+    for(let i=notesArray.length-1; i>=0; i--){
     
     let card = document.createElement("div");
     card.classList.add("card");
-    card.id = `note-${index}`;
+    card.id = `note-${i}`;
     
     let cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
@@ -69,7 +68,7 @@ const displayNotes = () => {
     dltBtn.classList.add("button");
     dltBtn.innerText = "Delte";
     dltBtn.addEventListener("click",()=>{
-      deleteNote(index)
+      deleteNote(i)
     });
 
     //creating a btn to edit note
@@ -93,7 +92,7 @@ const displayNotes = () => {
       updateNoteBtn.classList.add("btn", "btn-success", "update-btn");
       updateNoteBtn.addEventListener("click",()=>{
 
-      updateNote(index)
+      updateNote(i)
       });
 
       const inputForm = document.querySelector("form");
@@ -104,22 +103,22 @@ const displayNotes = () => {
     card.append(cardBody);
     cardBody.append(cardTitle, cardText,dltBtn,editBtn);
 
-    cardTitle.innerText = note.title;
-    cardText.innerText = note.content;
-    console.log(index)
+    cardTitle.innerText = notesArray[i].title;
+    cardText.innerText = notesArray[i].content;
+    console.log(i)
   
- });
+ };
 };
 
-const deleteNote=(index)=>{
-  notesArray.splice(index, 1);
+const deleteNote=(i)=>{
+  notesArray.splice(i, 1);
   localStorage.setItem("notes", JSON.stringify(notesArray)); 
   displayNotes();
   alert("Your note was successfully Deleted.")
 }
 
-const updateNote = (index) =>{
-  notesArray[index] = {title:noteTitle.value,content:noteContent.value}
+const updateNote = (i) =>{
+  notesArray[i] = {title:noteTitle.value,content:noteContent.value}
   localStorage.setItem("notes",JSON.stringify(notesArray));
   displayNotes();
 
@@ -130,7 +129,7 @@ const updateNote = (index) =>{
 
   alert("Your note was successfully updated.")
 
-  const note = document.getElementById(`note-${index}`);
+  const note = document.getElementById(`note-${i}`);
 
   note.scrollIntoView({
     behavior:'smooth',
@@ -153,5 +152,6 @@ const updateNote = (index) =>{
   });
 
   window.onload = displayNotes;
+
 
  
