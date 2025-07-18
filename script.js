@@ -25,7 +25,6 @@ if(localStorage.getItem("userName")){
     navbar.innerHTML = `${userName}'s Notebook`;
     localStorage.setItem("userName",userName.trim());
   }
-    alert("please wait for few seconds after clicking on add note button")
 }
 
  const createNotes = () => {
@@ -36,7 +35,7 @@ if(localStorage.getItem("userName")){
     }
   }
       if(noteTitle.value.trim() === "" || noteContent.value.trim() === ""){
-        alert("please enter note and title before add note note")
+        alert("Please enter both a title and a note before adding");
       }else{
       let newNote = new Note(noteTitle.value,noteContent.value);
       notesArray.push(newNote);
