@@ -55,9 +55,9 @@ const displayNotes = () => {
     card.id = `note-${i}`;
     
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+    cardBody.classList.add("card-body","mx-4");
 
-    let cardTitle = document.createElement("h1");
+    let cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
 
     let cardText = document.createElement("p");
@@ -65,7 +65,7 @@ const displayNotes = () => {
 
    //creating a button to delete note
     let dltBtn = document.createElement("button");
-    dltBtn.classList.add("button");
+    dltBtn.classList.add("btn","btn-danger","mx-2");
     dltBtn.innerText = "Delte";
     dltBtn.addEventListener("click",()=>{
       deleteNote(i)
@@ -73,7 +73,7 @@ const displayNotes = () => {
 
     //creating a btn to edit note
     let editBtn = document.createElement("button");
-    editBtn.classList.add("button");
+    editBtn.classList.add("btn","btn-info","mx-2");
     editBtn.innerText = "Edit";
     editBtn.addEventListener("click",()=>{
 
@@ -89,11 +89,11 @@ const displayNotes = () => {
 
       updateNoteBtn = document.createElement("button");
       updateNoteBtn.innerText = "Save";
-      updateNoteBtn.classList.add("btn", "btn-success", "update-btn");
       updateNoteBtn.addEventListener("click",()=>{
 
       updateNote(i)
-      });
+      });      
+      updateNoteBtn.classList.add("btn", "btn-success", "mx-4","my-4");
 
       const inputForm = document.querySelector("form");
       inputForm.append(updateNoteBtn);
@@ -101,7 +101,7 @@ const displayNotes = () => {
 
     noteContainer.append(card);
     card.append(cardBody);
-    cardBody.append(cardTitle, cardText,dltBtn,editBtn);
+    cardBody.append(cardTitle, cardText,editBtn,dltBtn);
 
     cardTitle.innerText = notesArray[i].title;
     cardText.innerText = notesArray[i].content;

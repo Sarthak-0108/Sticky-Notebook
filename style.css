@@ -6,7 +6,6 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* width: 100%; */
 }
 
 .notes-container {
@@ -17,52 +16,31 @@ form {
 }
 
 #note-title {
-  margin: 25px;
+  margin: 1rem 1rem;
   width: 80vw;
 
 }
 
 #noteContent {
-  margin: 25px 30px;
+  margin: 1rem 1rem;
   width: 80vw;
 }
 
 #add-note {
-  margin: 25px;
+  margin: 1.5rem;
 }
 
 .card{
-  height: 25rem;
-  overflow: hidden;
-  background-image: url('notes.png');
+  width: 21rem;
+  height:22rem;
+  background-image: url(notes.png);
   background-size: contain;
   background-repeat: no-repeat;
-  padding:76px 100px;
-  border:none;
-}
+  overflow:auto;
+  padding:2.5rem 1rem;
+  margin:1rem 1rem;
+  /* border: none; */
 
-.card-body{
-    padding-top: 1em;
-    padding-right: 0rem;
-    padding-bottom: 1rem;
-    padding-left: 0rem;
-}
-
-.card-text{
-  padding:5px 4px;
-}
-
-/* delete and edit button */
-.button{
-  background-color: rgba(228, 228, 16, 0.366);
-  color:hotpink;
-  border-radius: 5px;
-  border:2px solid black;
-  margin:5px;
-}
-
-.update-btn{
-  margin: 25px;
 }
 
 .highlight-note{
