@@ -25,7 +25,6 @@ if(localStorage.getItem("userName")){
     navbar.innerHTML = `${userName}'s Notebook`;
     localStorage.setItem("userName",userName.trim());
   }
-    alert("please wait for few seconds after clicking on add note button")
 }
 
  const createNotes = () => {
@@ -35,6 +34,9 @@ if(localStorage.getItem("userName")){
       this.content = content;
     }
   }
+      if(noteTitle.value.trim() === "" || noteContent.value.trim() === ""){
+        alert("Please enter both a title and a note before adding");
+      }else{
       let newNote = new Note(noteTitle.value,noteContent.value);
       notesArray.push(newNote);
 
@@ -42,6 +44,7 @@ if(localStorage.getItem("userName")){
 
       noteTitle.value = "";
       noteContent.value = "";
+      }
 };
 
 
@@ -65,6 +68,8 @@ const displayNotes = () => {
 
    //creating a button to delete note
     let dltBtn = document.createElement("button");
+
+    dltBtn.id = `dlt-btn${i}`;
     dltBtn.classList.add("btn","btn-danger","mx-2");
     dltBtn.innerText = "Delte";
     dltBtn.addEventListener("click",()=>{
@@ -73,9 +78,21 @@ const displayNotes = () => {
 
     //creating a btn to edit note
     let editBtn = document.createElement("button");
+    editBtn.id = `edit-btn${i}`;
+
     editBtn.classList.add("btn","btn-info","mx-2");
     editBtn.innerText = "Edit";
     editBtn.addEventListener("click",()=>{
+      for(let i=notesArray.length-1; i >= 0; i--){
+        let disableDelBtn = document.getElementById(`dlt-btn${i}`);
+        let disableEditBtn = document.getElementById(`edit-btn${i}`);
+
+       disableDelBtn.style.display = "none";
+       disableEditBtn.style.display = "none";
+      }
+
+      editBtn.disabled = "true";
+      dltBtn.disabled = "true";
 
       noteTitle.value = cardTitle.innerText;
       noteContent.value = cardText.innerText;
@@ -90,7 +107,14 @@ const displayNotes = () => {
       updateNoteBtn = document.createElement("button");
       updateNoteBtn.innerText = "Save";
       updateNoteBtn.addEventListener("click",()=>{
+      for(let i=notesArray.length-1; i >= 0; i--){
+        let disableDelBtn = document.getElementById(`dlt-btn${i}`);
+        let disableEditBtn = document.getElementById(`edit-btn${i}`);
 
+        disableDelBtn.style.display = "inline";
+        disableEditBtn.style.display = "inline";
+      }
+        
       updateNote(i)
       });      
       updateNoteBtn.classList.add("btn", "btn-success", "mx-4","my-4");
