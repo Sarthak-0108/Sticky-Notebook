@@ -8,9 +8,12 @@ let saveNoteBtn = document.querySelector("#save-note");
 let navbarBranding = document.getElementById("navbar-branding");
 let navbar = document.querySelector("nav");
 
-let toggleBtn = document.getElementById("switchCheckDefault");
-toggleBtn.addEventListener("click",()=>{
+let track = 0 ; // if even means light mode else dark mode
+let mode ;
 
+const toggleMode = ()=>{
+track+=1;
+  
 navbar.classList.toggle("bg-body-tertiary");
 navbarBranding.classList.toggle("text-light");
 
@@ -23,7 +26,21 @@ noteContent.classList.toggle("bg-gradient");
 noteContent.classList.toggle("text-white");
 
 document.body.classList.toggle("dark-mode");
-})
+
+if(track % 2 === 0){
+  mode = "light";
+  console.log("light mode")
+
+}else{
+  mode = "dark";
+  console.log("dark mode");
+
+}
+localStorage.setItem("mode",mode);
+}
+
+let toggleBtn = document.getElementById("switchCheckDefault");
+toggleBtn.addEventListener("click",toggleMode);
 
 let noteContainer = document.querySelector(".notes-container");
 let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
@@ -144,9 +161,7 @@ const displayNotes = () => {
     cardBody.append(cardTitle, cardText,editBtn,dltBtn);
 
     cardTitle.innerText = notesArray[i].title;
-    cardText.innerText = notesArray[i].content;
-    console.log(i)
-  
+    cardText.innerText = notesArray[i].content;  
  };
 };
 
