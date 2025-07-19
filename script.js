@@ -5,24 +5,43 @@ let noteContent = document.querySelector("#noteContent");
 let addnoteBtn = document.querySelector("button");
 let saveNoteBtn = document.querySelector("#save-note");
 
+let navbarBranding = document.getElementById("navbar-branding");
+let navbar = document.querySelector("nav");
+
+let toggleBtn = document.getElementById("switchCheckDefault");
+toggleBtn.addEventListener("click",()=>{
+
+navbar.classList.toggle("bg-body-tertiary");
+navbarBranding.classList.toggle("text-light");
+
+noteTitle.classList.toggle("bg-dark");
+noteTitle.classList.toggle("bg-gradient");
+noteTitle.classList.toggle("text-white");
+
+noteContent.classList.toggle("bg-dark");
+noteContent.classList.toggle("bg-gradient");
+noteContent.classList.toggle("text-white");
+
+document.body.classList.toggle("dark-mode");
+})
+
 let noteContainer = document.querySelector(".notes-container");
 let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
 let updateNoteBtn;
 
-let navbar = document.getElementById("navbar-branding");
 let userName;
 
 if(localStorage.getItem("userName")){
    userName = localStorage.getItem("userName");
-   navbar.innerHTML = `${userName}'s Notebook`;
+   navbarBranding.innerHTML = `${userName}'s Notebook`;
 } else {
    userName = prompt('please enter your name :');
 
     if(userName === null || !userName){ //agar user input na  de
-      navbar.innerHTML = `Sarthak's Notebook`;
+      navbarBranding.innerHTML = `Sarthak's Notebook`;
       localStorage.setItem("userName","Sarthak");
   } else {
-    navbar.innerHTML = `${userName}'s Notebook`;
+    navbarBranding.innerHTML = `${userName}'s Notebook`;
     localStorage.setItem("userName",userName.trim());
   }
 }
@@ -35,7 +54,7 @@ if(localStorage.getItem("userName")){
     }
   }
       if(noteTitle.value.trim() === "" || noteContent.value.trim() === ""){
-        alert("Please enter both a title and a note before adding");
+        alert("Kindly enter a title and note before proceeding.");
       }else{
       let newNote = new Note(noteTitle.value,noteContent.value);
       notesArray.push(newNote);
@@ -87,12 +106,9 @@ const displayNotes = () => {
         let disableDelBtn = document.getElementById(`dlt-btn${i}`);
         let disableEditBtn = document.getElementById(`edit-btn${i}`);
 
-       disableDelBtn.style.display = "none";
-       disableEditBtn.style.display = "none";
+       disableDelBtn.disabled = true;
+       disableEditBtn.disabled= true;
       }
-
-      editBtn.disabled = "true";
-      dltBtn.disabled = "true";
 
       noteTitle.value = cardTitle.innerText;
       noteContent.value = cardText.innerText;
@@ -111,8 +127,8 @@ const displayNotes = () => {
         let disableDelBtn = document.getElementById(`dlt-btn${i}`);
         let disableEditBtn = document.getElementById(`edit-btn${i}`);
 
-        disableDelBtn.style.display = "inline";
-        disableEditBtn.style.display = "inline";
+        disableDelBtn.disabled= false;
+        disableEditBtn.disabled= false;
       }
         
       updateNote(i)

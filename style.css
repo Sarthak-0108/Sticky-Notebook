@@ -1,7 +1,25 @@
 body {
   overflow: hidden;
   overflow-y: auto;
+  color:white;
 }
+
+body.dark-mode{
+  background-color: #16213E;
+}
+
+.dark-mode input::placeholder {
+    color:#ffffff;      
+    opacity: 1;
+  }
+.dark-mode textarea::placeholder {
+    color:#ffffff;     
+    opacity: 1;
+  }
+.dark-mode nav{
+    background-color: #0F3460;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -30,6 +48,16 @@ form {
   margin: 1.5rem;
 }
 
+.dark-mode #add-note{
+  background-color:#533483;
+  border:1px solid #16213E;
+}
+
+.dark-mode .btn-success{
+  background-color: #395B64;
+  border:1px solid #16213E;
+}
+
 .card{
   width: 21rem;
   height:22rem;
@@ -41,6 +69,11 @@ form {
   margin:1rem 1rem;
   border: none;
 
+}
+
+.dark-mode .card{
+  border: none;
+  background-color: #16213E;
 }
 
 .highlight-note{
