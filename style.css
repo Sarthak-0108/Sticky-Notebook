@@ -1,23 +1,23 @@
 body {
   overflow: hidden;
   overflow-y: auto;
-  color:white;
+  color: white;
 }
 
-body.dark-mode{
-  background-color: #16213E;
+body.dark-mode {
+  background-color: #16213e;
 }
 
 .dark-mode input::placeholder {
-    color:#ffffff;      
-    opacity: 1;
-  }
+  color: #ffffff;
+  opacity: 1;
+}
 .dark-mode textarea::placeholder {
-    color:#ffffff;     
-    opacity: 1;
-  }
-.dark-mode nav{
-    background-color: #0F3460;
+  color: #ffffff;
+  opacity: 1;
+}
+.dark-mode nav {
+  background-color: #0f3460;
 }
 
 form {
@@ -36,47 +36,48 @@ form {
 #note-title {
   margin: 1rem 1rem;
   width: 80vw;
-
+  font-style: oblique;
 }
 
 #noteContent {
   margin: 1rem 1rem;
   width: 80vw;
+  height: 6rem;
+  font-style: oblique;
 }
 
 #add-note {
   margin: 1.5rem;
 }
 
-.dark-mode #add-note{
-  background-color:#533483;
-  border:1px solid #16213E;
+.dark-mode #add-note {
+  background-color: #533483;
+  border: 1px solid #16213e;
 }
 
-.dark-mode .btn-success{
-  background-color: #395B64;
-  border:1px solid #16213E;
+.dark-mode .btn-success {
+  background-color: #395b64;
+  border: 1px solid #16213e;
 }
 
-.card{
+.card {
   width: 21rem;
-  height:22rem;
+  height: 22rem;
   background-image: url(notes.png);
   background-size: contain;
   background-repeat: no-repeat;
-  overflow:auto;
-  padding:2.5rem 1rem;
-  margin:1rem 1rem;
+  overflow: auto;
+  padding: 2.5rem 1rem;
+  margin: 1rem 1rem;
   border: none;
-
 }
 
-.dark-mode .card{
+.dark-mode .card {
   border: none;
-  background-color: #16213E;
+  background-color: #16213e;
 }
 
-.highlight-note{
+.highlight-note {
   box-shadow: 0 0 10px 3px #00ffcc;
   transition: box-shadow 0.3s ease-in-out;
 }
