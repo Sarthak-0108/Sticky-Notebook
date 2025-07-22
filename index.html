@@ -12,22 +12,32 @@
     />
     <link rel="stylesheet" href="style.css" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
   </head>
   <body>
     <div class="header">
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1" id="navbar-branding"><bold>Your Notebook</bold> </span>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-</div>
+          <span class="navbar-brand mb-0 h1" id="navbar-branding"
+            ><bold>Your Notebook</bold>
+          </span>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="switchCheckDefault"
+            />
+          </div>
         </div>
       </nav>
+    </div>
+
+    <div class="alert" role="alert" style="display: none">
+      Your note was successfully updated!
     </div>
 
     <div class="main">
@@ -35,26 +45,61 @@
         <div class="form-group">
           <input
             type="text"
-            class="form-control "
+            class="form-control"
             id="note-title"
-            placeholder="Enter title of Note" required
+            placeholder="Enter title of Note"
+            required
           />
         </div>
 
         <div class="form-group">
-              <div class="input-group">
-        <textarea class="form-control"  placeholder="Enter your note" id="noteContent"
-          required ></textarea>
-              </div>
+          <div class="input-group">
+            <textarea
+              class="form-control"
+              placeholder="Enter your note"
+              id="noteContent"
+              required
+            ></textarea>
+          </div>
         </div>
 
-        <button type="button" class="btn btn-primary " id="add-note">
+        <button type="button" class="btn btn-primary" id="add-note">
           Add Note
-        </button>        
+        </button>
       </form>
+    </div>
+
+    <div class="notes-container"></div>
+
+    <!-- Modal to take userName -->
+    <div class="modal fade" id="inputModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enter Your Name</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              class="form-control"
+              id="userInput"
+              placeholder="Type here..."
+            />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button class="btn btn-primary" id="submit">OK</button>
+          </div>
+        </div>
       </div>
-      
-      <div class="notes-container"></div>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
@@ -62,6 +107,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
-
   </body>
 </html>

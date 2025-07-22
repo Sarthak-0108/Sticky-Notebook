@@ -2,6 +2,10 @@
 let noteTitle = document.querySelector("#note-title");
 let noteContent = document.querySelector("#noteContent");
 
+let Alert = document.querySelector(".alert");
+const myModal = new bootstrap.Modal(document.getElementById("inputModal"));
+const submitNameBtn = document.getElementById("submit");
+
 let addnoteBtn = document.querySelector("button");
 let saveNoteBtn = document.querySelector("#save-note");
 
@@ -9,7 +13,7 @@ let navbarBranding = document.getElementById("navbar-branding");
 let navbar = document.querySelector("nav");
 
 let track = 0; // if even means light mode else dark mode
-let mode;
+let mode = "light";
 
 const toggleMode = () => {
   track += 1;
@@ -41,7 +45,30 @@ if (localStorage.getItem("mode") === "dark") {
 }
 
 let toggleBtn = document.getElementById("switchCheckDefault");
-toggleBtn.addEventListener("click", toggleMode);
+toggleBtn.addEventListener("click", () => {
+  toggleMode();
+  if (mode === "light") {
+    Alert.style.display = "block";
+    Alert.innerHTML = "Dark mode is disabled!";
+    Alert.classList.add("alert-info");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-info");
+    }, 3000);
+  } else {
+    Alert.style.display = "block";
+    Alert.innerHTML = "Dark Mode is enabled!";
+    Alert.classList.add("alert-info");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-info");
+    }, 3000);
+  }
+});
 
 let noteContainer = document.querySelector(".notes-container");
 let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
@@ -49,20 +76,30 @@ let updateNoteBtn;
 
 let userName;
 
+function setUserName() {
+  userName = document.getElementById("userInput").value;
+  console.log("User entered:", userName);
+  myModal.hide();
+}
+
 if (localStorage.getItem("userName")) {
   userName = localStorage.getItem("userName");
   navbarBranding.innerHTML = `${userName}'s Notebook`;
 } else {
-  userName = prompt("please enter your name :");
+  myModal.show();
+  submitNameBtn.addEventListener("click", () => {
+    setUserName();
+    if (userName === null || !userName) {
+      //agar user input na  de
+      console.log(userName);
 
-  if (userName === null || !userName) {
-    //agar user input na  de
-    navbarBranding.innerHTML = `Sarthak's Notebook`;
-    localStorage.setItem("userName", "Sarthak");
-  } else {
-    navbarBranding.innerHTML = `${userName}'s Notebook`;
-    localStorage.setItem("userName", userName.trim());
-  }
+      navbarBranding.innerHTML = `Sarthak's Notebook`;
+      localStorage.setItem("userName", "Sarthak");
+    } else {
+      navbarBranding.innerHTML = `${userName}'s Notebook`;
+      localStorage.setItem("userName", userName.trim());
+    }
+  });
 }
 
 const createNotes = () => {
@@ -73,7 +110,15 @@ const createNotes = () => {
     }
   }
   if (noteTitle.value.trim() === "" || noteContent.value.trim() === "") {
-    alert("Kindly enter a title and note before proceeding.");
+    Alert.style.display = "block";
+    Alert.innerHTML = "Kindly enter a title and note before proceeding.";
+    Alert.classList.add("alert-danger");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-danger");
+    }, 3000);
   } else {
     let newNote = new Note(noteTitle.value, noteContent.value);
     notesArray.push(newNote);
@@ -169,7 +214,21 @@ const deleteNote = (i) => {
   notesArray.splice(i, 1);
   localStorage.setItem("notes", JSON.stringify(notesArray));
   displayNotes();
-  alert("Your note was successfully Deleted.");
+
+  Alert.style.display = "block";
+  Alert.innerHTML = "Your note was successfully Deleted.";
+  Alert.classList.add("alert-warning");
+
+  navbar.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+
+  setTimeout(() => {
+    Alert.style.display = "none";
+    Alert.innerHTML = "";
+    Alert.classList.remove("alert-warning");
+  }, 3000);
 };
 
 const updateNote = (i) => {
@@ -182,14 +241,24 @@ const updateNote = (i) => {
   const inputForm = document.querySelector("form");
   inputForm.append(addnoteBtn);
 
-  alert("Your note was successfully updated.");
+  Alert.style.display = "block";
+  Alert.innerHTML = "Your note was successfully updated.";
+  Alert.classList.add("alert-success");
+
+  setTimeout(() => {
+    Alert.style.display = "none";
+    Alert.innerHTML = "";
+    Alert.classList.remove("alert-success");
+  }, 2500);
 
   const note = document.getElementById(`note-${i}`);
 
-  note.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-  });
+  setTimeout(() => {
+    note.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 1000);
 
   note.classList.add("highlight-note");
   setTimeout(() => {
@@ -206,4 +275,21 @@ addnoteBtn.addEventListener("click", (event) => {
   displayNotes();
 });
 
-window.onload = displayNotes;
+window.onload = () => {
+  displayNotes();
+
+  if (mode === "light") {
+    toggleBtn.checked = false;
+    Alert.style.display = "block";
+    Alert.innerHTML = "Click on the switch to enable dark mode.";
+    Alert.classList.add("alert-info");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-info");
+    }, 3000);
+  } else {
+    toggleBtn.checked = true;
+  }
+};
