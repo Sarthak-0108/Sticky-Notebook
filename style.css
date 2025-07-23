@@ -19,10 +19,7 @@ body {
   background-color: #f7f7f7;
   padding: 10px;
   border-bottom: 1px solid #ccc;
-  position: fixed;
-  top: 0;
   width: 100%;
-  z-index: 9999;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -50,6 +47,14 @@ body {
 
 body.dark-mode {
   background-color: #16213e;
+}
+.dark-mode .banner {
+  background-color: #16213e;
+  border-bottom: 2px solid #395b64;
+}
+
+.dark-mode .banner-text {
+  color: white;
 }
 
 .dark-mode input::placeholder {
