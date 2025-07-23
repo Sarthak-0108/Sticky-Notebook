@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sticky Note</title>
+    <link rel="manifest" href="site.webmanifest" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,6 +19,16 @@
     <link rel="manifest" href="site.webmanifest" />
   </head>
   <body>
+    <div id="installBanner" class="banner" hidden>
+      <img src="android-chrome-192x192.png" alt="App Logo" class="logo" />
+      <div class="banner-text">
+        <strong>Sticky Note</strong><br />
+        Fast. Easy. Use our free app.
+      </div>
+      <button id="installBtn">Open</button>
+      <button id="dismissBtn" class="dismiss">❌</button>
+    </div>
+
     <div class="header">
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
@@ -101,6 +112,7 @@
       </div>
     </div>
 
+    <script src="sw.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

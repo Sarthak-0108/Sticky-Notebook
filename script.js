@@ -1,3 +1,43 @@
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((reg) => console.log("Service Worker registered:", reg))
+      .catch((err) =>
+        console.error("Service Worker registration failed:", err)
+      );
+  });
+}
+
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+const installBanner = document.getElementById("installBanner");
+const dismissBtn = document.getElementById("dismissBtn");
+
+installBanner.hidden = true; // Default hidden
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBanner.hidden = false;
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt(); // Show the install prompt
+
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`User response: ${outcome}`);
+
+  deferredPrompt = null;
+  installBtn.hidden = true; // Hide after interaction
+  installBanner.style.display = "none";
+});
+
+dismissBtn.addEventListener("click", () => {
+  installBanner.style.display = "none";
+});
+
 //accessing elements from DOM
 let noteTitle = document.querySelector("#note-title");
 let noteContent = document.querySelector("#noteContent");
@@ -6,7 +46,7 @@ let Alert = document.querySelector(".alert");
 const myModal = new bootstrap.Modal(document.getElementById("inputModal"));
 const submitNameBtn = document.getElementById("submit");
 
-let addnoteBtn = document.querySelector("button");
+let addnoteBtn = document.querySelector("#add-note");
 let saveNoteBtn = document.querySelector("#save-note");
 
 let navbarBranding = document.getElementById("navbar-branding");
