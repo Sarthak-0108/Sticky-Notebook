@@ -35,6 +35,8 @@
           <span class="navbar-brand mb-0 h1" id="navbar-branding"
             ><bold>Your Notebook</bold>
           </span>
+          <div class="swap"></div>
+
           <div class="form-check form-switch">
             <input
               class="form-check-input"
@@ -51,36 +53,65 @@
       Your note was successfully updated!
     </div>
 
-    <div class="main">
-      <form>
-        <div class="form-group">
+    <!-- sticky note -->
+    <div class="sticky-notes">
+      <div class="main">
+        <form>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="note-title"
+              placeholder="Enter title of Note"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="input-group">
+              <textarea
+                class="form-control"
+                placeholder="Enter your note"
+                id="noteContent"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="add-note">
+            Add Note
+          </button>
+        </form>
+        <!-- it will hide the sticky-note section-->
+        <!-- <button onclick="window.location.href='Ai-notes/ai-notes.html'">Go to AI notes</button> -->
+      </div>
+
+      <div class="notes-container"></div>
+    </div>
+
+    <div class="ai-notes" hidden>
+      <div class="container mt-1">
+        <h2 class="mt-4 ms-3" id="info">Generate AI Notes ✨</h2>
+
+        <!-- Input Form -->
+        <div class="mb-3 mt-4 ms-3">
+          <label for="noteTopic" class="form-label">Enter Topic Title</label>
           <input
             type="text"
             class="form-control"
-            id="note-title"
-            placeholder="Enter title of Note"
-            required
+            id="noteTopic"
+            class="noteTopic"
+            placeholder="e.g. Photosynthesis"
           />
         </div>
 
-        <div class="form-group">
-          <div class="input-group">
-            <textarea
-              class="form-control"
-              placeholder="Enter your note"
-              id="noteContent"
-              required
-            ></textarea>
-          </div>
-        </div>
+        <!-- Generate Button -->
+        <button class="btn btn-primary" id="generateBtn">Generate Notes</button>
+        <!-- <button class="aiToSticky">click to go sticky note</button> -->
 
-        <button type="button" class="btn btn-primary" id="add-note">
-          Add Note
-        </button>
-      </form>
+        <!-- Output Card -->
+         <div class="ai-notes-container"></div>
     </div>
-
-    <div class="notes-container"></div>
 
     <!-- Modal to take userName -->
     <div class="modal fade" id="inputModal" tabindex="-1">

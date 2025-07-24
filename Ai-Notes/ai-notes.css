@@ -1,0 +1,29 @@
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+#note-title {
+  margin: 1rem 1rem;
+  width: 80vw;
+}
+
+#noteContent {
+  margin: 1rem 1rem;
+  width: 80vw;
+  height: 6rem;
+}
+
+.card {
+  width: 21rem;
+  height: 22rem;
+  background-image: url(/notes.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  overflow: auto;
+  padding: 2.5rem 1rem;
+  margin: 1rem 1rem;
+  border: none;
+}
