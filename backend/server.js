@@ -1,7 +1,5 @@
-// const express = require("express");
-// const cors = require("cors");
-// const bodyParser = require("body-parser");
-// const fetch = require("node-fetch");
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -10,8 +8,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const COHERE_API_KEY = "X9pShLt50CCp8no51k0tBRsTMRMl9aKYjkhv3yr7";
-
+const COHERE_API_KEY = process.env.COHERE_API_KEY;
 app.post("/generate-note", async (req, res) => {
   const { prompt } = req.body;
 
