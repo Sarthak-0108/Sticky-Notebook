@@ -42,6 +42,9 @@ dismissBtn.addEventListener("click", () => {
 let noteTitle = document.querySelector("#note-title");
 let noteContent = document.querySelector("#noteContent");
 
+const noteTopic = document.querySelector("#noteTopic");
+const generatBtn = document.querySelector("#generateBtn");
+
 let Alert = document.querySelector(".alert");
 const myModal = new bootstrap.Modal(document.getElementById("inputModal"));
 const submitNameBtn = document.getElementById("submit");
@@ -51,6 +54,24 @@ let saveNoteBtn = document.querySelector("#save-note");
 
 let navbarBranding = document.getElementById("navbar-branding");
 let navbar = document.querySelector("nav");
+
+const aiNotes = document.querySelector(".ai-notes");
+const stickyNotes = document.querySelector(".sticky-notes");
+const stickyToAiBtn = document.querySelector(".stickyToAi");
+const aiToStickyBtn = document.querySelector(".aiToSticky");
+const swapBtn = document.querySelector(".swap");
+
+stickyNotes.hidden = false;
+
+swapBtn.addEventListener("click", () => {
+  if (stickyNotes.hidden === false) {
+    stickyNotes.hidden = true;
+    aiNotes.hidden = false;
+  } else {
+    aiNotes.hidden = true;
+    stickyNotes.hidden = false;
+  }
+});
 
 let track = 0; // if even means light mode else dark mode
 let mode = "light";
@@ -64,6 +85,10 @@ const toggleMode = () => {
   noteTitle.classList.toggle("bg-dark");
   noteTitle.classList.toggle("bg-gradient");
   noteTitle.classList.toggle("text-white");
+
+  noteTopic.classList.toggle("bg-dark");
+  noteTopic.classList.toggle("bg-gradient");
+  noteTopic.classList.toggle("text-white");
 
   noteContent.classList.toggle("bg-dark");
   noteContent.classList.toggle("bg-gradient");
@@ -315,9 +340,46 @@ addnoteBtn.addEventListener("click", (event) => {
   displayNotes();
 });
 
+const aiNotesContainer = document.querySelector(".ai-notes-container");
+
+const generateNotes = (title, note) => {
+  let card = document.createElement("div");
+  card.classList.add("card");
+
+  let cardBody = document.createElement("div");
+  cardBody.classList.add("card-body", "mx-4");
+
+  let cardTitle = document.createElement("h5");
+  cardTitle.classList.add("card-title");
+
+  let cardText = document.createElement("p");
+  cardText.classList.add("card-text");
+
+  let dltBtn = document.createElement("button");
+  dltBtn.classList.add("btn", "btn-danger", "mx-2");
+  dltBtn.innerText = "Delete";
+  dltBtn.disabled = true;
+
+  let editBtn = document.createElement("button");
+  editBtn.classList.add("btn", "btn-info", "mx-2");
+  editBtn.innerText = "Edit";
+  editBtn.disabled = true;
+
+  cardTitle.innerText = title;
+  cardText.innerText = note;
+
+  aiNotesContainer.append(card);
+  card.append(cardBody);
+  cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+};
+
+let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
+
 window.onload = () => {
   displayNotes();
-
+  aiNotesArr.forEach((element) => {
+    generateNotes(element.title, element.note);
+  });
   if (mode === "light") {
     toggleBtn.checked = false;
     Alert.style.display = "block";
@@ -333,3 +395,30 @@ window.onload = () => {
     toggleBtn.checked = true;
   }
 };
+
+generatBtn.addEventListener("click", () => {
+  let prompt = noteTopic.value;
+
+  fetch("http://localhost:5000/generate-note", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("🟨 Sticky Note:", data.text);
+      // TODO: Display this text in your sticky note UI
+      class aiNotes {
+        constructor(title, note) {
+          (this.title = title), (this.note = note);
+        }
+      }
+
+      const note = new aiNotes(prompt, data.text);
+      aiNotesArr.push(note);
+      generateNotes(prompt, data.text);
+
+      localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
+    })
+    .catch((err) => console.error("⚠️ Error:", err));
+});
