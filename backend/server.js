@@ -13,22 +13,19 @@ app.post("/generate-note", async (req, res) => {
   const { prompt } = req.body;
 
   try {
-    const cohereResponse = await fetch(
-      "https://sticky-note-backend.onrender.com/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${COHERE_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "command",
-          prompt: prompt,
-          max_tokens: 20,
-          temperature: 0.7,
-        }),
-      }
-    );
+    const cohereResponse = await fetch("https://api.cohere.ai/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${COHERE_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "command",
+        prompt: prompt,
+        max_tokens: 20,
+        temperature: 0.7,
+      }),
+    });
 
     const data = await cohereResponse.json();
 
