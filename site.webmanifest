@@ -1,4 +1,4 @@
-
+{
   "name": "Sticky Note",
   "short_name": "Sticky Note",
   "start_url": "./index.html",
@@ -18,4 +18,3 @@
   "background_color": "#ffffff",
   "display": "standalone"
 }
-

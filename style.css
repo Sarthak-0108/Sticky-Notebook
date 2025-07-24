@@ -13,6 +13,16 @@ body {
   color: #666;
 }
 
+#info,
+.form-label {
+  color: black !important;
+}
+
+.dark-mode #info,
+.dark-mode .form-label {
+  color: white !important;
+}
+
 .banner {
   display: flex;
   align-items: center;
@@ -69,7 +79,8 @@ body.dark-mode {
   background-color: #0f3460;
 }
 
-form {
+form,
+.ai-notes {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,21 +96,25 @@ form {
 #note-title {
   margin: 1rem 1rem;
   width: 80vw;
-  font-style: oblique;
 }
 
 #noteContent {
   margin: 1rem 1rem;
   width: 80vw;
   height: 6rem;
-  font-style: oblique;
 }
 
-#add-note {
+#add-note,
+#generateBtn {
   margin: 1.5rem;
 }
 
-.dark-mode #add-note {
+#generateBtn {
+  width: 80vw;
+}
+
+.dark-mode #add-note,
+#generateBtn {
   background-color: #533483;
   border: 1px solid #16213e;
 }
@@ -129,4 +144,12 @@ form {
 .highlight-note {
   box-shadow: 0 0 10px 3px #00ffcc;
   transition: box-shadow 0.3s ease-in-out;
+}
+
+.swap {
+  height: 1.5rem;
+  width: 1.5rem;
+  background-image: url("swap.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
