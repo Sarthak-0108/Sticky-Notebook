@@ -22,7 +22,7 @@ app.post("/generate-note", async (req, res) => {
       body: JSON.stringify({
         model: "command",
         prompt: prompt,
-        max_tokens: 20,
+        max_tokens: 50,
         temperature: 0.7,
       }),
     });

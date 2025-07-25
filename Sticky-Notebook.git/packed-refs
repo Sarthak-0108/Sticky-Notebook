@@ -1,0 +1,10 @@
+# pack-refs with: peeled fully-peeled sorted 
+748bad257523823e133aef5a2f056c44a1fd797d refs/heads/main
+49abf4fb66a420fa09d2533f42e2cbed2ca47b3c refs/heads/sticky-notes-test-feature
+2bc75f1c38e42d07f3ede4ebdce3de3562b3edf8 refs/heads/test-some-functionality
+67dbd92f4485599660953ec57690dee47c31a8fc refs/pull/1/head
+cf3ef3c234702d2a3742cd6058f5fb9c257abe8b refs/pull/2/head
+2bc75f1c38e42d07f3ede4ebdce3de3562b3edf8 refs/pull/3/head
+96207ded03b204bc0a7ff81aaa9f59f5c379cf49 refs/pull/4/head
+c46ce224fdb721ba598f138bf34f3b53b27d8698 refs/pull/5/head
+49abf4fb66a420fa09d2533f42e2cbed2ca47b3c refs/pull/6/head
