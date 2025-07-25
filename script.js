@@ -1,3 +1,4 @@
+// const serviceWorker = () => {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -8,7 +9,10 @@ if ("serviceWorker" in navigator) {
       );
   });
 }
+// };
+// serviceWorker();
 
+// const pwaIntsall = () => {
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
 const installBanner = document.getElementById("installBanner");
@@ -37,6 +41,8 @@ installBtn.addEventListener("click", async () => {
 dismissBtn.addEventListener("click", () => {
   installBanner.style.display = "none";
 });
+// };
+// pwaIntsall();
 
 //accessing elements from DOM
 let noteTitle = document.querySelector("#note-title");
@@ -150,9 +156,13 @@ function setUserName() {
 if (localStorage.getItem("userName")) {
   userName = localStorage.getItem("userName");
   navbarBranding.innerHTML = `${userName}'s Notebook`;
+  // serviceWorker();
+  // pwaIntsall();
+  // console.log("i am working- getting name");
 } else {
   myModal.show();
   submitNameBtn.addEventListener("click", () => {
+    submitNameBtn.blur();
     setUserName();
     if (userName === null || !userName) {
       //agar user input na  de
@@ -164,6 +174,10 @@ if (localStorage.getItem("userName")) {
       navbarBranding.innerHTML = `${userName}'s Notebook`;
       localStorage.setItem("userName", userName.trim());
     }
+    // serviceWorker();
+    // pwaIntsall();
+
+    // console.log("i am workign - setting name");
   });
 }
 
