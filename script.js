@@ -399,7 +399,7 @@ window.onload = () => {
 generatBtn.addEventListener("click", () => {
   let prompt = noteTopic.value;
 
-  fetch("http://localhost:5000/generate-note", {
+  fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
