@@ -157,10 +157,7 @@ if (localStorage.getItem("userName")) {
     setUserName();
     if (userName === null || !userName) {
       //agar user input na  de
-      console.log(userName);
-
-      navbarBranding.innerHTML = `Sarthak's Notebook`;
-      localStorage.setItem("userName", "Sarthak");
+      navbarBranding.innerHTML = `Your Notebook`;
     } else {
       navbarBranding.innerHTML = `${userName}'s Notebook`;
       localStorage.setItem("userName", userName.trim());
@@ -343,6 +340,8 @@ addnoteBtn.addEventListener("click", (event) => {
 
 const aiNotesContainer = document.querySelector(".ai-notes-container");
 let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
+let aiNote = document.querySelector("#ai-note");
+console.log(aiNote);
 console.log(aiNotesArr);
 const createAiNotes = (title, note) => {
   class AiNotes {
@@ -386,7 +385,12 @@ const displayAiNotes = () => {
     let editBtn = document.createElement("button");
     editBtn.classList.add("btn", "btn-info", "mx-2");
     editBtn.innerText = "Edit";
-    editBtn.disabled = true;
+    editBtn.id = `edit-btn${i}`;
+
+    editBtn.addEventListener("click", () => {
+      aiNote.hidden = false;
+      aiNote.innerText = aiNotesArr[i].note;
+    });
 
     cardTitle.innerText = aiNotesArr[i].title;
     cardText.innerText = aiNotesArr[i].note;

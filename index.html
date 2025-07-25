@@ -124,7 +124,7 @@
         <h2 class="mt-4 ms-3" id="info">Generate AI Notes ✨</h2>
 
         <!-- Input Form -->
-        <div class="mb-3 mt-4 ms-3">
+        <div class="mb-1 mt-2 ms-3">
           <label for="noteTopic" class="form-label">Enter objective question</label>
           <input
             type="text"
@@ -133,8 +133,17 @@
             class="noteTopic"
             placeholder="e.g. Father of Physics?"
           />
-        </div>
 
+          <label for="note" class="form-label mb-2 mt-3" >Edit the note</label>
+          <textarea
+            type="text"
+            class="form-control"
+            id="note"
+            class="note"
+            
+          ></textarea>
+             
+        </div>
 
         <!-- Generate Button -->
         <button class="btn btn-primary" id="generateBtn">Generate Notes</button>
