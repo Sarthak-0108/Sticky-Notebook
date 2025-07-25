@@ -86,7 +86,8 @@ form,
   justify-content: center;
 }
 
-.notes-container {
+.notes-container,
+.ai-notes-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

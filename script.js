@@ -418,8 +418,35 @@ window.onload = () => {
 };
 
 generatBtn.addEventListener("click", () => {
-  let prompt = noteTopic.value;
+  if (!noteTopic.value || noteTopic.value === "") {
+    console.log("invalid input");
 
+    Alert.style.display = "block";
+    Alert.innerHTML = "please enter your objective question to continue";
+    Alert.classList.add("alert-danger");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-danger");
+    }, 3000);
+
+    return "please enter a question to continue:";
+  }
+  document.getElementById("loadingSpinner").style.display = "block";
+
+  let prompt = ` You are not a chat assistant. You are an API that only returns raw, ultra-short sticky note content for students.
+
+Rules:
+1. Give a one-word or one-phrase answer on the first line.
+2. Then give exactly two bullet points.
+3. Each bullet point must be under 10 words.
+4. Do NOT explain anything.
+5. Do NOT include any greetings, instructions, or closing statements.
+6. Output ONLY the note. No descriptions or helper text.
+
+User question: 
+${noteTopic.value.toUpperCase()}`;
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -429,7 +456,9 @@ generatBtn.addEventListener("click", () => {
     .then((data) => {
       console.log("🟨 Sticky Note:", data.text);
 
-      createAiNotes(prompt, data.text);
+      createAiNotes(noteTopic.value.toLowerCase(), data.text);
+      document.getElementById("loadingSpinner").style.display = "none";
+
       displayAiNotes();
     })
     .catch((err) => console.error("⚠️ Error:", err));

@@ -125,22 +125,28 @@
 
         <!-- Input Form -->
         <div class="mb-3 mt-4 ms-3">
-          <label for="noteTopic" class="form-label">Enter Topic Title</label>
+          <label for="noteTopic" class="form-label">Enter objective question</label>
           <input
             type="text"
             class="form-control"
             id="noteTopic"
             class="noteTopic"
-            placeholder="e.g. Photosynthesis"
+            placeholder="e.g. Father of Physics?"
           />
         </div>
+
 
         <!-- Generate Button -->
         <button class="btn btn-primary" id="generateBtn">Generate Notes</button>
         <!-- <button class="aiToSticky">click to go sticky note</button> -->
+              <div id="loadingSpinner" class="text-center my-3" style="display: none;">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
 
         <!-- Output Card -->
-         <div class="ai-notes-container"></div>
+         <div class="ai-notes-container ms-1 mt-2"></div>
     </div>
 
     <script src="sw.js"></script>
