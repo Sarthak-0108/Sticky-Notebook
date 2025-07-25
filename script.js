@@ -1,4 +1,3 @@
-// const serviceWorker = () => {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -9,10 +8,7 @@ if ("serviceWorker" in navigator) {
       );
   });
 }
-// };
-// serviceWorker();
 
-// const pwaIntsall = () => {
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
 const installBanner = document.getElementById("installBanner");
@@ -41,8 +37,6 @@ installBtn.addEventListener("click", async () => {
 dismissBtn.addEventListener("click", () => {
   installBanner.style.display = "none";
 });
-// };
-// pwaIntsall();
 
 //accessing elements from DOM
 let noteTitle = document.querySelector("#note-title");
@@ -156,9 +150,6 @@ function setUserName() {
 if (localStorage.getItem("userName")) {
   userName = localStorage.getItem("userName");
   navbarBranding.innerHTML = `${userName}'s Notebook`;
-  // serviceWorker();
-  // pwaIntsall();
-  // console.log("i am working- getting name");
 } else {
   myModal.show();
   submitNameBtn.addEventListener("click", () => {
@@ -174,10 +165,6 @@ if (localStorage.getItem("userName")) {
       navbarBranding.innerHTML = `${userName}'s Notebook`;
       localStorage.setItem("userName", userName.trim());
     }
-    // serviceWorker();
-    // pwaIntsall();
-
-    // console.log("i am workign - setting name");
   });
 }
 
@@ -233,7 +220,7 @@ const displayNotes = () => {
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
     dltBtn.innerText = "Delte";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i);
+      deleteNote(i, "notes", notesArray, displayNotes);
     });
 
     //creating a btn to edit note
@@ -289,10 +276,10 @@ const displayNotes = () => {
   }
 };
 
-const deleteNote = (i) => {
-  notesArray.splice(i, 1);
-  localStorage.setItem("notes", JSON.stringify(notesArray));
-  displayNotes();
+const deleteNote = (i, noteType, notesArr, callback) => {
+  notesArr.splice(i, 1);
+  localStorage.setItem(noteType, JSON.stringify(notesArr));
+  callback();
 
   Alert.style.display = "block";
   Alert.innerHTML = "Your note was successfully Deleted.";
@@ -355,45 +342,65 @@ addnoteBtn.addEventListener("click", (event) => {
 });
 
 const aiNotesContainer = document.querySelector(".ai-notes-container");
+let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
+console.log(aiNotesArr);
+const createAiNotes = (title, note) => {
+  class AiNotes {
+    constructor(title, note) {
+      (this.title = title), (this.note = note);
+    }
+  }
 
-const generateNotes = (title, note) => {
-  let card = document.createElement("div");
-  card.classList.add("card");
-
-  let cardBody = document.createElement("div");
-  cardBody.classList.add("card-body", "mx-4");
-
-  let cardTitle = document.createElement("h5");
-  cardTitle.classList.add("card-title");
-
-  let cardText = document.createElement("p");
-  cardText.classList.add("card-text");
-
-  let dltBtn = document.createElement("button");
-  dltBtn.classList.add("btn", "btn-danger", "mx-2");
-  dltBtn.innerText = "Delete";
-  dltBtn.disabled = true;
-
-  let editBtn = document.createElement("button");
-  editBtn.classList.add("btn", "btn-info", "mx-2");
-  editBtn.innerText = "Edit";
-  editBtn.disabled = true;
-
-  cardTitle.innerText = title;
-  cardText.innerText = note;
-
-  aiNotesContainer.append(card);
-  card.append(cardBody);
-  cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+  const newNote = new AiNotes(title, note);
+  aiNotesArr.push(newNote);
+  localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
+  noteTopic.value = "";
 };
 
-let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
+const displayAiNotes = () => {
+  aiNotesContainer.innerHTML = "";
+
+  for (let i = aiNotesArr.length - 1; i >= 0; i--) {
+    let card = document.createElement("div");
+    card.classList.add("card");
+    card.id = `ai-note-${i}`;
+
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("card-body", "mx-4");
+
+    let cardTitle = document.createElement("h5");
+    cardTitle.classList.add("card-title");
+
+    let cardText = document.createElement("p");
+    cardText.classList.add("card-text");
+
+    let dltBtn = document.createElement("button");
+    dltBtn.classList.add("btn", "btn-danger", "mx-2");
+    dltBtn.innerText = "Delete";
+    dltBtn.id = `ai-note-dltBtn-${i}`;
+
+    dltBtn.addEventListener("click", () => {
+      deleteNote(i, "ai-notes", aiNotesArr, displayAiNotes);
+    });
+
+    let editBtn = document.createElement("button");
+    editBtn.classList.add("btn", "btn-info", "mx-2");
+    editBtn.innerText = "Edit";
+    editBtn.disabled = true;
+
+    cardTitle.innerText = aiNotesArr[i].title;
+    cardText.innerText = aiNotesArr[i].note;
+
+    aiNotesContainer.append(card);
+    card.append(cardBody);
+    cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+  }
+};
 
 window.onload = () => {
   displayNotes();
-  aiNotesArr.forEach((element) => {
-    generateNotes(element.title, element.note);
-  });
+  displayAiNotes();
+
   if (mode === "light") {
     toggleBtn.checked = false;
     Alert.style.display = "block";
@@ -421,18 +428,9 @@ generatBtn.addEventListener("click", () => {
     .then((res) => res.json())
     .then((data) => {
       console.log("🟨 Sticky Note:", data.text);
-      // TODO: Display this text in your sticky note UI
-      class aiNotes {
-        constructor(title, note) {
-          (this.title = title), (this.note = note);
-        }
-      }
 
-      const note = new aiNotes(prompt, data.text);
-      aiNotesArr.push(note);
-      generateNotes(prompt, data.text);
-
-      localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
+      createAiNotes(prompt, data.text);
+      displayAiNotes();
     })
     .catch((err) => console.error("⚠️ Error:", err));
 });
