@@ -60,6 +60,7 @@ const stickyNotes = document.querySelector(".sticky-notes");
 const stickyToAiBtn = document.querySelector(".stickyToAi");
 const aiToStickyBtn = document.querySelector(".aiToSticky");
 const swapBtn = document.querySelector(".swap");
+let aiNoteContainer = document.querySelector("#aiNote-container");
 
 stickyNotes.hidden = false;
 
@@ -94,6 +95,10 @@ const toggleMode = () => {
   noteContent.classList.toggle("bg-gradient");
   noteContent.classList.toggle("text-white");
 
+  aiNoteContainer.classList.toggle("bg-dark");
+  aiNoteContainer.classList.toggle("bg-gradient");
+  aiNoteContainer.classList.toggle("text-white");
+
   document.body.classList.toggle("dark-mode");
 
   if (track % 2 === 0) {
@@ -121,7 +126,7 @@ toggleBtn.addEventListener("click", () => {
       Alert.style.display = "none";
       Alert.innerHTML = "";
       Alert.classList.remove("alert-info");
-    }, 3000);
+    }, 1500);
   } else {
     Alert.style.display = "block";
     Alert.innerHTML = "Dark Mode is enabled!";
@@ -131,7 +136,7 @@ toggleBtn.addEventListener("click", () => {
       Alert.style.display = "none";
       Alert.innerHTML = "";
       Alert.classList.remove("alert-info");
-    }, 3000);
+    }, 1500);
   }
 });
 
@@ -181,7 +186,7 @@ const createNotes = () => {
       Alert.style.display = "none";
       Alert.innerHTML = "";
       Alert.classList.remove("alert-danger");
-    }, 3000);
+    }, 1500);
   } else {
     let newNote = new Note(noteTitle.value, noteContent.value);
     notesArray.push(newNote);
@@ -291,7 +296,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
     Alert.style.display = "none";
     Alert.innerHTML = "";
     Alert.classList.remove("alert-warning");
-  }, 3000);
+  }, 1500);
 };
 
 const updateNote = (i) => {
@@ -338,11 +343,15 @@ addnoteBtn.addEventListener("click", (event) => {
   displayNotes();
 });
 
+//declaring ai variables
+
 const aiNotesContainer = document.querySelector(".ai-notes-container");
 let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
-let aiNote = document.querySelector("#ai-note");
-console.log(aiNote);
-console.log(aiNotesArr);
+let aiNoteLable = document.querySelector("#aiNote-lable");
+let aiNote_saveBtn = document.getElementById("aiNote-saveBtn");
+let aiTextarea = document.querySelector(".ai-textarea");
+console.log(aiNote_saveBtn);
+
 const createAiNotes = (title, note) => {
   class AiNotes {
     constructor(title, note) {
@@ -365,7 +374,7 @@ const displayAiNotes = () => {
     card.id = `ai-note-${i}`;
 
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body", "mx-4");
+    cardBody.classList.add("card-body");
 
     let cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
@@ -385,11 +394,82 @@ const displayAiNotes = () => {
     let editBtn = document.createElement("button");
     editBtn.classList.add("btn", "btn-info", "mx-2");
     editBtn.innerText = "Edit";
-    editBtn.id = `edit-btn${i}`;
+    editBtn.id = `aiNote-edit-btn${i}`;
 
     editBtn.addEventListener("click", () => {
-      aiNote.hidden = false;
-      aiNote.innerText = aiNotesArr[i].note;
+      aiNoteLable.style.display = "block";
+      aiNoteContainer.style.display = "block";
+      console.log("i am clicked");
+      noteTopic.value = cardTitle.innerText;
+      aiNoteContainer.innerText = cardText.innerText;
+      aiNotesContainer.style.marginTop = "10rem";
+      aiTextarea.hidden = false;
+
+      for (let i = aiNotesArr.length - 1; i >= 0; i--) {
+        let disableDelBtn = document.getElementById(`ai-note-dltBtn-${i}`);
+        let disableEditBtn = document.getElementById(`aiNote-edit-btn${i}`);
+
+        disableDelBtn.disabled = true;
+        disableEditBtn.disabled = true;
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      generatBtn.style.display = "none";
+      aiNote_saveBtn.style.display = "block";
+      console.log(aiNote_saveBtn);
+
+      aiNote_saveBtn.addEventListener("click", () => {
+        aiNoteLable.style.display = "none";
+        aiNoteContainer.style.display = "none";
+        aiTextarea.hidden = false;
+        aiNotesContainer.style.marginTop = "0px";
+
+        for (let i = aiNotesArr.length - 1; i >= 0; i--) {
+          let disableDelBtn = document.getElementById(`ai-note-dltBtn-${i}`);
+          let disableEditBtn = document.getElementById(`aiNote-edit-btn${i}`);
+
+          disableDelBtn.disabled = false;
+          disableEditBtn.disabled = false;
+        }
+        aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContainer.value };
+        localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
+        displayAiNotes();
+
+        aiNote_saveBtn.style.display = "none";
+
+        generatBtn.style.display = "block";
+
+        Alert.style.display = "block";
+        Alert.innerHTML = "Your note was successfully updated.";
+        Alert.classList.add("alert-success");
+
+        setTimeout(() => {
+          Alert.style.display = "none";
+          Alert.innerHTML = "";
+          Alert.classList.remove("alert-success");
+        }, 2500);
+
+        const note = document.getElementById(`ai-note-${i}`);
+
+        setTimeout(() => {
+          note.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 1000);
+
+        note.classList.add("highlight-note");
+        setTimeout(() => {
+          note.classList.remove("highlight-note");
+        }, 2000);
+
+        noteTopic.value = "";
+        aiNoteContainer.value = "";
+      });
     });
 
     cardTitle.innerText = aiNotesArr[i].title;
@@ -415,7 +495,7 @@ window.onload = () => {
       Alert.style.display = "none";
       Alert.innerHTML = "";
       Alert.classList.remove("alert-info");
-    }, 3000);
+    }, 1500);
   } else {
     toggleBtn.checked = true;
   }
@@ -433,7 +513,7 @@ generatBtn.addEventListener("click", () => {
       Alert.style.display = "none";
       Alert.innerHTML = "";
       Alert.classList.remove("alert-danger");
-    }, 3000);
+    }, 1500);
 
     return "please enter a question to continue:";
   }

@@ -102,16 +102,26 @@ form,
 #noteContent {
   margin: 1rem 1rem;
   width: 80vw;
-  height: 6rem;
+  height: 8rem;
 }
 
+#aiNote-container {
+  height: 8rem;
+}
 #add-note,
-#generateBtn {
+#generateBtn,
+#aiNote-saveBtn {
   margin: 1.5rem;
 }
 
-#generateBtn {
+#generateBtn,
+#aiNote-saveBtn {
   width: 80vw;
+}
+
+#aiNote-lable,
+#aiNote-container {
+  display: none;
 }
 
 .dark-mode #add-note,
