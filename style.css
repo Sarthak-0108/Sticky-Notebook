@@ -105,13 +105,13 @@ form,
   height: 6rem;
 }
 
-.aiNote-container {
+#aiNote-container {
   height: 10rem;
 }
 
-#aiNote-container {
+/* #aiNote-container {
   height: 8rem;
-}
+} */
 #add-note,
 #generateBtn,
 #aiNote-saveBtn {

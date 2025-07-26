@@ -335,7 +335,7 @@ const updateNote = (i, noteType) => {
     noteContent.value = "";
   } else {
     aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContent.value };
-    localStorage.setItem("notes", JSON.stringify(aiNotesArr));
+    localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
     displayAiNotes();
 
     const note = document.getElementById(`ai-note-${i}`);
@@ -431,7 +431,7 @@ const displayAiNotes = () => {
       updateBtn = document.createElement("button");
 
       updateBtn.classList.add("btn", "btn-success");
-      updateBtn.classList.add("aiNote-saveBtn");
+      updateBtn.id = "aiNote-saveBtn";
       updateBtn.innerText = "Save";
       aiBtnContainer.append(updateBtn);
 
@@ -446,6 +446,24 @@ const displayAiNotes = () => {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
+      });
+
+      updateBtn.addEventListener("click", () => {
+        for (let j = aiNotesArr.length - 1; j >= 0; j--) {
+          let disableDelBtn = document.getElementById(`ai-note-dltBtn-${j}`);
+          let disableEditBtn = document.getElementById(`aiNote-edit-btn${j}`);
+
+          disableDelBtn.disabled = false;
+          disableEditBtn.disabled = false;
+        }
+        generatBtn.style.display = "block";
+        aiNoteLable.style.display = "none";
+
+        aiNoteContent.style.display = "none";
+        aiNotesContainer.style.marginTop = "0rem";
+
+        updateNote(i, "ai");
+        updateBtn.remove();
       });
 
       generatBtn.style.display = "none";
