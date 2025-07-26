@@ -102,7 +102,11 @@ form,
 #noteContent {
   margin: 1rem 1rem;
   width: 80vw;
-  height: 8rem;
+  height: 6rem;
+}
+
+.aiNote-container {
+  height: 10rem;
 }
 
 #aiNote-container {

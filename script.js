@@ -60,7 +60,14 @@ const stickyNotes = document.querySelector(".sticky-notes");
 const stickyToAiBtn = document.querySelector(".stickyToAi");
 const aiToStickyBtn = document.querySelector(".aiToSticky");
 const swapBtn = document.querySelector(".swap");
-let aiNoteContainer = document.querySelector("#aiNote-container");
+let aiNoteContent = document.querySelector("#aiNote-container");
+
+const aiNotesContainer = document.querySelector(".ai-notes-container");
+let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
+let aiNoteLable = document.querySelector("#aiNote-lable");
+let aiTextarea = document.querySelector(".ai-textarea");
+let aiBtnContainer = document.querySelector(".btnContainer");
+let updateBtn;
 
 stickyNotes.hidden = false;
 
@@ -95,9 +102,9 @@ const toggleMode = () => {
   noteContent.classList.toggle("bg-gradient");
   noteContent.classList.toggle("text-white");
 
-  aiNoteContainer.classList.toggle("bg-dark");
-  aiNoteContainer.classList.toggle("bg-gradient");
-  aiNoteContainer.classList.toggle("text-white");
+  aiNoteContent.classList.toggle("bg-dark");
+  aiNoteContent.classList.toggle("bg-gradient");
+  aiNoteContent.classList.toggle("text-white");
 
   document.body.classList.toggle("dark-mode");
 
@@ -172,9 +179,9 @@ if (localStorage.getItem("userName")) {
 
 const createNotes = () => {
   class Note {
-    constructor(title, content) {
+    constructor(title, note) {
       this.title = title;
-      this.content = content;
+      this.note = note;
     }
   }
   if (noteTitle.value.trim() === "" || noteContent.value.trim() === "") {
@@ -261,7 +268,7 @@ const displayNotes = () => {
           disableEditBtn.disabled = false;
         }
 
-        updateNote(i);
+        updateNote(i, "sticky");
       });
       updateNoteBtn.classList.add("btn", "btn-success", "mx-4", "my-4");
 
@@ -274,7 +281,7 @@ const displayNotes = () => {
     cardBody.append(cardTitle, cardText, editBtn, dltBtn);
 
     cardTitle.innerText = notesArray[i].title;
-    cardText.innerText = notesArray[i].content;
+    cardText.innerText = notesArray[i].note;
   }
 };
 
@@ -299,15 +306,55 @@ const deleteNote = (i, noteType, notesArr, callback) => {
   }, 1500);
 };
 
-const updateNote = (i) => {
-  notesArray[i] = { title: noteTitle.value, content: noteContent.value };
-  localStorage.setItem("notes", JSON.stringify(notesArray));
-  displayNotes();
+const updateNote = (i, noteType) => {
+  if (noteType === "sticky") {
+    notesArray[i] = { title: noteTitle.value, note: noteContent.value };
+    localStorage.setItem("notes", JSON.stringify(notesArray));
+    displayNotes();
 
-  updateNoteBtn.remove();
+    updateNoteBtn.remove();
 
-  const inputForm = document.querySelector("form");
-  inputForm.append(addnoteBtn);
+    const inputForm = document.querySelector("form");
+    inputForm.append(addnoteBtn);
+
+    const note = document.getElementById(`note-${i}`);
+
+    setTimeout(() => {
+      note.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 1000);
+
+    note.classList.add("highlight-note");
+    setTimeout(() => {
+      note.classList.remove("highlight-note");
+    }, 2000);
+
+    noteTitle.value = "";
+    noteContent.value = "";
+  } else {
+    aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContent.value };
+    localStorage.setItem("notes", JSON.stringify(aiNotesArr));
+    displayAiNotes();
+
+    const note = document.getElementById(`ai-note-${i}`);
+
+    setTimeout(() => {
+      note.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 1000);
+
+    note.classList.add("highlight-note");
+    setTimeout(() => {
+      note.classList.remove("highlight-note");
+    }, 2000);
+
+    noteTopic.value = "";
+    aiNoteContent.value = "";
+  }
 
   Alert.style.display = "block";
   Alert.innerHTML = "Your note was successfully updated.";
@@ -318,23 +365,6 @@ const updateNote = (i) => {
     Alert.innerHTML = "";
     Alert.classList.remove("alert-success");
   }, 2500);
-
-  const note = document.getElementById(`note-${i}`);
-
-  setTimeout(() => {
-    note.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  }, 1000);
-
-  note.classList.add("highlight-note");
-  setTimeout(() => {
-    note.classList.remove("highlight-note");
-  }, 2000);
-
-  noteTitle.value = "";
-  noteContent.value = "";
 };
 
 addnoteBtn.addEventListener("click", (event) => {
@@ -342,15 +372,6 @@ addnoteBtn.addEventListener("click", (event) => {
   createNotes();
   displayNotes();
 });
-
-//declaring ai variables
-
-const aiNotesContainer = document.querySelector(".ai-notes-container");
-let aiNotesArr = JSON.parse(localStorage.getItem("ai-notes")) || [];
-let aiNoteLable = document.querySelector("#aiNote-lable");
-let aiNote_saveBtn = document.getElementById("aiNote-saveBtn");
-let aiTextarea = document.querySelector(".ai-textarea");
-console.log(aiNote_saveBtn);
 
 const createAiNotes = (title, note) => {
   class AiNotes {
@@ -398,12 +419,21 @@ const displayAiNotes = () => {
 
     editBtn.addEventListener("click", () => {
       aiNoteLable.style.display = "block";
-      aiNoteContainer.style.display = "block";
-      console.log("i am clicked");
-      noteTopic.value = cardTitle.innerText;
-      aiNoteContainer.innerText = cardText.innerText;
+
+      aiNoteContent.style.display = "block";
+      aiNoteContent.style.height = "10rem";
       aiNotesContainer.style.marginTop = "10rem";
+
+      noteTopic.value = cardTitle.innerText;
+      aiNoteContent.value = cardText.innerText;
       aiTextarea.hidden = false;
+
+      updateBtn = document.createElement("button");
+
+      updateBtn.classList.add("btn", "btn-success");
+      updateBtn.classList.add("aiNote-saveBtn");
+      updateBtn.innerText = "Save";
+      aiBtnContainer.append(updateBtn);
 
       for (let i = aiNotesArr.length - 1; i >= 0; i--) {
         let disableDelBtn = document.getElementById(`ai-note-dltBtn-${i}`);
@@ -419,57 +449,6 @@ const displayAiNotes = () => {
       });
 
       generatBtn.style.display = "none";
-      aiNote_saveBtn.style.display = "block";
-      console.log(aiNote_saveBtn);
-
-      aiNote_saveBtn.addEventListener("click", () => {
-        aiNoteLable.style.display = "none";
-        aiNoteContainer.style.display = "none";
-        aiTextarea.hidden = false;
-        aiNotesContainer.style.marginTop = "0px";
-
-        for (let i = aiNotesArr.length - 1; i >= 0; i--) {
-          let disableDelBtn = document.getElementById(`ai-note-dltBtn-${i}`);
-          let disableEditBtn = document.getElementById(`aiNote-edit-btn${i}`);
-
-          disableDelBtn.disabled = false;
-          disableEditBtn.disabled = false;
-        }
-        aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContainer.value };
-        localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
-        displayAiNotes();
-
-        aiNote_saveBtn.style.display = "none";
-
-        generatBtn.style.display = "block";
-
-        Alert.style.display = "block";
-        Alert.innerHTML = "Your note was successfully updated.";
-        Alert.classList.add("alert-success");
-
-        setTimeout(() => {
-          Alert.style.display = "none";
-          Alert.innerHTML = "";
-          Alert.classList.remove("alert-success");
-        }, 2500);
-
-        const note = document.getElementById(`ai-note-${i}`);
-
-        setTimeout(() => {
-          note.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }, 1000);
-
-        note.classList.add("highlight-note");
-        setTimeout(() => {
-          note.classList.remove("highlight-note");
-        }, 2000);
-
-        noteTopic.value = "";
-        aiNoteContainer.value = "";
-      });
     });
 
     cardTitle.innerText = aiNotesArr[i].title;
@@ -479,6 +458,10 @@ const displayAiNotes = () => {
     card.append(cardBody);
     cardBody.append(cardTitle, cardText, editBtn, dltBtn);
   }
+};
+
+const updateAiNote = (i) => {
+  console.log(aiNotesArr[i]);
 };
 
 window.onload = () => {
@@ -521,16 +504,17 @@ generatBtn.addEventListener("click", () => {
 
   let prompt = ` You are not a chat assistant. You are an API that only returns raw, ultra-short sticky note content for students.
 
-Rules:
-1. Give a one-word or one-phrase answer on the first line.
-2. Then give exactly two bullet points.
-3. Each bullet point must be under 10 words.
-4. Do NOT explain anything.
-5. Do NOT include any greetings, instructions, or closing statements.
-6. Output ONLY the note. No descriptions or helper text.
+    Rules:
+    1. Give a one-word or one-phrase answer on the first line.
+    2. Then give exactly two bullet points.
+    3. Each bullet point must be under 10 words.
+    4. Do NOT explain anything.
+    5. Do NOT include any greetings, instructions, or closing statements.
+    6. Output ONLY the note. No descriptions or helper text.
 
-User question: 
-${noteTopic.value.toUpperCase()}`;
+    User question: 
+    ${noteTopic.value.toUpperCase()}`;
+
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
