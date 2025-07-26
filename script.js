@@ -179,9 +179,9 @@ if (localStorage.getItem("userName")) {
 
 const createNotes = () => {
   class Note {
-    constructor(title, note) {
+    constructor(title, content) {
       this.title = title;
-      this.note = note;
+      this.content = content;
     }
   }
   if (noteTitle.value.trim() === "" || noteContent.value.trim() === "") {
@@ -281,7 +281,7 @@ const displayNotes = () => {
     cardBody.append(cardTitle, cardText, editBtn, dltBtn);
 
     cardTitle.innerText = notesArray[i].title;
-    cardText.innerText = notesArray[i].note;
+    cardText.innerText = notesArray[i].content;
   }
 };
 
@@ -308,7 +308,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
 
 const updateNote = (i, noteType) => {
   if (noteType === "sticky") {
-    notesArray[i] = { title: noteTitle.value, note: noteContent.value };
+    notesArray[i] = { title: noteTitle.value, content: noteContent.value };
     localStorage.setItem("notes", JSON.stringify(notesArray));
     displayNotes();
 
