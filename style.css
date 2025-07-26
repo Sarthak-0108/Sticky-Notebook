@@ -105,13 +105,27 @@ form,
   height: 6rem;
 }
 
+#aiNote-container {
+  height: 10rem;
+}
+
+/* #aiNote-container {
+  height: 8rem;
+} */
 #add-note,
-#generateBtn {
+#generateBtn,
+#aiNote-saveBtn {
   margin: 1.5rem;
 }
 
-#generateBtn {
+#generateBtn,
+#aiNote-saveBtn {
   width: 80vw;
+}
+
+#aiNote-lable,
+#aiNote-container {
+  display: none;
 }
 
 .dark-mode #add-note,
