@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGNYH779B9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GGNYH779B9');
+  </script>
+    <script>
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA was installed!');
+
+      // Optional: Send install event to Google Analytics
+      gtag('event', 'pwa_install', {
+        event_category: 'PWA',
+        event_label: 'Sticky Notes Installed',
+        non_interaction: true
+      });
+    });
+  </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sticky Note</title>
