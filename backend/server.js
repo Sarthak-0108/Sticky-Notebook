@@ -20,10 +20,10 @@ app.post("/generate-note", async (req, res) => {
         Authorization: `Bearer ${COHERE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "command",
+        model: "command-r-plus",
         prompt: prompt,
         max_tokens: 50,
-        temperature: 0.7,
+        temperature: 0.2,
       }),
     });
 

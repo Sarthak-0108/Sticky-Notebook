@@ -505,19 +505,22 @@ generatBtn.addEventListener("click", () => {
   }
   document.getElementById("loadingSpinner").style.display = "block";
 
-  let prompt = ` You are not a chat assistant. You are an API that returns raw, ultra-short sticky note content for students.
+  //   let prompt = ` You are not a chat assistant. You are an API that returns raw, ultra-short sticky note content for students.
 
-    Rules:
-    1. Output only one word for objective-type questions.
-    2. Do not use vague or ambiguous answers (e.g., "two possible answers").
-    3. Do not include important points, tips, or explanations.
-    4. Do not use greetings, instructions, or closing statements.
-    5. Output must contain only:
-      - A single word or phrase answer on the first line.
-    6. Be strictly minimal and factual in tone.
+  //     Rules:
+  //     1. Output only one word for objective-type questions.
+  //     2. Do not use vague or ambiguous answers (e.g., "two possible answers").
+  //     3. Do not include important points, tips, or explanations.
+  //     4. Do not use greetings, instructions, or closing statements.
+  //     5. Output must contain only:
+  //       - A single word or phrase answer on the first line.
+  //     6. Be strictly minimal and factual in tone.
 
-User question:
-${noteTopic.value.toUpperCase()}`;
+  // User question:
+  // ${noteTopic.value.toUpperCase()}`;
+
+  let prompt = `"prompt": "You are an expert teacher for Class 10 Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+  // let prompt = `"prompt": "You are an expert teacher for Class 11 Science (Bihar Board, 2025), specialized in Physics, Chemistry, and Math. Give the correct and updated answer to the following question in simple and easy language. Keep the answer short, clear, and in one line without extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}"`;
 
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
