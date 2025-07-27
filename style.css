@@ -95,13 +95,13 @@ form,
 }
 
 #note-title {
-  /* margin: 1rem 1rem; */
-  /* width: 80vw; */
+  margin: 1rem 1rem;
+  width: 80vw;
 }
 
 #noteContent {
-  /* margin: 1rem 1rem; */
-  /* width: 80vw; */
+  margin: 1rem 1rem;
+  width: 80vw;
   height: 6rem;
 }
 
@@ -113,6 +113,9 @@ form,
   margin-left: 70%;
 }
 
+/* #aiNote-container {
+  height: 8rem;
+} */
 #add-note,
 #generateBtn,
 #aiNote-saveBtn {

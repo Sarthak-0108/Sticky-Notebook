@@ -107,25 +107,23 @@
 
     <!-- sticky note -->
     <div class="sticky-notes">
-      <div class="main  ">
-        <form class="mb-2 mt-2">
-          <!-- <div class="form-group  ">
-            <label for="note-title" class="form-label ms-3 mt-2">Enter title of Note</label>
+      <div class="main">
+        <form>
+          <div class="form-group">
             <input
               type="text"
               class="form-control"
               id="note-title"
-              placeholder="e.g- sunday"
+              placeholder="Enter title of Note"
               required
             />
           </div>
 
           <div class="form-group">
             <div class="input-group">
-            <label for="noteContent" class="form-label ms-3 mt-2">Enter your Note</label>
               <textarea
                 class="form-control"
-                placeholder="Study Physics - moiton"
+                placeholder="Enter your note"
                 id="noteContent"
                 required
               ></textarea>
@@ -153,11 +151,14 @@
           ></textarea>
          </div>
         </div>
+          </div>
 
           <button type="button" class="btn btn-primary" id="add-note">
             Add Note
           </button>
-        </form>   
+        </form>
+        <!-- it will hide the sticky-note section-->
+        <!-- <button onclick="window.location.href='Ai-notes/ai-notes.html'">Go to AI notes</button> -->
       </div>
 
       <div class="notes-container"></div>
@@ -181,6 +182,8 @@
       </div>
         </div>
         
+        <h2 class="mt-4 ms-3 mb-4" id="info">Generate AI Notes ✨</h2>
+
         <!-- Input Form -->
         <div class="mb-2 mt-2 ms-3">
           <label for="noteTopic" class="form-label">Enter objective question</label>
