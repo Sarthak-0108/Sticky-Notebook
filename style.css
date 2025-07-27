@@ -109,6 +109,10 @@ form,
   height: 10rem;
 }
 
+#dropdownMenuButton {
+  margin-left: 70%;
+}
+
 /* #aiNote-container {
   height: 8rem;
 } */
