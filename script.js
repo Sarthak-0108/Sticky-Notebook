@@ -289,21 +289,6 @@ const deleteNote = (i, noteType, notesArr, callback) => {
   notesArr.splice(i, 1);
   localStorage.setItem(noteType, JSON.stringify(notesArr));
   callback();
-
-  Alert.style.display = "block";
-  Alert.innerHTML = "Your note was successfully Deleted.";
-  Alert.classList.add("alert-warning");
-
-  navbar.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-  });
-
-  setTimeout(() => {
-    Alert.style.display = "none";
-    Alert.innerHTML = "";
-    Alert.classList.remove("alert-warning");
-  }, 1500);
 };
 
 const updateNote = (i, noteType) => {
@@ -520,18 +505,19 @@ generatBtn.addEventListener("click", () => {
   }
   document.getElementById("loadingSpinner").style.display = "block";
 
-  let prompt = ` You are not a chat assistant. You are an API that only returns raw, ultra-short sticky note content for students.
+  let prompt = ` You are not a chat assistant. You are an API that returns raw, ultra-short sticky note content for students.
 
     Rules:
-    1. Give a one-word or one-phrase answer on the first line.
-    2. Then give exactly two bullet points.
-    3. Each bullet point must be under 10 words.
-    4. Do NOT explain anything.
-    5. Do NOT include any greetings, instructions, or closing statements.
-    6. Output ONLY the note. No descriptions or helper text.
+    1. Output only one word for objective-type questions.
+    2. Do not use vague or ambiguous answers (e.g., "two possible answers").
+    3. Do not include important points, tips, or explanations.
+    4. Do not use greetings, instructions, or closing statements.
+    5. Output must contain only:
+      - A single word or phrase answer on the first line.
+    6. Be strictly minimal and factual in tone.
 
-    User question: 
-    ${noteTopic.value.toUpperCase()}`;
+User question:
+${noteTopic.value.toUpperCase()}`;
 
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
