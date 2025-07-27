@@ -95,13 +95,13 @@ form,
 }
 
 #note-title {
-  /* margin: 1rem 1rem; */
-  /* width: 80vw; */
+  margin: 1rem 1rem;
+  width: 80vw;
 }
 
 #noteContent {
-  /* margin: 1rem 1rem; */
-  /* width: 80vw; */
+  margin: 1rem 1rem;
+  width: 80vw;
   height: 6rem;
 }
 
@@ -109,10 +109,9 @@ form,
   height: 10rem;
 }
 
-#dropdownMenuButton {
-  margin-left: 13rem;
-}
-
+/* #aiNote-container {
+  height: 8rem;
+} */
 #add-note,
 #generateBtn,
 #aiNote-saveBtn {
