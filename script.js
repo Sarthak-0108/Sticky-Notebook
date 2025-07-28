@@ -73,7 +73,7 @@ let aiBtnContainer = document.querySelector(".btnContainer");
 let updateBtn;
 
 const drop_down = document.querySelector("#dropdownMenuButton");
-const options = document.querySelector("ul");
+const options = document.querySelectorAll("li");
 
 //<-------------------- Dark Mode Functionality ------------------------------->
 
@@ -392,6 +392,11 @@ document.querySelector("#arts").addEventListener("click", () => {
   drop_down.innerHTML = subject;
   console.log(subject);
 });
+document.querySelector("#computer").addEventListener("click", () => {
+  subject = "Computer";
+  drop_down.innerHTML = subject;
+  console.log(subject);
+});
 
 const createAiNotes = (title, note) => {
   class AiNotes {
@@ -565,6 +570,11 @@ generatBtn.addEventListener("click", () => {
 
       Q: ${noteTopic.value.toUpperCase()}`;
       break;
+    case "Computer":
+      prompt = `You are an expert teacher for Class 10 Computer (CBSE/Bihar Board). Answer the following question in one short and clear sentence. Be precise, use simple English, and ensure the response is easy to understand by a Class 10 student. Always keep the tone supportive and beginner-friendly. No long answers.
+
+      Question: ${noteTopic.value.toUpperCase()}
+`;
     default:
       prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
 
