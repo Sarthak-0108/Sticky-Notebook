@@ -108,6 +108,9 @@ const toggleMode = () => {
 
   document.body.classList.toggle("dark-mode");
 
+  options.classList.toggle("bg-dark");
+  options.classList.toggle("text-white");
+
   if (track % 2 === 0) {
     mode = "light";
     console.log("light mode");
