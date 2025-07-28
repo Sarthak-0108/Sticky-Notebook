@@ -1,3 +1,5 @@
+//loading service woker
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -8,6 +10,7 @@ if ("serviceWorker" in navigator) {
       );
   });
 }
+//creating pwa functionality
 
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
@@ -24,21 +27,21 @@ window.addEventListener("beforeinstallprompt", (e) => {
 
 installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) return;
-  deferredPrompt.prompt(); // Show the install prompt
+  deferredPrompt.prompt();
 
   const { outcome } = await deferredPrompt.userChoice;
   console.log(`User response: ${outcome}`);
 
   deferredPrompt = null;
-  installBtn.hidden = true; // Hide after interaction
+  installBtn.hidden = true;
   installBanner.style.display = "none";
 });
 
 dismissBtn.addEventListener("click", () => {
   installBanner.style.display = "none";
 });
+//<---------------------- Declaring all Variables ------------------------------>
 
-//accessing elements from DOM
 let noteTitle = document.querySelector("#note-title");
 let noteContent = document.querySelector("#noteContent");
 
@@ -69,17 +72,10 @@ let aiTextarea = document.querySelector(".ai-textarea");
 let aiBtnContainer = document.querySelector(".btnContainer");
 let updateBtn;
 
-stickyNotes.hidden = false;
+const drop_down = document.querySelector("#dropdownMenuButton");
+const options = document.querySelector("ul");
 
-swapBtn.addEventListener("click", () => {
-  if (stickyNotes.hidden === false) {
-    stickyNotes.hidden = true;
-    aiNotes.hidden = false;
-  } else {
-    aiNotes.hidden = true;
-    stickyNotes.hidden = false;
-  }
-});
+//<-------------------- Dark Mode Functionality ------------------------------->
 
 let track = 0; // if even means light mode else dark mode
 let mode = "light";
@@ -106,10 +102,10 @@ const toggleMode = () => {
   aiNoteContent.classList.toggle("bg-gradient");
   aiNoteContent.classList.toggle("text-white");
 
-  document.body.classList.toggle("dark-mode");
-
   options.classList.toggle("bg-dark");
   options.classList.toggle("text-white");
+
+  document.body.classList.toggle("dark-mode");
 
   if (track % 2 === 0) {
     mode = "light";
@@ -149,6 +145,22 @@ toggleBtn.addEventListener("click", () => {
     }, 1500);
   }
 });
+
+//<--------------------  Swap functionality General To AI ---------------------->
+
+stickyNotes.hidden = false;
+
+swapBtn.addEventListener("click", () => {
+  if (stickyNotes.hidden === false) {
+    stickyNotes.hidden = true;
+    aiNotes.hidden = false;
+  } else {
+    aiNotes.hidden = true;
+    stickyNotes.hidden = false;
+  }
+});
+
+//<--------------------  Sticky-Note functionality ----------------------------->
 
 let noteContainer = document.querySelector(".notes-container");
 let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
@@ -293,6 +305,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
   localStorage.setItem(noteType, JSON.stringify(notesArr));
   callback();
 };
+// also include functionality to update ai Notes
 
 const updateNote = (i, noteType) => {
   if (noteType === "sticky") {
@@ -359,6 +372,25 @@ addnoteBtn.addEventListener("click", (event) => {
   event.preventDefault();
   createNotes();
   displayNotes();
+});
+//<----------------------------  functionality of ai Notes -------------------------------->
+
+let subject;
+
+document.querySelector("#math").addEventListener("click", () => {
+  subject = "Math";
+  drop_down.innerHTML = subject;
+  console.log(subject);
+});
+document.querySelector("#science").addEventListener("click", () => {
+  subject = "Science";
+  drop_down.innerHTML = subject;
+  console.log(subject);
+});
+document.querySelector("#arts").addEventListener("click", () => {
+  subject = "Arts";
+  drop_down.innerHTML = subject;
+  console.log(subject);
 });
 
 const createAiNotes = (title, note) => {
@@ -466,10 +498,6 @@ const displayAiNotes = () => {
   }
 };
 
-const updateAiNote = (i) => {
-  console.log(aiNotesArr[i]);
-};
-
 window.onload = () => {
   displayNotes();
   displayAiNotes();
@@ -521,8 +549,29 @@ generatBtn.addEventListener("click", () => {
 
   // User question:
   // ${noteTopic.value.toUpperCase()}`;
+  let prompt;
 
-  let prompt = `"prompt": "You are an expert teacher for Class 10 Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+  switch (subject) {
+    case "Math":
+      prompt = `You are an expert mathematics teacher for Class 10 (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
+
+      Q: ${noteTopic.value.toUpperCase()}`;
+      break;
+    case "Science":
+      prompt = `"prompt": "You are an expert teacher for Class 10 Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+      break;
+    case "Arts":
+      prompt = `You are an expert teacher for Class 10 Arts (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+
+      Q: ${noteTopic.value.toUpperCase()}`;
+      break;
+    default:
+      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
+
+      Q: ${noteTopic.value.toUpperCase()}`;
+      break;
+  }
+
   // let prompt = `"prompt": "You are an expert teacher for Class 11 Science (Bihar Board, 2025), specialized in Physics, Chemistry, and Math. Give the correct and updated answer to the following question in simple and easy language. Keep the answer short, clear, and in one line without extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}"`;
 
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
