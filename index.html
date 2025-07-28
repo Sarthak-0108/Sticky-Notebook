@@ -92,9 +92,11 @@
           <span class="navbar-brand mb-0 h1" id="navbar-branding"
             ><bold>Your Notebook</bold>
           </span>
-          <div class="swap"></div>
-
-          <div class="form-check form-switch">
+          <div
+            class="form-check form-switch"
+            style="display: flex; align-items: center; gap: 3.5rem"
+          >
+            <div class="swap"></div>
             <input
               class="form-check-input"
               type="checkbox"
@@ -150,12 +152,12 @@
     </div>
 
     <div class="ai-notes" hidden>
-      <div class="container mt-1">
+      <div class="container mt-3">
         <div class="contanier">
-          <h2 class="mt-4 ms-3 mb-4" id="info">Generate AI Notes ✨</h2>
+          <h2 class="" id="info">Generate AI Notes ✨</h2>
 
           <!-- Bootstrap Dropdown -->
-          <div class="dropdown">
+          <div class="dropdown mt-4">
             <button
               class="btn btn-secondary dropdown-toggle bg-dark bg-gradient text-white"
               type="button"
@@ -169,7 +171,7 @@
               <li id="nineth">9th</li>
               <li id="tenth">10th</li>
               <!-- <li id="arts">11th</li>
-          <li id="computer">12t</li> -->
+             <li id="computer">12t</li> -->
             </ul>
 
             <button
@@ -189,45 +191,42 @@
             </ul>
           </div>
         </div>
-      </div>
-
-      <!-- Input Form -->
-      <div class="mb-2 mt-2 ms-3">
-        <label for="noteTopic" class="form-label"
-          >Enter objective question</label
-        >
-        <input
-          type="text"
-          class="form-control"
-          id="noteTopic"
-          class="noteTopic"
-          placeholder="e.g. Father of Physics?"
-        />
-
-        <div class="ai-textarea my-5" hidden>
-          <label for="note" class="form-label" id="aiNote-lable"
-            >Edit the note</label
+        <div class="mt-4" style="width: 95%">
+          <label for="noteTopic" class="form-label"
+            >Enter objective question</label
           >
-          <textarea
+          <input
             type="text"
             class="form-control"
-            id="aiNote-container"
-            class="note"
-          ></textarea>
-        </div>
-      </div>
+            id="noteTopic"
+            class="noteTopic mb-2"
+            placeholder="e.g. Father of Physics?"
+          />
 
-      <!-- Generate Button -->
-      <div class="btnContainer">
-        <button class="btn btn-primary" id="generateBtn">Generate Notes</button>
-        <div id="loadingSpinner" class="text-center my-3" style="display: none">
-          <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div class="ai-textarea mt-4" hidden>
+            <label for="note" class="form-label" id="aiNote-lable"
+              >Edit the note</label
+            >
+            <textarea
+              type="text"
+              class="form-control"
+              id="aiNote-container"
+              class="note mt-4"
+            ></textarea>
+          </div>
+        </div>
+        <div class="btnContainer mt-4 mb-5">
+          <button class="btn btn-primary" id="generateBtn">
+            Generate Notes
+          </button>
+          <div id="loadingSpinner" class="text-center" style="display: none">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Output Card -->
       <div class="ai-notes-container"></div>
     </div>
 

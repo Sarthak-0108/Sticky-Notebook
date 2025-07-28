@@ -73,7 +73,8 @@ let aiBtnContainer = document.querySelector(".btnContainer");
 let updateBtn;
 
 const drop_down = document.querySelector("#dropdownMenuButton");
-const options = document.querySelectorAll("li");
+const options = document.querySelectorAll("ul");
+let standard_drop_down = document.querySelector("#choose-standard");
 
 //<-------------------- Dark Mode Functionality ------------------------------->
 
@@ -102,9 +103,13 @@ const toggleMode = () => {
   aiNoteContent.classList.toggle("bg-gradient");
   aiNoteContent.classList.toggle("text-white");
 
-  options.classList.toggle("bg-dark");
-  options.classList.toggle("text-white");
+  // options.classList.toggle("bg-dark");
+  // options.classList.toggle("text-white");
 
+  options.forEach((li) => {
+    li.classList.toggle("bg-dark");
+    li.classList.toggle("text-white");
+  });
   document.body.classList.toggle("dark-mode");
 
   if (track % 2 === 0) {
@@ -376,6 +381,7 @@ addnoteBtn.addEventListener("click", (event) => {
 //<----------------------------  functionality of ai Notes -------------------------------->
 
 let subject;
+let standard;
 
 document.querySelector("#math").addEventListener("click", () => {
   subject = "Math";
@@ -397,7 +403,16 @@ document.querySelector("#computer").addEventListener("click", () => {
   drop_down.innerHTML = subject;
   console.log(subject);
 });
-
+document.querySelector("#nineth").addEventListener("click", () => {
+  standard = "9th";
+  standard_drop_down.innerText = standard;
+  console.log(standard);
+});
+document.querySelector("#tenth").addEventListener("click", () => {
+  standard = "10th";
+  standard_drop_down.innerText = standard;
+  console.log(standard);
+});
 const createAiNotes = (title, note) => {
   class AiNotes {
     constructor(title, note) {
@@ -571,10 +586,11 @@ generatBtn.addEventListener("click", () => {
       Q: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Computer":
-      prompt = `You are an expert teacher for Class 10 Computer (CBSE/Bihar Board). Answer the following question in one short and clear sentence. Be precise, use simple English, and ensure the response is easy to understand by a Class 10 student. Always keep the tone supportive and beginner-friendly. No long answers.
-
+      prompt = `You are an expert teacher for Class 10 Computer (CBSE,2025).Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
       Question: ${noteTopic.value.toUpperCase()}
 `;
+      console.log("i am working");
+      break;
     default:
       prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
 

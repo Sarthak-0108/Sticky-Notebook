@@ -113,15 +113,13 @@ form,
   margin-left: 70%;
 } */
 
-#add-note,
-#generateBtn,
-#aiNote-saveBtn {
+#add-note {
   margin: 1.5rem;
 }
 
 #generateBtn,
 #aiNote-saveBtn {
-  width: 80vw;
+  width: 95%;
 }
 
 #aiNote-lable,
