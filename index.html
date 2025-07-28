@@ -2,26 +2,31 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGNYH779B9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-GGNYH779B9');
-  </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GGNYH779B9"
+    ></script>
     <script>
-    window.addEventListener('appinstalled', () => {
-      console.log('PWA was installed!');
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      // Optional: Send install event to Google Analytics
-      gtag('event', 'pwa_install', {
-        event_category: 'PWA',
-        event_label: 'Sticky Notes Installed',
-        non_interaction: true
+      gtag("config", "G-GGNYH779B9");
+    </script>
+    <script>
+      window.addEventListener("appinstalled", () => {
+        console.log("PWA was installed!");
+
+        // Optional: Send install event to Google Analytics
+        gtag("event", "pwa_install", {
+          event_category: "PWA",
+          event_label: "Sticky Notes Installed",
+          non_interaction: true,
+        });
       });
-    });
-  </script>
+    </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +46,7 @@
     <link rel="manifest" href="site.webmanifest" />
   </head>
   <body>
-     <!-- Modal to take userName -->
+    <!-- Modal to take userName -->
     <div class="modal fade" id="inputModal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -71,7 +76,7 @@
       </div>
     </div>
 
-    <div id="installBanner" class="banner" hidden >
+    <div id="installBanner" class="banner" hidden>
       <img src="android-chrome-192x192.png" alt="App Logo" class="logo" />
       <div class="banner-text">
         <strong>Sticky Note</strong><br />
@@ -87,9 +92,11 @@
           <span class="navbar-brand mb-0 h1" id="navbar-branding"
             ><bold>Your Notebook</bold>
           </span>
-          <div class="swap"></div>
-
-          <div class="form-check form-switch">
+          <div
+            class="form-check form-switch"
+            style="display: flex; align-items: center; gap: 3.5rem"
+          >
+            <div class="swap"></div>
             <input
               class="form-check-input"
               type="checkbox"
@@ -107,95 +114,120 @@
 
     <!-- sticky note -->
     <div class="sticky-notes">
-      <div class="main  ">
+      <div class="main">
         <form class="mb-2 mt-2">
-         
           <div class="mb-2 mt-2 mx-2">
-          <label for="note-title" class="form-label ms-1">Enter title of Note</label>
-          <input
-            type="text"
-            class="form-control"
-            id="note-title"
-            placeholder="e.g. goal"
-            required
-          />
+            <label for="note-title" class="form-label ms-1"
+              >Enter title of Note</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="note-title"
+              placeholder="e.g. goal"
+              required
+            />
 
-         <div class="mb-2 mt-4">
-           <label for="noteContent" class="form-label ms-1" >Enter your Note</label>
-          <textarea
-            type="text"
-            class="form-control"
-            id="noteContent"
-            placeholder="e.g. software engineer"
-            required
-          ></textarea>
-         </div>
-        </div>
+            <div class="mb-2 mt-4">
+              <label for="noteContent" class="form-label ms-1"
+                >Enter your Note</label
+              >
+              <textarea
+                type="text"
+                class="form-control"
+                id="noteContent"
+                placeholder="e.g. software engineer"
+                required
+              ></textarea>
+            </div>
+          </div>
 
           <button type="button" class="btn btn-primary" id="add-note">
             Add Note
           </button>
-        </form>   
+        </form>
       </div>
 
       <div class="notes-container"></div>
     </div>
 
     <div class="ai-notes" hidden>
-      <div class="container mt-1">
+      <div class="container mt-3">
         <div class="contanier">
-          <h2 class="mt-4 ms-3 mb-4" id="info">Generate AI Notes ✨</h2>
+          <h2 class="" id="info">Generate AI Notes ✨</h2>
 
-        <!-- Bootstrap Dropdown -->
-      <div class="dropdown ">
-        <button class="btn btn-secondary dropdown-toggle bg-dark bg-gradient  text-white" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Subject
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li id="math">Math</li>
-          <li id="science">Science</li>
-          <li id="arts">Arts</li>
-        </ul>
-      </div>
+          <!-- Bootstrap Dropdown -->
+          <div class="dropdown mt-4">
+            <button
+              class="btn btn-secondary dropdown-toggle bg-dark bg-gradient text-white"
+              type="button"
+              id="choose-standard"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Standard
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li id="nineth">9th</li>
+              <li id="tenth">10th</li>
+              <!-- <li id="arts">11th</li>
+             <li id="computer">12t</li> -->
+            </ul>
+
+            <button
+              class="btn btn-secondary dropdown-toggle bg-dark bg-gradient text-white"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Subject
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li id="math">Math</li>
+              <li id="science">Science</li>
+              <li id="arts">Arts</li>
+              <li id="computer">Computer</li>
+            </ul>
+          </div>
         </div>
-        
-        <!-- Input Form -->
-        <div class="mb-2 mt-2 ms-3">
-          <label for="noteTopic" class="form-label">Enter objective question</label>
+        <div class="mt-4" style="width: 95%">
+          <label for="noteTopic" class="form-label"
+            >Enter objective question</label
+          >
           <input
             type="text"
             class="form-control"
             id="noteTopic"
-            class="noteTopic"
+            class="noteTopic mb-2"
             placeholder="e.g. Father of Physics?"
           />
 
-         <div class="ai-textarea my-5" hidden>
-           <label for="note" class="form-label" id="aiNote-lable" >Edit the note</label>
-          <textarea
-            type="text"
-            class="form-control"
-            id="aiNote-container"
-            class="note"
-          ></textarea>
-         </div>
-           
-             
+          <div class="ai-textarea mt-4" hidden>
+            <label for="note" class="form-label" id="aiNote-lable"
+              >Edit the note</label
+            >
+            <textarea
+              type="text"
+              class="form-control"
+              id="aiNote-container"
+              class="note mt-4"
+            ></textarea>
+          </div>
         </div>
-
-        <!-- Generate Button -->
-         <div class="btnContainer">
-           <button class="btn btn-primary " id="generateBtn">Generate Notes</button>
-              <div id="loadingSpinner" class="text-center my-3" style="display: none;">
-        <div class="spinner-border text-warning" role="status">
-          <span class="visually-hidden">Loading...</span>
+        <div class="btnContainer mt-4 mb-5">
+          <button class="btn btn-primary" id="generateBtn">
+            Generate Notes
+          </button>
+          <div id="loadingSpinner" class="text-center" style="display: none">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </div>
       </div>
-         </div>
-       
 
-        <!-- Output Card -->
-         <div class="ai-notes-container"></div>
+      <div class="ai-notes-container"></div>
     </div>
 
     <script src="sw.js"></script>
@@ -205,6 +237,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
-
   </body>
 </html>
