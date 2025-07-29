@@ -73,8 +73,9 @@ let aiBtnContainer = document.querySelector(".btnContainer");
 let updateBtn;
 
 const drop_down = document.querySelector("#dropdownMenuButton");
-const options = document.querySelectorAll("ul");
+const options = document.querySelectorAll("a");
 let standard_drop_down = document.querySelector("#choose-standard");
+let ul = document.querySelectorAll("ul");
 
 //<-------------------- Dark Mode Functionality ------------------------------->
 
@@ -103,8 +104,9 @@ const toggleMode = () => {
   aiNoteContent.classList.toggle("bg-gradient");
   aiNoteContent.classList.toggle("text-white");
 
-  // options.classList.toggle("bg-dark");
-  // options.classList.toggle("text-white");
+  ul.forEach((ul) => {
+    ul.classList.toggle("bg-dark");
+  });
 
   options.forEach((li) => {
     li.classList.toggle("bg-dark");
@@ -378,6 +380,41 @@ addnoteBtn.addEventListener("click", (event) => {
   createNotes();
   displayNotes();
 });
+
+// creating folder functionality - general notes (by mistake in ai section, var is also in this section)
+let notes_folder = document.getElementById("notes-folder");
+const folder_modal = new bootstrap.Modal(
+  document.getElementById("enter-folder")
+);
+let folder_name = document.querySelector("#student-folder");
+const submitFolderBtn = document.querySelector("#submit-folder");
+
+document.querySelector("#plus-icon").addEventListener("click", () => {
+  folder_modal.show();
+  submitFolderBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    submitFolderBtn.blur();
+    folder_modal.hide();
+    // setUserName();
+    if (!folder_name.value) {
+      //agar user input na  de
+      alert("please enter a valid name !");
+    } else {
+      // localStorage.setItem("folders", folder_name.trim());
+
+      const folder = document.createElement("li");
+      const anchor = document.createElement("a");
+      anchor.classList.add("dropdown-item");
+      anchor.innerText = folder_name.value;
+      console.log(folder_name.value);
+      folder.append(anchor);
+
+      notes_folder.append(folder);
+      console.log("successfully created new folder");
+    }
+  });
+});
+
 //<----------------------------  functionality of ai Notes -------------------------------->
 
 let subject;
@@ -413,6 +450,7 @@ document.querySelector("#tenth").addEventListener("click", () => {
   standard_drop_down.innerText = standard;
   console.log(standard);
 });
+
 const createAiNotes = (title, note) => {
   class AiNotes {
     constructor(title, note) {

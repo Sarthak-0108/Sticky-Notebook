@@ -115,6 +115,64 @@
     <!-- sticky note -->
     <div class="sticky-notes">
       <div class="main">
+        <!-- <------------------------------ creating notes folder -------------------------------------->
+        <!-- bootstrap modal to take user folder  -->
+        <div class="modal fade" id="enter-folder" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Enter Folder Name</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="student-folder"
+                  placeholder="Type here..."
+                />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <button class="btn btn-primary" id="submit-folder">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- folder frontend code -->
+        <div
+          class="folder-add mt-2 mb-2 ms-2"
+          style="display: flex; justify-content: space-between"
+        >
+          <div class="dropdown">
+            <button
+              class="btn btn-info bg-dark bg-gradient text-white dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Notes Folder
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" id="notes-folder">
+              <li><a class="dropdown-item active" href="#">General</a></li>
+              <li><hr class="dropdown-divider" /></li>
+            </ul>
+          </div>
+          <button
+            id="plus-icon"
+            class="dismiss"
+            style="border: 2px solid #0dcaf0; border-radius: 12px"
+          >
+            <img src="plus.webp" style="width: 2rem; height: 2rem" />
+          </button>
+        </div>
+
         <form class="mb-2 mt-2">
           <div class="mb-2 mt-2 mx-2">
             <label for="note-title" class="form-label ms-1"
@@ -159,7 +217,7 @@
           <!-- Bootstrap Dropdown -->
           <div class="dropdown mt-4">
             <button
-              class="btn btn-secondary dropdown-toggle bg-dark bg-gradient text-white"
+              class="btn btn-info dropdown-toggle bg-dark bg-gradient text-white"
               type="button"
               id="choose-standard"
               data-bs-toggle="dropdown"
@@ -168,14 +226,16 @@
               Standard
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li id="nineth">9th</li>
-              <li id="tenth">10th</li>
-              <!-- <li id="arts">11th</li>
-             <li id="computer">12t</li> -->
+              <li id="nineth">
+                <a class="dropdown-item" href="#">9th</a>
+              </li>
+              <li id="tenth">
+                <a class="dropdown-item" href="#">10th</a>
+              </li>
             </ul>
 
             <button
-              class="btn btn-secondary dropdown-toggle bg-dark bg-gradient text-white"
+              class="btn btn-info dropdown-toggle bg-dark bg-gradient text-white"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
@@ -184,10 +244,24 @@
               Subject
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li id="math">Math</li>
-              <li id="science">Science</li>
-              <li id="arts">Arts</li>
-              <li id="computer">Computer</li>
+              <li id="math">
+                <a class="dropdown-item" href="#">Math</a>
+              </li>
+              <li id="science">
+                <a class="dropdown-item" href="#">Science</a>
+              </li>
+              <li id="arts"><a class="dropdown-item" href="#">Arts</a></li>
+              <li><hr class="dropdown-divider" /></li>
+
+              <li id="computer">
+                <a class="dropdown-item" href="#">Computer</a>
+              </li>
+            </ul>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
             </ul>
           </div>
         </div>
@@ -219,7 +293,11 @@
           <button class="btn btn-primary" id="generateBtn">
             Generate Notes
           </button>
-          <div id="loadingSpinner" class="text-center my-4" style="display: none">
+          <div
+            id="loadingSpinner"
+            class="text-center my-4"
+            style="display: none"
+          >
             <div class="spinner-border text-warning" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
