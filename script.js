@@ -518,6 +518,16 @@ document.querySelector("#tenth").addEventListener("click", () => {
   standard_drop_down.innerText = standard;
   console.log(standard);
 });
+document.querySelector("#eleventh").addEventListener("click", () => {
+  standard = "11th";
+  standard_drop_down.innerText = standard;
+  console.log(standard);
+});
+document.querySelector("#Twelfth").addEventListener("click", () => {
+  standard = "12th";
+  standard_drop_down.innerText = standard;
+  console.log(standard);
+});
 
 const createAiNotes = (title, note) => {
   class AiNotes {
@@ -660,50 +670,33 @@ generatBtn.addEventListener("click", () => {
     return "please enter a question to continue:";
   }
   document.getElementById("loadingSpinner").style.display = "block";
-
-  //   let prompt = ` You are not a chat assistant. You are an API that returns raw, ultra-short sticky note content for students.
-
-  //     Rules:
-  //     1. Output only one word for objective-type questions.
-  //     2. Do not use vague or ambiguous answers (e.g., "two possible answers").
-  //     3. Do not include important points, tips, or explanations.
-  //     4. Do not use greetings, instructions, or closing statements.
-  //     5. Output must contain only:
-  //       - A single word or phrase answer on the first line.
-  //     6. Be strictly minimal and factual in tone.
-
-  // User question:
-  // ${noteTopic.value.toUpperCase()}`;
   let prompt;
 
   switch (subject) {
     case "Math":
-      prompt = `You are an expert mathematics teacher for Class 10 (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
+      prompt = `You are an expert mathematics teacher for Class ${standard} (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
 
-      Q: ${noteTopic.value.toUpperCase()}`;
+          Q: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Science":
-      prompt = `"prompt": "You are an expert teacher for Class 10 Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+      prompt = `"prompt": "You are an expert teacher for Class ${standard} Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Arts":
-      prompt = `You are an expert teacher for Class 10 Arts (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+      prompt = `You are an expert teacher for Class ${standard} Arts (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
 
-      Q: ${noteTopic.value.toUpperCase()}`;
+          Q: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Computer":
-      prompt = `You are an expert teacher for Class 10 Computer (CBSE,2025).Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
-      Question: ${noteTopic.value.toUpperCase()}
-`;
-      console.log("i am working");
+      prompt = `You are an expert teacher for Class ${standard} Computer (CBSE,2025).Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+          Question: ${noteTopic.value.toUpperCase()}
+    `;
       break;
     default:
-      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
+      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
 
-      Q: ${noteTopic.value.toUpperCase()}`;
+          Q: ${noteTopic.value.toUpperCase()}`;
       break;
   }
-
-  // let prompt = `"prompt": "You are an expert teacher for Class 11 Science (Bihar Board, 2025), specialized in Physics, Chemistry, and Math. Give the correct and updated answer to the following question in simple and easy language. Keep the answer short, clear, and in one line without extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}"`;
 
   fetch("https://sticky-note-backend.onrender.com/generate-note", {
     method: "POST",
