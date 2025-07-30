@@ -169,9 +169,14 @@ swapBtn.addEventListener("click", () => {
 
 //<--------------------  Sticky-Note functionality ----------------------------->
 
-let noteContainer = document.querySelector(".notes-container");
-let notesArray = JSON.parse(localStorage.getItem("notes")) || [];
+let noteContainer = document.querySelector("#category-general");
+// let notesArray = JSON.parse(localStorage.getItem("notes")) || {};
+// let randomArray = JSON.parse(localStorage.getItem("randomNotes")) || [];
 let updateNoteBtn;
+// let currentArray;
+
+// let availableFolders =
+//   JSON.parse(localStorage.getItem("availableFolders")) || [];
 
 let userName;
 
@@ -198,14 +203,123 @@ if (localStorage.getItem("userName")) {
     }
   });
 }
+//<_________________________________ creating folder for notes store _______________________________>
+// let notes_folder = document.getElementById("notes-folder");
+const folderDropdown = document.getElementById("folderSelect");
+const folder_modal = new bootstrap.Modal(
+  document.getElementById("enter-folder")
+);
+const newFolderInput = document.querySelector("#student-folder");
+const addFolderBtn = document.querySelector("#submit-folder");
+
+// const addFolderBtn = document.querySelector("#submit-folder");
+// const noteInput =
+// const addNoteBtn
+// const notesContainer
+
+let data;
+let currentFolder = "general";
+let allNotes = JSON.parse(localStorage.getItem("allNotes")) || {};
+
+const init = () => {
+  data = JSON.parse(localStorage.getItem("allNotes")) || {};
+  let notesData = JSON.parse(localStorage.getItem("notes"));
+
+  // Migrate old format if needed
+  if (Array.isArray(notesData)) {
+    let newNotesData = { general: notesData };
+    localStorage.setItem("notes", JSON.stringify(newNotesData));
+    data.general = newNotesData.general;
+    localStorage.setItem("allNotes", JSON.stringify(data));
+  }
+
+  // // Set default folder
+  // if (!currentFolder) {
+  //   currentFolder = "general"; // or your own logic
+  // }
+
+  // Ensure folder exists
+  if (!data[currentFolder]) data[currentFolder] = [];
+
+  // Save updated structure
+  localStorage.setItem("allNotes", JSON.stringify(data));
+
+  // Update UI
+  updateFolderDropdown(Object.keys(data));
+  currentFolder = folderDropdown.value;
+  console.log(currentFolder);
+
+  displayNotes();
+};
+
+function updateFolderDropdown(folders) {
+  folderDropdown.innerHTML = ""; // clear previous
+  folders.forEach((folder) => {
+    let option = document.createElement("option");
+    option.value = folder;
+    option.textContent = folder;
+    folderDropdown.appendChild(option);
+  });
+}
+
+// folderDropdown.addEventListener("change", () => {});
+folderDropdown.addEventListener("change", () => {
+  currentFolder = folderDropdown.value;
+  console.log(folderDropdown.value);
+  displayNotes();
+});
+
+document.querySelector("#plus-icon").addEventListener("click", () => {
+  folder_modal.show();
+});
+
+addFolderBtn.addEventListener("click", () => {
+  // ✨ Your logic here
+  addFolderBtn.blur();
+  folder_modal.hide();
+  if (newFolderInput.value === null || !newFolderInput.value) {
+    //agar user input na  de
+    // alert("please enter a valid name !");
+    Alert.style.display = "block";
+    Alert.innerHTML = "Kindly enter folder name before proceeding.";
+    Alert.classList.add("alert-danger");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-danger");
+    }, 2500);
+    return;
+  } else {
+    currentFolder = newFolderInput.value;
+    init();
+
+    Alert.style.display = "block";
+    Alert.innerHTML = `${newFolderInput.value} has successfully created.`;
+    Alert.classList.add("alert-success");
+
+    setTimeout(() => {
+      Alert.style.display = "none";
+      Alert.innerHTML = "";
+      Alert.classList.remove("alert-success");
+    }, 1500);
+  }
+  newFolderInput.value = "";
+});
 
 const createNotes = () => {
+  // if (!data || !data[currentFolder]) {
+  //   console.warn("No notes found for current folder:", currentFolder);
+  //   return;
+  // }
+
   class Note {
     constructor(title, content) {
       this.title = title;
       this.content = content;
     }
   }
+
   if (noteTitle.value.trim() === "" || noteContent.value.trim() === "") {
     Alert.style.display = "block";
     Alert.innerHTML = "Kindly enter a title and note before proceeding.";
@@ -216,21 +330,34 @@ const createNotes = () => {
       Alert.innerHTML = "";
       Alert.classList.remove("alert-danger");
     }, 1500);
-  } else {
-    let newNote = new Note(noteTitle.value, noteContent.value);
-    notesArray.push(newNote);
-
-    localStorage.setItem("notes", JSON.stringify(notesArray));
-
-    noteTitle.value = "";
-    noteContent.value = "";
+    return;
   }
+
+  if (!data || !currentFolder || !data[currentFolder]) {
+    Alert.style.display = "block";
+    Alert.innerHTML = "Error: Folder not selected or data missing.";
+    Alert.classList.add("alert-danger");
+    return;
+  }
+
+  let newNote = new Note(noteTitle.value, noteContent.value);
+  data[currentFolder].push(newNote);
+  localStorage.setItem("allNotes", JSON.stringify(data));
+
+  noteTitle.value = "";
+  noteContent.value = "";
 };
 
 const displayNotes = () => {
-  noteContainer.innerHTML = "";
+  if (!data || !data[currentFolder]) {
+    console.warn("No notes found for current folder:", currentFolder);
+    return;
+  }
 
-  for (let i = notesArray.length - 1; i >= 0; i--) {
+  noteContainer.innerHTML = "";
+  let currentArr = data[currentFolder];
+
+  for (let i = currentArr.length - 1; i >= 0; i--) {
     let card = document.createElement("div");
     card.classList.add("card");
     card.id = `note-${i}`;
@@ -249,9 +376,9 @@ const displayNotes = () => {
 
     dltBtn.id = `dlt-btn${i}`;
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
-    dltBtn.innerText = "Delte";
+    dltBtn.innerText = "Delete";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "notes", notesArray, displayNotes);
+      deleteNote(i, "notes", currentArr, displayNotes);
     });
 
     //creating a btn to edit note
@@ -261,7 +388,7 @@ const displayNotes = () => {
     editBtn.classList.add("btn", "btn-info", "mx-2");
     editBtn.innerText = "Edit";
     editBtn.addEventListener("click", () => {
-      for (let i = notesArray.length - 1; i >= 0; i--) {
+      for (let i = currentArr.length - 1; i >= 0; i--) {
         let disableDelBtn = document.getElementById(`dlt-btn${i}`);
         let disableEditBtn = document.getElementById(`edit-btn${i}`);
 
@@ -282,7 +409,7 @@ const displayNotes = () => {
       updateNoteBtn = document.createElement("button");
       updateNoteBtn.innerText = "Save";
       updateNoteBtn.addEventListener("click", () => {
-        for (let i = notesArray.length - 1; i >= 0; i--) {
+        for (let i = currentArr.length - 1; i >= 0; i--) {
           let disableDelBtn = document.getElementById(`dlt-btn${i}`);
           let disableEditBtn = document.getElementById(`edit-btn${i}`);
 
@@ -290,7 +417,7 @@ const displayNotes = () => {
           disableEditBtn.disabled = false;
         }
 
-        updateNote(i, "sticky");
+        updateNote(i, "sticky", currentArr);
       });
       updateNoteBtn.classList.add("btn", "btn-success", "mx-4", "my-4");
 
@@ -302,8 +429,8 @@ const displayNotes = () => {
     card.append(cardBody);
     cardBody.append(cardTitle, cardText, editBtn, dltBtn);
 
-    cardTitle.innerText = notesArray[i].title;
-    cardText.innerText = notesArray[i].content;
+    cardTitle.innerText = currentArr[i].title;
+    cardText.innerText = currentArr[i].content;
   }
 };
 
@@ -314,10 +441,10 @@ const deleteNote = (i, noteType, notesArr, callback) => {
 };
 // also include functionality to update ai Notes
 
-const updateNote = (i, noteType) => {
+const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
-    notesArray[i] = { title: noteTitle.value, content: noteContent.value };
-    localStorage.setItem("notes", JSON.stringify(notesArray));
+    currentArr[i] = { title: noteTitle.value, content: noteContent.value };
+    localStorage.setItem("notes", JSON.stringify(currentArr));
     displayNotes();
 
     updateNoteBtn.remove();
@@ -379,40 +506,6 @@ addnoteBtn.addEventListener("click", (event) => {
   event.preventDefault();
   createNotes();
   displayNotes();
-});
-
-// creating folder functionality - general notes (by mistake in ai section, var is also in this section)
-let notes_folder = document.getElementById("notes-folder");
-const folder_modal = new bootstrap.Modal(
-  document.getElementById("enter-folder")
-);
-let folder_name = document.querySelector("#student-folder");
-const submitFolderBtn = document.querySelector("#submit-folder");
-
-document.querySelector("#plus-icon").addEventListener("click", () => {
-  folder_modal.show();
-  submitFolderBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    submitFolderBtn.blur();
-    folder_modal.hide();
-    // setUserName();
-    if (!folder_name.value) {
-      //agar user input na  de
-      alert("please enter a valid name !");
-    } else {
-      // localStorage.setItem("folders", folder_name.trim());
-
-      const folder = document.createElement("li");
-      const anchor = document.createElement("a");
-      anchor.classList.add("dropdown-item");
-      anchor.innerText = folder_name.value;
-      console.log(folder_name.value);
-      folder.append(anchor);
-
-      notes_folder.append(folder);
-      console.log("successfully created new folder");
-    }
-  });
 });
 
 //<----------------------------  functionality of ai Notes -------------------------------->
@@ -557,9 +650,11 @@ const displayAiNotes = () => {
 };
 
 window.onload = () => {
-  displayNotes();
+  // displayNotes();
+  init();
   displayAiNotes();
-
+  // displayFolder();
+  // defaultFolder();
   if (mode === "light") {
     toggleBtn.checked = false;
     Alert.style.display = "block";
