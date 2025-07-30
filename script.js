@@ -353,7 +353,7 @@ const displayNotes = () => {
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
     dltBtn.innerText = "Delete";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "notes", currentArr, displayNotes);
+      deleteNote(i, "notesData", currentArr, displayNotes);
     });
 
     //creating a btn to edit note
@@ -419,7 +419,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
 const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
     currentArr[i] = { title: noteTitle.value, content: noteContent.value };
-    localStorage.setItem("notes", JSON.stringify(currentArr));
+    localStorage.setItem("notesData", JSON.stringify(currentArr));
     displayNotes();
 
     updateNoteBtn.remove();
