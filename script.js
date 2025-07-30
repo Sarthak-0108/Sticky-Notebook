@@ -77,6 +77,8 @@ const options = document.querySelectorAll("a");
 let standard_drop_down = document.querySelector("#choose-standard");
 let ul = document.querySelectorAll("ul");
 
+const folderDropdown = document.getElementById("folderSelect");
+
 //<-------------------- Dark Mode Functionality ------------------------------->
 
 let track = 0; // if even means light mode else dark mode
@@ -103,6 +105,9 @@ const toggleMode = () => {
   aiNoteContent.classList.toggle("bg-dark");
   aiNoteContent.classList.toggle("bg-gradient");
   aiNoteContent.classList.toggle("text-white");
+
+  folderDropdown.classList.toggle("bg-dark");
+  folderDropdown.classList.toggle("text-white");
 
   ul.forEach((ul) => {
     ul.classList.toggle("bg-dark");
@@ -170,14 +175,7 @@ swapBtn.addEventListener("click", () => {
 //<--------------------  Sticky-Note functionality ----------------------------->
 
 let noteContainer = document.querySelector("#category-general");
-// let notesArray = JSON.parse(localStorage.getItem("notes")) || {};
-// let randomArray = JSON.parse(localStorage.getItem("randomNotes")) || [];
 let updateNoteBtn;
-// let currentArray;
-
-// let availableFolders =
-//   JSON.parse(localStorage.getItem("availableFolders")) || [];
-
 let userName;
 
 function setUserName() {
@@ -204,18 +202,12 @@ if (localStorage.getItem("userName")) {
   });
 }
 //<_________________________________ creating folder for notes store _______________________________>
-// let notes_folder = document.getElementById("notes-folder");
-const folderDropdown = document.getElementById("folderSelect");
+
 const folder_modal = new bootstrap.Modal(
   document.getElementById("enter-folder")
 );
 const newFolderInput = document.querySelector("#student-folder");
 const addFolderBtn = document.querySelector("#submit-folder");
-
-// const addFolderBtn = document.querySelector("#submit-folder");
-// const noteInput =
-// const addNoteBtn
-// const notesContainer
 
 let data;
 let currentFolder = "general";
@@ -225,26 +217,17 @@ const init = () => {
   data = JSON.parse(localStorage.getItem("allNotes")) || {};
   let notesData = JSON.parse(localStorage.getItem("notes"));
 
-  // Migrate old format if needed
+  // Migrate old format data
   if (Array.isArray(notesData)) {
     let newNotesData = { general: notesData };
     localStorage.setItem("notes", JSON.stringify(newNotesData));
     data.general = newNotesData.general;
     localStorage.setItem("allNotes", JSON.stringify(data));
   }
-
-  // // Set default folder
-  // if (!currentFolder) {
-  //   currentFolder = "general"; // or your own logic
-  // }
-
-  // Ensure folder exists
   if (!data[currentFolder]) data[currentFolder] = [];
 
-  // Save updated structure
   localStorage.setItem("allNotes", JSON.stringify(data));
 
-  // Update UI
   updateFolderDropdown(Object.keys(data));
   currentFolder = folderDropdown.value;
   console.log(currentFolder);
@@ -253,7 +236,7 @@ const init = () => {
 };
 
 function updateFolderDropdown(folders) {
-  folderDropdown.innerHTML = ""; // clear previous
+  folderDropdown.innerHTML = "";
   folders.forEach((folder) => {
     let option = document.createElement("option");
     option.value = folder;
@@ -262,7 +245,6 @@ function updateFolderDropdown(folders) {
   });
 }
 
-// folderDropdown.addEventListener("change", () => {});
 folderDropdown.addEventListener("change", () => {
   currentFolder = folderDropdown.value;
   console.log(folderDropdown.value);
@@ -274,12 +256,9 @@ document.querySelector("#plus-icon").addEventListener("click", () => {
 });
 
 addFolderBtn.addEventListener("click", () => {
-  // ✨ Your logic here
   addFolderBtn.blur();
   folder_modal.hide();
   if (newFolderInput.value === null || !newFolderInput.value) {
-    //agar user input na  de
-    // alert("please enter a valid name !");
     Alert.style.display = "block";
     Alert.innerHTML = "Kindly enter folder name before proceeding.";
     Alert.classList.add("alert-danger");
@@ -306,13 +285,9 @@ addFolderBtn.addEventListener("click", () => {
   }
   newFolderInput.value = "";
 });
+// <--------------------------------------  core functionality of sticky note --------------------------------->
 
 const createNotes = () => {
-  // if (!data || !data[currentFolder]) {
-  //   console.warn("No notes found for current folder:", currentFolder);
-  //   return;
-  // }
-
   class Note {
     constructor(title, content) {
       this.title = title;
@@ -332,7 +307,7 @@ const createNotes = () => {
     }, 1500);
     return;
   }
-
+  //future update needed - setTimeOut
   if (!data || !currentFolder || !data[currentFolder]) {
     Alert.style.display = "block";
     Alert.innerHTML = "Error: Folder not selected or data missing.";
@@ -650,11 +625,8 @@ const displayAiNotes = () => {
 };
 
 window.onload = () => {
-  // displayNotes();
   init();
   displayAiNotes();
-  // displayFolder();
-  // defaultFolder();
   if (mode === "light") {
     toggleBtn.checked = false;
     Alert.style.display = "block";
