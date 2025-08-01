@@ -431,7 +431,7 @@ const displayNotes = () => {
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
     dltBtn.innerText = "Delete";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "allNotes", currentArr, displayNotes);
+      deleteNote(i, "allNotes", currentArr, displayNotes, data);
     });
 
     //creating a btn to edit note
@@ -487,9 +487,15 @@ const displayNotes = () => {
   }
 };
 
-const deleteNote = (i, localStorageKey, notesArr, callback) => {
+const deleteNote = (
+  i,
+  localStorageKey,
+  notesArr,
+  callback,
+  localStorageObj
+) => {
   notesArr.splice(i, 1);
-  localStorage.setItem(localStorageKey, JSON.stringify(data));
+  localStorage.setItem(localStorageKey, JSON.stringify(localStorageObj));
   callback();
 };
 // also include functionality to update ai Notes
@@ -643,7 +649,7 @@ const displayAiNotes = () => {
     dltBtn.id = `ai-note-dltBtn-${i}`;
 
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "ai-notes", aiNotesArr, displayAiNotes);
+      deleteNote(i, "ai-notes", aiNotesArr, displayAiNotes, aiNotesArr);
     });
 
     let editBtn = document.createElement("button");
