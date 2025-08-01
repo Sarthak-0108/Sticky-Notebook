@@ -213,6 +213,11 @@ let data;
 let currentFolder = "general";
 let allNotes = JSON.parse(localStorage.getItem("allNotes")) || {};
 
+let folderMangeModal = new bootstrap.Modal(
+  document.querySelector("#folderManagementModal")
+);
+let folderList = document.querySelector("#folderList");
+
 const init = () => {
   data = JSON.parse(localStorage.getItem("allNotes")) || {};
   let notesData = JSON.parse(localStorage.getItem("notes"));
@@ -227,10 +232,12 @@ const init = () => {
   if (!data[currentFolder]) data[currentFolder] = [];
 
   localStorage.setItem("allNotes", JSON.stringify(data));
-
-  updateFolderDropdown(Object.keys(data));
+  let folderArr = Object.keys(data);
+  // console.log(folderArr);
+  updateFolderDropdown(folderArr);
+  // folderManagement(folderArr);
   currentFolder = folderDropdown.value;
-  console.log(currentFolder);
+  // console.log(currentFolder);
 
   displayNotes();
 };
@@ -245,10 +252,70 @@ function updateFolderDropdown(folders) {
   });
 }
 
+let count = 0;
+
+const folderManagement = (folder) => {
+  folder.forEach((folder) => {
+    count += 1;
+    let list = document.createElement("li");
+    list.classList.add(
+      "list-group-item",
+      "d-flex",
+      "justify-content-between",
+      "align-items-center"
+    );
+    list.id = `list-${count}`;
+
+    let folderName = document.createElement("span");
+    folderName.contentEditable = true;
+    folderName.classList.add("folder-name");
+    folderName.innerText = folder;
+
+    let btnContainer = document.createElement("div");
+
+    let editFolderBtn = document.createElement("button");
+    editFolderBtn.onClick = () => {
+      // folderList.remove();'
+      if (localStorage.getItem("habits")) {
+        let delteData = localStorage.getItem("habits");
+        console.log(delteData);
+        alert(delteData);
+      } else {
+        console.warn("this folder does not exist");
+      }
+    };
+    editFolderBtn.innerText = "✏️ Edit";
+    editFolderBtn.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-primary",
+      "me-2",
+      "edit-folder"
+    );
+
+    let dltFolderBtn = document.createElement("button");
+    dltFolderBtn.innerText = "🗑️ Delete";
+    dltFolderBtn.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-danger",
+      "delete-folder"
+    );
+
+    folderList.append(list);
+    list.append(folderName, btnContainer);
+    btnContainer.append(editFolderBtn, dltFolderBtn);
+  });
+};
+
 folderDropdown.addEventListener("change", () => {
   currentFolder = folderDropdown.value;
   console.log(folderDropdown.value);
-  displayNotes();
+  if (currentFolder === "folder-management") {
+    folderMangeModal.show();
+  } else {
+    displayNotes();
+  }
 });
 
 document.querySelector("#plus-icon").addEventListener("click", () => {
@@ -353,7 +420,7 @@ const displayNotes = () => {
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
     dltBtn.innerText = "Delete";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "notesData", currentArr, displayNotes);
+      deleteNote(i, "allNotes", currentArr, displayNotes);
     });
 
     //creating a btn to edit note
@@ -409,9 +476,9 @@ const displayNotes = () => {
   }
 };
 
-const deleteNote = (i, noteType, notesArr, callback) => {
+const deleteNote = (i, localStorageKey, notesArr, callback) => {
   notesArr.splice(i, 1);
-  localStorage.setItem(noteType, JSON.stringify(notesArr));
+  localStorage.setItem(localStorageKey, JSON.stringify(data));
   callback();
 };
 // also include functionality to update ai Notes
@@ -419,7 +486,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
 const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
     currentArr[i] = { title: noteTitle.value, content: noteContent.value };
-    localStorage.setItem("notesData", JSON.stringify(currentArr));
+    localStorage.setItem("allNotes", JSON.stringify(data));
     displayNotes();
 
     updateNoteBtn.remove();
