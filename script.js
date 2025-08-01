@@ -210,7 +210,7 @@ const newFolderInput = document.querySelector("#student-folder");
 const addFolderBtn = document.querySelector("#submit-folder");
 
 let data;
-let currentFolder = "folder-management";
+let currentFolder = "general";
 let allNotes = JSON.parse(localStorage.getItem("allNotes")) || {};
 
 let folderMangeModal = new bootstrap.Modal(
@@ -233,10 +233,11 @@ const init = () => {
 
   localStorage.setItem("allNotes", JSON.stringify(data));
   let folderArr = Object.keys(data);
+  // console.log(folderArr);
   updateFolderDropdown(folderArr);
-  folderManagement(folderArr);
+  // folderManagement(folderArr);
   currentFolder = folderDropdown.value;
-  console.log(currentFolder);
+  // console.log(currentFolder);
 
   displayNotes();
 };
@@ -419,7 +420,7 @@ const displayNotes = () => {
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
     dltBtn.innerText = "Delete";
     dltBtn.addEventListener("click", () => {
-      deleteNote(i, "notesData", currentArr, displayNotes);
+      deleteNote(i, "allNotes", currentArr, displayNotes);
     });
 
     //creating a btn to edit note
@@ -475,9 +476,9 @@ const displayNotes = () => {
   }
 };
 
-const deleteNote = (i, noteType, notesArr, callback) => {
+const deleteNote = (i, localStorageKey, notesArr, callback) => {
   notesArr.splice(i, 1);
-  localStorage.setItem(noteType, JSON.stringify(notesArr));
+  localStorage.setItem(localStorageKey, JSON.stringify(data));
   callback();
 };
 // also include functionality to update ai Notes
@@ -485,7 +486,7 @@ const deleteNote = (i, noteType, notesArr, callback) => {
 const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
     currentArr[i] = { title: noteTitle.value, content: noteContent.value };
-    localStorage.setItem("notesData", JSON.stringify(currentArr));
+    localStorage.setItem("allNotes", JSON.stringify(data));
     displayNotes();
 
     updateNoteBtn.remove();
