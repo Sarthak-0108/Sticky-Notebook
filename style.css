@@ -45,6 +45,12 @@ body {
   color: #333;
 }
 
+.close-icon {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
 #installBtn {
   background-color: #ff9900;
   color: white;

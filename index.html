@@ -98,6 +98,11 @@
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
     <link rel="stylesheet" href="style.css" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
@@ -152,10 +157,7 @@
           <span class="navbar-brand mb-0 h1" id="navbar-branding"
             ><bold>Your Notebook</bold>
           </span>
-          <div
-            class="form-check form-switch"
-            style="display: flex; align-items: center; gap: 3.5rem"
-          >
+          <div class="form-check form-switch close-icon">
             <div class="swap"></div>
             <input
               class="form-check-input"
@@ -218,14 +220,25 @@
               <!-- <option value="General" selected>General</option> -->
             </select>
           </div>
+          <!-- <button id="manage-folder" class="mx-2"></button> -->
+          <div class="close-icon mx-2" style="gap: 0">
+            <button
+              id="manageFoldersBtn"
+              class="btn btn-outline-secondary"
+              title="Manage Folders"
+              style="border: none; font-size: 1.5rem"
+            >
+              📁
+            </button>
 
-          <button
-            id="plus-icon"
-            class="dismiss mx-2"
-            style="border: 2px solid #0dcaf0; border-radius: 12px"
-          >
-            <img src="plus.webp" style="width: 2rem; height: 2rem" />
-          </button>
+            <button
+              id="plus-icon"
+              class="dismiss"
+              style="border: 2px solid #0dcaf0; border-radius: 12px"
+            >
+              <img src="plus.webp" style="width: 2rem; height: 2rem" />
+            </button>
+          </div>
         </div>
 
         <form class="mb-2 mt-2">
@@ -391,21 +404,6 @@
           <div class="modal-body">
             <ul class="list-group" id="folderList">
               <!-- Dynamic Folder Items Will Be Injected Here -->
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
-                <span contenteditable="true" class="folder-name">Work</span>
-                <div>
-                  <button
-                    class="btn btn-sm btn-outline-primary me-2 edit-folder"
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger delete-folder">
-                    🗑️ Delete
-                  </button>
-                </div>
-              </li>
             </ul>
           </div>
         </div>

@@ -217,6 +217,7 @@ let folderMangeModal = new bootstrap.Modal(
   document.querySelector("#folderManagementModal")
 );
 let folderList = document.querySelector("#folderList");
+let folderManageIcon = document.querySelector("#manageFoldersBtn");
 
 const init = () => {
   data = JSON.parse(localStorage.getItem("allNotes")) || {};
@@ -229,16 +230,17 @@ const init = () => {
     data.general = newNotesData.general;
     localStorage.setItem("allNotes", JSON.stringify(data));
   }
+  if (!currentFolder) {
+    currentFolder = "general";
+    console.log("abhi wala hu" + currentFolder);
+  }
+  console.log(currentFolder);
   if (!data[currentFolder]) data[currentFolder] = [];
 
   localStorage.setItem("allNotes", JSON.stringify(data));
   let folderArr = Object.keys(data);
-  // console.log(folderArr);
   updateFolderDropdown(folderArr);
-  // folderManagement(folderArr);
   currentFolder = folderDropdown.value;
-  // console.log(currentFolder);
-
   displayNotes();
 };
 
@@ -246,17 +248,15 @@ function updateFolderDropdown(folders) {
   folderDropdown.innerHTML = "";
   folders.forEach((folder) => {
     let option = document.createElement("option");
+    option.id = `option-${folder}`;
     option.value = folder;
     option.textContent = folder;
     folderDropdown.appendChild(option);
   });
 }
 
-let count = 0;
-
 const folderManagement = (folder) => {
   folder.forEach((folder) => {
-    count += 1;
     let list = document.createElement("li");
     list.classList.add(
       "list-group-item",
@@ -264,7 +264,7 @@ const folderManagement = (folder) => {
       "justify-content-between",
       "align-items-center"
     );
-    list.id = `list-${count}`;
+    list.id = `list-${folder}`;
 
     let folderName = document.createElement("span");
     folderName.contentEditable = true;
@@ -274,16 +274,9 @@ const folderManagement = (folder) => {
     let btnContainer = document.createElement("div");
 
     let editFolderBtn = document.createElement("button");
-    editFolderBtn.onClick = () => {
-      // folderList.remove();'
-      if (localStorage.getItem("habits")) {
-        let delteData = localStorage.getItem("habits");
-        console.log(delteData);
-        alert(delteData);
-      } else {
-        console.warn("this folder does not exist");
-      }
-    };
+    // editFolderBtn.onclick = (folder) => {
+    //   alert("we are working on this feature.")
+    // };
     editFolderBtn.innerText = "✏️ Edit";
     editFolderBtn.classList.add(
       "btn",
@@ -301,6 +294,22 @@ const folderManagement = (folder) => {
       "btn-outline-danger",
       "delete-folder"
     );
+    dltFolderBtn.onclick = () => {
+      console.log(folder);
+      if (data[folder]) {
+        let deleteData = data[folder];
+        delete data[folder];
+        localStorage.setItem("allNotes", JSON.stringify(data));
+
+        document.getElementById(`list-${folder}`).remove();
+        currentFolder = null;
+        init();
+        displayNotes();
+        console.log(deleteData);
+      } else {
+        console.warn("this folder does not exist");
+      }
+    };
 
     folderList.append(list);
     list.append(folderName, btnContainer);
@@ -310,13 +319,15 @@ const folderManagement = (folder) => {
 
 folderDropdown.addEventListener("change", () => {
   currentFolder = folderDropdown.value;
-  console.log(folderDropdown.value);
-  if (currentFolder === "folder-management") {
-    folderMangeModal.show();
-  } else {
-    displayNotes();
-  }
+  displayNotes();
 });
+
+folderManageIcon.onclick = () => {
+  folderList.innerHTML = "";
+  console.log("i am working");
+  folderManagement(Object.keys(data));
+  folderMangeModal.show();
+};
 
 document.querySelector("#plus-icon").addEventListener("click", () => {
   folder_modal.show();
