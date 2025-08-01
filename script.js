@@ -627,8 +627,15 @@ const createAiNotes = (title, note) => {
 };
 
 const displayAiNotes = () => {
-  aiNotesContainer.innerHTML = "";
+  let crptedAiNotes = JSON.parse(localStorage.getItem("ai-notes"));
+  if (crptedAiNotes && !Array.isArray(crptedAiNotes)) {
+    localStorage.removeItem("ai-notes");
+    console.warn("Corrupted ai-notes detected. Resetting to fix format...");
+    alert("we are so sorry for loss of your data!");
+    location.reload();
+  }
 
+  aiNotesContainer.innerHTML = "";
   for (let i = aiNotesArr.length - 1; i >= 0; i--) {
     let card = document.createElement("div");
     card.classList.add("card");
