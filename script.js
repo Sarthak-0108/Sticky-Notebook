@@ -295,19 +295,23 @@ const folderManagement = (folder) => {
       "delete-folder"
     );
     dltFolderBtn.onclick = () => {
-      console.log(folder);
-      if (data[folder]) {
-        let deleteData = data[folder];
-        delete data[folder];
-        localStorage.setItem("allNotes", JSON.stringify(data));
+      let userResponse = confirm(
+        "Are you sure you want to delete this folder?"
+      );
+      if (userResponse === true) {
+        if (data[folder]) {
+          let deleteData = data[folder];
+          delete data[folder];
+          localStorage.setItem("allNotes", JSON.stringify(data));
 
-        document.getElementById(`list-${folder}`).remove();
-        currentFolder = null;
-        init();
-        displayNotes();
-        console.log(deleteData);
-      } else {
-        console.warn("this folder does not exist");
+          document.getElementById(`list-${folder}`).remove();
+          currentFolder = null;
+          init();
+          displayNotes();
+          console.log(deleteData);
+        } else {
+          console.warn("this folder does not exist");
+        }
       }
     };
 
