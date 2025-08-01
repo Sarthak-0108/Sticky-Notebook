@@ -210,8 +210,13 @@ const newFolderInput = document.querySelector("#student-folder");
 const addFolderBtn = document.querySelector("#submit-folder");
 
 let data;
-let currentFolder = "general";
+let currentFolder = "folder-management";
 let allNotes = JSON.parse(localStorage.getItem("allNotes")) || {};
+
+let folderMangeModal = new bootstrap.Modal(
+  document.querySelector("#folderManagementModal")
+);
+let folderList = document.querySelector("#folderList");
 
 const init = () => {
   data = JSON.parse(localStorage.getItem("allNotes")) || {};
@@ -227,8 +232,9 @@ const init = () => {
   if (!data[currentFolder]) data[currentFolder] = [];
 
   localStorage.setItem("allNotes", JSON.stringify(data));
-
-  updateFolderDropdown(Object.keys(data));
+  let folderArr = Object.keys(data);
+  updateFolderDropdown(folderArr);
+  folderManagement(folderArr);
   currentFolder = folderDropdown.value;
   console.log(currentFolder);
 
@@ -245,10 +251,70 @@ function updateFolderDropdown(folders) {
   });
 }
 
+let count = 0;
+
+const folderManagement = (folder) => {
+  folder.forEach((folder) => {
+    count += 1;
+    let list = document.createElement("li");
+    list.classList.add(
+      "list-group-item",
+      "d-flex",
+      "justify-content-between",
+      "align-items-center"
+    );
+    list.id = `list-${count}`;
+
+    let folderName = document.createElement("span");
+    folderName.contentEditable = true;
+    folderName.classList.add("folder-name");
+    folderName.innerText = folder;
+
+    let btnContainer = document.createElement("div");
+
+    let editFolderBtn = document.createElement("button");
+    editFolderBtn.onClick = () => {
+      // folderList.remove();'
+      if (localStorage.getItem("habits")) {
+        let delteData = localStorage.getItem("habits");
+        console.log(delteData);
+        alert(delteData);
+      } else {
+        console.warn("this folder does not exist");
+      }
+    };
+    editFolderBtn.innerText = "✏️ Edit";
+    editFolderBtn.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-primary",
+      "me-2",
+      "edit-folder"
+    );
+
+    let dltFolderBtn = document.createElement("button");
+    dltFolderBtn.innerText = "🗑️ Delete";
+    dltFolderBtn.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-danger",
+      "delete-folder"
+    );
+
+    folderList.append(list);
+    list.append(folderName, btnContainer);
+    btnContainer.append(editFolderBtn, dltFolderBtn);
+  });
+};
+
 folderDropdown.addEventListener("change", () => {
   currentFolder = folderDropdown.value;
   console.log(folderDropdown.value);
-  displayNotes();
+  if (currentFolder === "folder-management") {
+    folderMangeModal.show();
+  } else {
+    displayNotes();
+  }
 });
 
 document.querySelector("#plus-icon").addEventListener("click", () => {
