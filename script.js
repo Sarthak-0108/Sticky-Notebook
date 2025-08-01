@@ -631,7 +631,7 @@ const displayAiNotes = () => {
   if (crptedAiNotes && !Array.isArray(crptedAiNotes)) {
     localStorage.removeItem("ai-notes");
     console.warn("Corrupted ai-notes detected. Resetting to fix format...");
-    alert("we are so sorry for loss of your data!");
+    alert("we are so sorry for loss of your ai generated notes!");
     location.reload();
   }
 
