@@ -160,7 +160,8 @@ toggleBtn.addEventListener("click", () => {
 
 //<--------------------  Swap functionality General To AI ---------------------->
 
-stickyNotes.hidden = false;
+// stickyNotes.hidden = ture;
+// aiNotes.hidden = false;
 
 swapBtn.addEventListener("click", () => {
   if (stickyNotes.hidden === false) {
