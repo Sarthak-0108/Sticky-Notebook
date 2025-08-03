@@ -435,6 +435,12 @@ const displayNotes = () => {
     let cardText = document.createElement("p");
     cardText.classList.add("card-text", "sticky-content");
 
+    let badgeContainer = document.createElement("div");
+    badgeContainer.classList.add("badge-container");
+
+    let brand = document.createElement("div");
+    brand.classList.add("brand");
+
     let serialBadge = document.createElement("span");
     serialBadge.classList.add("serial-badge");
     serialBadge.innerText = index;
@@ -500,16 +506,9 @@ const displayNotes = () => {
     });
 
     noteContainer.append(card);
-    card.append(cardBody);
-    cardBody.append(
-      noteDate,
-      serialBadge,
-      cardTitle,
-      cardText,
-      editBtn,
-      dltBtn
-    );
-
+    card.append(badgeContainer, cardBody);
+    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
+    badgeContainer.append(brand, serialBadge);
     cardTitle.innerText = currentArr[i].title;
     cardText.innerText = currentArr[i].content;
   }
