@@ -794,7 +794,7 @@ generatBtn.addEventListener("click", () => {
       break;
   }
 
-  fetch("https://sticky-note-backend.onrender.com/generate-note", {
+  fetch("http://localhost:5000/generate-note", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),

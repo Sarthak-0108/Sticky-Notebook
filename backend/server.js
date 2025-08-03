@@ -7,8 +7,8 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
-const COHERE_API_KEY = process.env.COHERE_API_KEY;
+console.log(process.env.COHERE_API_KEY);
+// const COHERE_API_KEY = process.env.COHERE_API_KEY;
 app.post("/generate-note", async (req, res) => {
   const { prompt } = req.body;
 
