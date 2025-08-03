@@ -3,12 +3,41 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { GoogleGenAI } from "@google/genai";
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-console.log(process.env.COHERE_API_KEY);
-// const COHERE_API_KEY = process.env.COHERE_API_KEY;
+
+// Google Gemini Setup
+console.log(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
+
+// Route
+app.post("/gemini-note", async (req, res) => {
+  // return res.status(403).json({ error: "Gemini quota exceeded" });
+  const { prompt } = req.body;
+
+  if (!prompt) {
+    return res.status(400).json({ error: "Prompt is required" });
+  }
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    res.json({ text: response.text });
+
+    console.log(response);
+    console.log(response.text);
+  } catch (error) {
+    console.error("Error generating content:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const COHERE_API_KEY = process.env.COHERE_API_KEY;
 app.post("/generate-note", async (req, res) => {
   const { prompt } = req.body;
 
