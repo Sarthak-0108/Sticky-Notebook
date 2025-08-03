@@ -105,6 +105,16 @@ form,
   /* width: 80vw; */
 }
 
+.serial-badge {
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #0d6efd;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
 #noteContent {
   /* margin: 1rem 1rem; */
   /* width: 80vw; */

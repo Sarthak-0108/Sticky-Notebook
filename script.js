@@ -357,7 +357,7 @@ addFolderBtn.addEventListener("click", () => {
     init();
 
     Alert.style.display = "block";
-    Alert.innerHTML = `${newFolderInput.value} has successfully created.`;
+    Alert.innerHTML = `${newFolderInput.value} folder has successfully created.`;
     Alert.classList.add("alert-success");
 
     setTimeout(() => {
@@ -429,6 +429,13 @@ const displayNotes = () => {
     let cardText = document.createElement("p");
     cardText.classList.add("card-text");
 
+    let badgeContainer = document.createElement("div");
+    badgeContainer.classList.add("d-flex", "align-items-start");
+
+    let serialBadge = document.createElement("span");
+    serialBadge.classList.add("serial-badge");
+    serialBadge.innerText = i;
+
     //creating a button to delete note
     let dltBtn = document.createElement("button");
 
@@ -485,7 +492,8 @@ const displayNotes = () => {
 
     noteContainer.append(card);
     card.append(cardBody);
-    cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+    cardBody.append(badgeContainer, cardTitle, cardText, editBtn, dltBtn);
+    badgeContainer.append(serialBadge);
 
     cardTitle.innerText = currentArr[i].title;
     cardText.innerText = currentArr[i].content;
