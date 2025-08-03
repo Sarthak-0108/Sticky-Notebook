@@ -430,10 +430,10 @@ const displayNotes = () => {
     cardBody.classList.add("card-body", "mx-4");
 
     let cardTitle = document.createElement("h5");
-    cardTitle.classList.add("card-title", "sticky-title");
+    cardTitle.classList.add("card-title");
 
     let cardText = document.createElement("p");
-    cardText.classList.add("card-text", "sticky-content");
+    cardText.classList.add("card-text");
 
     let badgeContainer = document.createElement("div");
     badgeContainer.classList.add("badge-container");
