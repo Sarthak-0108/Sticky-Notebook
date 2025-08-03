@@ -748,8 +748,40 @@ window.onload = () => {
     toggleBtn.checked = true;
   }
 };
+function isHinglish(input) {
+  const hindiWords = [
+    "hai",
+    "kya",
+    "kaise",
+    "kyunki",
+    "batao",
+    "ke liye",
+    "karna",
+    "chahiye",
+    "kab",
+    "kaha",
+    "kitne",
+    "kitna",
+    "kiska",
+    "kiske",
+    "kise",
+    "tha",
+    "thi",
+    "hoga",
+    "hogi",
+    "honge",
+    "kon",
+    "kisne",
+    "hui",
+    "ki",
+  ];
+  console.log(hindiWords.some((word) => input.toLowerCase().includes(word)));
+  return hindiWords.some((word) => input.toLowerCase().includes(word));
+}
+let currentRoute;
 
 generatBtn.addEventListener("click", () => {
+  currentRoute = "https://sticky-note-backend.onrender.com/generate-note";
   if (!noteTopic.value || noteTopic.value === "") {
     console.log("invalid input");
 
@@ -793,12 +825,25 @@ generatBtn.addEventListener("click", () => {
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
   }
+  if (isHinglish(prompt))
+    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
 
-  fetch("https://sticky-note-backend.onrender.com/generate-note", {
+  fetch(currentRoute, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
   })
+    .then(async (res) => {
+      if (!res.ok) {
+        console.warn("⚠️ Gemini failed. Switching to Cohere...");
+        return fetch("https://sticky-note-backend.onrender.com/generate-note", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt }),
+        });
+      }
+      return res;
+    })
     .then((res) => res.json())
     .then((data) => {
       console.log("🟨 Sticky Note:", data.text);
