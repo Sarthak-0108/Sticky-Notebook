@@ -100,17 +100,6 @@ form,
   gap: 40px;
 }
 
-/* #note-title {
-  margin: 1rem 1rem; */
-/* width: 80vw;
-} */
-
-.sticky-title {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #333;
-}
-
 .brand {
   font-size: 1.1rem;
   font-weight: bold;
@@ -151,10 +140,6 @@ form,
 #noteContent {
   height: 6rem;
 }
-.sticky-content {
-  font-size: 0.95rem;
-  color: #555;
-}
 .card {
   transition: transform 0.2s ease;
 }
@@ -166,10 +151,6 @@ form,
 #aiNote-container {
   height: 10rem;
 }
-
-/* #dropdownMenuButton {
-  margin-left: 70%;
-} */
 
 #add-note {
   margin: 1.5rem;
@@ -225,4 +206,3 @@ form,
   background-size: contain;
   background-repeat: no-repeat;
 }
-
