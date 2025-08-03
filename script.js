@@ -357,7 +357,7 @@ addFolderBtn.addEventListener("click", () => {
     init();
 
     Alert.style.display = "block";
-    Alert.innerHTML = `${newFolderInput.value} has successfully created.`;
+    Alert.innerHTML = `${newFolderInput.value} folder has successfully created.`;
     Alert.classList.add("alert-success");
 
     setTimeout(() => {
@@ -372,9 +372,10 @@ addFolderBtn.addEventListener("click", () => {
 
 const createNotes = () => {
   class Note {
-    constructor(title, content) {
+    constructor(title, content, date) {
       this.title = title;
       this.content = content;
+      this.date = date;
     }
   }
 
@@ -397,8 +398,11 @@ const createNotes = () => {
     Alert.classList.add("alert-danger");
     return;
   }
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleDateString("en-GB");
+  console.log(formattedDate);
 
-  let newNote = new Note(noteTitle.value, noteContent.value);
+  let newNote = new Note(noteTitle.value, noteContent.value, formattedDate);
   data[currentFolder].push(newNote);
   localStorage.setItem("allNotes", JSON.stringify(data));
 
@@ -411,11 +415,13 @@ const displayNotes = () => {
     console.warn("No notes found for current folder:", currentFolder);
     return;
   }
+  let index = 0;
 
   noteContainer.innerHTML = "";
   let currentArr = data[currentFolder];
 
   for (let i = currentArr.length - 1; i >= 0; i--) {
+    index++;
     let card = document.createElement("div");
     card.classList.add("card");
     card.id = `note-${i}`;
@@ -424,10 +430,20 @@ const displayNotes = () => {
     cardBody.classList.add("card-body", "mx-4");
 
     let cardTitle = document.createElement("h5");
-    cardTitle.classList.add("card-title");
+    cardTitle.classList.add("card-title", "sticky-title");
 
     let cardText = document.createElement("p");
-    cardText.classList.add("card-text");
+    cardText.classList.add("card-text", "sticky-content");
+
+    let serialBadge = document.createElement("span");
+    serialBadge.classList.add("serial-badge");
+    serialBadge.innerText = index;
+
+    let noteDate = document.createElement("span");
+    if (currentArr[i].date) {
+      noteDate.classList.add("note-date");
+      noteDate.innerText = currentArr[i].date;
+    }
 
     //creating a button to delete note
     let dltBtn = document.createElement("button");
@@ -485,7 +501,14 @@ const displayNotes = () => {
 
     noteContainer.append(card);
     card.append(cardBody);
-    cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+    cardBody.append(
+      noteDate,
+      serialBadge,
+      cardTitle,
+      cardText,
+      editBtn,
+      dltBtn
+    );
 
     cardTitle.innerText = currentArr[i].title;
     cardText.innerText = currentArr[i].content;
@@ -507,7 +530,11 @@ const deleteNote = (
 
 const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
-    currentArr[i] = { title: noteTitle.value, content: noteContent.value };
+    currentArr[i] = {
+      title: noteTitle.value,
+      content: noteContent.value,
+      date: currentArr[i].date,
+    };
     localStorage.setItem("allNotes", JSON.stringify(data));
     displayNotes();
 
