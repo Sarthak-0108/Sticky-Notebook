@@ -187,7 +187,7 @@ function setUserName() {
 
 if (localStorage.getItem("userName")) {
   userName = localStorage.getItem("userName");
-  navbarBranding.innerHTML = `${userName}'s Notebook`;
+  navbarBranding.innerHTML = `${userName}'s Pibook`;
 } else {
   myModal.show();
   submitNameBtn.addEventListener("click", () => {
@@ -195,9 +195,9 @@ if (localStorage.getItem("userName")) {
     setUserName();
     if (userName === null || !userName) {
       //agar user input na  de
-      navbarBranding.innerHTML = `Your Notebook`;
+      navbarBranding.innerHTML = `Your Pibook`;
     } else {
-      navbarBranding.innerHTML = `${userName}'s Notebook`;
+      navbarBranding.innerHTML = `${userName}'s Pibook`;
       localStorage.setItem("userName", userName.trim());
     }
   });
@@ -369,6 +369,8 @@ addFolderBtn.addEventListener("click", () => {
   newFolderInput.value = "";
 });
 // <--------------------------------------  core functionality of sticky note --------------------------------->
+const currentDate = new Date();
+const formattedDate = currentDate.toLocaleDateString("en-GB");
 
 const createNotes = () => {
   class Note {
@@ -398,8 +400,6 @@ const createNotes = () => {
     Alert.classList.add("alert-danger");
     return;
   }
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-GB");
   console.log(formattedDate);
 
   let newNote = new Note(noteTitle.value, noteContent.value, formattedDate);
@@ -529,11 +529,18 @@ const deleteNote = (
 
 const updateNote = (i, noteType, currentArr) => {
   if (noteType === "sticky") {
-    currentArr[i] = {
-      title: noteTitle.value,
-      content: noteContent.value,
-      date: currentArr[i].date,
-    };
+    if (currentArr[i].date) {
+      currentArr[i] = {
+        title: noteTitle.value,
+        content: noteContent.value,
+        date: currentArr[i].date,
+      };
+    } else {
+      currentArr[i] = {
+        title: noteTitle.value,
+        content: noteContent.value,
+      };
+    }
     localStorage.setItem("allNotes", JSON.stringify(data));
     displayNotes();
 
@@ -559,7 +566,15 @@ const updateNote = (i, noteType, currentArr) => {
     noteTitle.value = "";
     noteContent.value = "";
   } else {
-    aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContent.value };
+    if (aiNotesArr[i].date) {
+      aiNotesArr[i] = {
+        title: noteTopic.value,
+        note: aiNoteContent.value,
+        date: aiNotesArr[i].date,
+      };
+    } else {
+      aiNotesArr[i] = { title: noteTopic.value, note: aiNoteContent.value };
+    }
     localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
     displayAiNotes();
 
@@ -646,18 +661,21 @@ document.querySelector("#Twelfth").addEventListener("click", () => {
 
 const createAiNotes = (title, note) => {
   class AiNotes {
-    constructor(title, note) {
-      (this.title = title), (this.note = note);
+    constructor(title, note, date) {
+      this.title = title;
+      this.note = note;
+      this.date = date;
     }
   }
 
-  const newNote = new AiNotes(title, note);
+  const newNote = new AiNotes(title, note, formattedDate);
   aiNotesArr.push(newNote);
   localStorage.setItem("ai-notes", JSON.stringify(aiNotesArr));
   noteTopic.value = "";
 };
 
 const displayAiNotes = () => {
+  let index = 0;
   let crptedAiNotes = JSON.parse(localStorage.getItem("ai-notes"));
   if (crptedAiNotes && !Array.isArray(crptedAiNotes)) {
     localStorage.removeItem("ai-notes");
@@ -668,6 +686,7 @@ const displayAiNotes = () => {
 
   aiNotesContainer.innerHTML = "";
   for (let i = aiNotesArr.length - 1; i >= 0; i--) {
+    index++;
     let card = document.createElement("div");
     card.classList.add("card");
     card.id = `ai-note-${i}`;
@@ -680,6 +699,22 @@ const displayAiNotes = () => {
 
     let cardText = document.createElement("p");
     cardText.classList.add("card-text");
+
+    let badgeContainer = document.createElement("div");
+    badgeContainer.classList.add("badge-container");
+
+    let brand = document.createElement("div");
+    brand.classList.add("brand");
+
+    let serialBadge = document.createElement("span");
+    serialBadge.classList.add("serial-badge");
+    serialBadge.innerText = index;
+
+    let noteDate = document.createElement("span");
+    if (aiNotesArr[i].date) {
+      noteDate.classList.add("note-date");
+      noteDate.innerText = aiNotesArr[i].date;
+    }
 
     let dltBtn = document.createElement("button");
     dltBtn.classList.add("btn", "btn-danger", "mx-2");
@@ -751,8 +786,9 @@ const displayAiNotes = () => {
     cardText.innerText = aiNotesArr[i].note;
 
     aiNotesContainer.append(card);
-    card.append(cardBody);
-    cardBody.append(cardTitle, cardText, editBtn, dltBtn);
+    card.append(badgeContainer, cardBody);
+    badgeContainer.append(brand, serialBadge);
+    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
   }
 };
 
