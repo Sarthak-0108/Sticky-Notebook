@@ -810,14 +810,12 @@ window.onload = () => {
     toggleBtn.checked = true;
   }
 };
-function isHinglish(input) {
+function isHinglish(args) {
   const hindiWords = [
-    "hai",
     "kya",
     "kaise",
     "kyunki",
     "batao",
-    "ke liye",
     "karna",
     "chahiye",
     "kab",
@@ -834,11 +832,27 @@ function isHinglish(input) {
     "honge",
     "kon",
     "kisne",
+    "kis",
     "hui",
-    "ki",
+    "nahi",
+    "kaun",
+    "kaunsa",
+    "kaunsi",
+    "kaunse",
+    "aap",
+    "tum",
+    "mujhe",
+    "hum",
+    "inka",
+    "unka",
+    "tumhara",
+    "mera",
+    "yaha",
+    "waha",
+    "ke",
   ];
-  console.log(hindiWords.some((word) => input.toLowerCase().includes(word)));
-  return hindiWords.some((word) => input.toLowerCase().includes(word));
+  const regex = new RegExp(`\\b(${hindiWords.join("|")})\\b`, "i");
+  return regex.test(args);
 }
 let currentRoute;
 
@@ -887,8 +901,9 @@ generatBtn.addEventListener("click", () => {
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
   }
-  if (isHinglish(prompt))
+  if (isHinglish(prompt)) {
     currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
+  }
 
   fetch(currentRoute, {
     method: "POST",
