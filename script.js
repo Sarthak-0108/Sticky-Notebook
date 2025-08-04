@@ -445,6 +445,14 @@ const displayNotes = () => {
     serialBadge.classList.add("serial-badge");
     serialBadge.innerText = index;
 
+    let downloadBtn = document.createElement("button");
+    downloadBtn.classList.add("btn", "btn-outline-secondary", "download-note");
+    downloadBtn.innerText = "⬇️";
+
+    downloadBtn.onclick = () => {
+      downloadNoteAsImage(`note-${i}`);
+    };
+
     let noteDate = document.createElement("span");
     if (currentArr[i].date) {
       noteDate.classList.add("note-date");
@@ -506,13 +514,24 @@ const displayNotes = () => {
     });
 
     noteContainer.append(card);
-    card.append(badgeContainer, cardBody);
+    card.append(badgeContainer, downloadBtn, cardBody);
     cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
     badgeContainer.append(brand, serialBadge);
     cardTitle.innerText = currentArr[i].title;
     cardText.innerText = currentArr[i].content;
   }
 };
+
+function downloadNoteAsImage(noteId) {
+  const noteElement = document.getElementById(noteId);
+
+  html2canvas(noteElement).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = `${noteId}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
 
 const deleteNote = (
   i,
@@ -710,6 +729,14 @@ const displayAiNotes = () => {
     serialBadge.classList.add("serial-badge");
     serialBadge.innerText = index;
 
+    let downloadBtn = document.createElement("button");
+    downloadBtn.classList.add("btn", "btn-outline-secondary", "download-note");
+    downloadBtn.innerText = "⬇️";
+
+    downloadBtn.onclick = () => {
+      downloadNoteAsImage(`ai-note-${i}`);
+    };
+
     let noteDate = document.createElement("span");
     if (aiNotesArr[i].date) {
       noteDate.classList.add("note-date");
@@ -786,7 +813,7 @@ const displayAiNotes = () => {
     cardText.innerText = aiNotesArr[i].note;
 
     aiNotesContainer.append(card);
-    card.append(badgeContainer, cardBody);
+    card.append(badgeContainer, downloadBtn, cardBody);
     badgeContainer.append(brand, serialBadge);
     cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
   }
@@ -852,7 +879,9 @@ function isHinglish(args) {
     "ke",
   ];
   const regex = new RegExp(`\\b(${hindiWords.join("|")})\\b`, "i");
-  return regex.test(args);
+  const hasDevanagariChars = /[\u0900-\u097F]/.test(args);
+
+  return regex.test(args) || hasDevanagariChars;
 }
 let currentRoute;
 
@@ -896,12 +925,13 @@ generatBtn.addEventListener("click", () => {
     `;
       break;
     default:
-      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation.
+      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
 
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
   }
   if (isHinglish(prompt)) {
+    console.log(isHinglish(prompt));
     currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
   }
 
