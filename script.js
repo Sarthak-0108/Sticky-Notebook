@@ -450,7 +450,11 @@ const displayNotes = () => {
     downloadBtn.innerText = "⬇️";
 
     downloadBtn.onclick = () => {
-      downloadNoteAsImage(`note-${i}`);
+      downloadBtn.classList.add("rotating");
+
+      downloadNoteAsImage(`note-${i}`).then(() => {
+        downloadBtn.classList.remove("rotating");
+      });
     };
 
     let noteDate = document.createElement("span");
@@ -525,7 +529,7 @@ const displayNotes = () => {
 function downloadNoteAsImage(noteId) {
   const noteElement = document.getElementById(noteId);
 
-  html2canvas(noteElement).then((canvas) => {
+  return html2canvas(noteElement).then((canvas) => {
     const link = document.createElement("a");
     link.download = `${noteId}.png`;
     link.href = canvas.toDataURL();
@@ -633,8 +637,9 @@ addnoteBtn.addEventListener("click", (event) => {
 });
 
 //<----------------------------  functionality of ai Notes -------------------------------->
-// import Cropper from "cropperjs";
-// import "cropperjs/dist/cropper.css";
+
+//image upload functionality
+let cropModal = new bootstrap.Modal(document.querySelector("#cropModal"));
 document.addEventListener("DOMContentLoaded", () => {
   let cropper;
   const imageInput = document.getElementById("imageInput");
@@ -644,6 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const file = event.target.files[0];
     if (!file) return;
 
+    cropModal.show();
     const reader = new FileReader();
     reader.onload = () => {
       imageToCrop.src = reader.result;
@@ -662,6 +668,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("cropBtn").addEventListener("click", () => {
+    document.getElementById("processingBar").style.display = "block";
+
     if (!cropper) return;
 
     const canvas = cropper.getCroppedCanvas();
@@ -674,9 +682,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // Now pass this blob to Tesseract.js for OCR
       Tesseract.recognize(blob, "eng").then(({ data: { text } }) => {
         console.log("Extracted Text:", text);
-        // Now send `text` to AI to generate sticky note
+        noteTopic.value = text;
+        document.getElementById("processingBar").style.display = "none";
+        generateNote();
       });
     }, "image/png");
+    cropModal.hide();
   });
 });
 
@@ -780,7 +791,10 @@ const displayAiNotes = () => {
     downloadBtn.innerText = "⬇️";
 
     downloadBtn.onclick = () => {
-      downloadNoteAsImage(`ai-note-${i}`);
+      downloadBtn.classList.add("rotating");
+      downloadNoteAsImage(`ai-note-${i}`).then(() => {
+        downloadBtn.classList.remove("rotating");
+      });
     };
 
     let noteDate = document.createElement("span");
@@ -931,7 +945,9 @@ function isHinglish(args) {
 }
 let currentRoute;
 
-generatBtn.addEventListener("click", () => {
+generatBtn.addEventListener("click", generateNote);
+
+function generateNote() {
   currentRoute = "https://sticky-note-backend.onrender.com/generate-note";
   if (!noteTopic.value || noteTopic.value === "") {
     console.log("invalid input");
@@ -1007,4 +1023,4 @@ generatBtn.addEventListener("click", () => {
       displayAiNotes();
     })
     .catch((err) => console.error("⚠️ Error:", err));
-});
+}
