@@ -633,6 +633,52 @@ addnoteBtn.addEventListener("click", (event) => {
 });
 
 //<----------------------------  functionality of ai Notes -------------------------------->
+// import Cropper from "cropperjs";
+// import "cropperjs/dist/cropper.css";
+document.addEventListener("DOMContentLoaded", () => {
+  let cropper;
+  const imageInput = document.getElementById("imageInput");
+  const imageToCrop = document.getElementById("imageToCrop");
+
+  imageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      imageToCrop.src = reader.result;
+
+      // Delay to ensure image is loaded
+      setTimeout(() => {
+        if (cropper) cropper.destroy(); // remove previous instance
+        cropper = new Cropper(imageToCrop, {
+          aspectRatio: NaN, // user-defined crop
+          viewMode: 1,
+          background: false,
+        });
+      }, 100);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("cropBtn").addEventListener("click", () => {
+    if (!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas();
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      // Manually add a fake name to blob (to avoid .name error)
+      blob.name = "image.png";
+      // Now pass this blob to Tesseract.js for OCR
+      Tesseract.recognize(blob, "eng").then(({ data: { text } }) => {
+        console.log("Extracted Text:", text);
+        // Now send `text` to AI to generate sticky note
+      });
+    }, "image/png");
+  });
+});
 
 let subject;
 let standard;

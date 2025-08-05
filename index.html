@@ -28,6 +28,22 @@
       });
     </script>
 
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css"
+    />
+    <script src="https://unpkg.com/cropperjs"></script> -->
+    <!-- Cropper CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Cropper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <!-- Tesseract.js (v2.1.5 for browser compatibility) -->
+    <script src="https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Title (for browser tab and SEO) -->
@@ -366,6 +382,7 @@
               <li></li>
               <li></li>
             </ul>
+            <input type="file" accept="image/*" capture="environment" />
           </div>
         </div>
         <div class="mt-4" style="width: 95%">
@@ -377,6 +394,16 @@
             class="noteTopic mb-2"
             placeholder="e.g. Father of Physics?"
           />
+          <!-- Image upload -->
+          <input type="file" id="imageInput" accept="image/*" />
+
+          <!-- Cropping area -->
+          <div>
+            <img id="imageToCrop" style="max-width: 100%" />
+          </div>
+
+          <!-- Button to trigger crop -->
+          <button id="cropBtn">Crop and Extract</button>
 
           <div class="ai-textarea mt-4" hidden>
             <label for="note" class="form-label" id="aiNote-lable"
@@ -439,13 +466,12 @@
         </div>
       </div>
     </div>
-
     <script src="sw.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"
     ></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
