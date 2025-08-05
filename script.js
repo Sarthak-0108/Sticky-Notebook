@@ -450,7 +450,11 @@ const displayNotes = () => {
     downloadBtn.innerText = "⬇️";
 
     downloadBtn.onclick = () => {
-      downloadNoteAsImage(`note-${i}`);
+      downloadBtn.classList.add("rotating");
+
+      downloadNoteAsImage(`note-${i}`).then(() => {
+        downloadBtn.classList.remove("rotating");
+      });
     };
 
     let noteDate = document.createElement("span");
@@ -525,7 +529,7 @@ const displayNotes = () => {
 function downloadNoteAsImage(noteId) {
   const noteElement = document.getElementById(noteId);
 
-  html2canvas(noteElement).then((canvas) => {
+  return html2canvas(noteElement).then((canvas) => {
     const link = document.createElement("a");
     link.download = `${noteId}.png`;
     link.href = canvas.toDataURL();
@@ -634,6 +638,59 @@ addnoteBtn.addEventListener("click", (event) => {
 
 //<----------------------------  functionality of ai Notes -------------------------------->
 
+//image upload functionality
+let cropModal = new bootstrap.Modal(document.querySelector("#cropModal"));
+document.addEventListener("DOMContentLoaded", () => {
+  let cropper;
+  const imageInput = document.getElementById("imageInput");
+  const imageToCrop = document.getElementById("imageToCrop");
+
+  imageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    cropModal.show();
+    const reader = new FileReader();
+    reader.onload = () => {
+      imageToCrop.src = reader.result;
+
+      // Delay to ensure image is loaded
+      setTimeout(() => {
+        if (cropper) cropper.destroy(); // remove previous instance
+        cropper = new Cropper(imageToCrop, {
+          aspectRatio: NaN, // user-defined crop
+          viewMode: 1,
+          background: false,
+        });
+      }, 100);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("cropBtn").addEventListener("click", () => {
+    document.getElementById("processingBar").style.display = "block";
+
+    if (!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas();
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      // Manually add a fake name to blob (to avoid .name error)
+      blob.name = "image.png";
+      // Now pass this blob to Tesseract.js for OCR
+      Tesseract.recognize(blob, "eng").then(({ data: { text } }) => {
+        console.log("Extracted Text:", text);
+        noteTopic.value = text;
+        document.getElementById("processingBar").style.display = "none";
+        generateNote();
+      });
+    }, "image/png");
+    cropModal.hide();
+  });
+});
+
 let subject;
 let standard;
 
@@ -734,7 +791,10 @@ const displayAiNotes = () => {
     downloadBtn.innerText = "⬇️";
 
     downloadBtn.onclick = () => {
-      downloadNoteAsImage(`ai-note-${i}`);
+      downloadBtn.classList.add("rotating");
+      downloadNoteAsImage(`ai-note-${i}`).then(() => {
+        downloadBtn.classList.remove("rotating");
+      });
     };
 
     let noteDate = document.createElement("span");
@@ -885,7 +945,9 @@ function isHinglish(args) {
 }
 let currentRoute;
 
-generatBtn.addEventListener("click", () => {
+generatBtn.addEventListener("click", generateNote);
+
+function generateNote() {
   currentRoute = "https://sticky-note-backend.onrender.com/generate-note";
   if (!noteTopic.value || noteTopic.value === "") {
     console.log("invalid input");
@@ -961,4 +1023,4 @@ generatBtn.addEventListener("click", () => {
       displayAiNotes();
     })
     .catch((err) => console.error("⚠️ Error:", err));
-});
+}
