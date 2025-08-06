@@ -178,10 +178,6 @@ form,
   margin: auto;
 }
 
-.gen-btn {
-  background-color: aliceblue;
-}
-
 .custom-modal-content {
   display: flex;
   flex-direction: column;
