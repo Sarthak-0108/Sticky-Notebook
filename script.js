@@ -75,6 +75,7 @@ let updateBtn;
 const drop_down = document.querySelector("#dropdownMenuButton");
 const options = document.querySelectorAll("a");
 let standard_drop_down = document.querySelector("#choose-standard");
+let uploadImgBtn = document.querySelector("#Upload-imgBtn");
 let ul = document.querySelectorAll("ul");
 
 const folderDropdown = document.getElementById("folderSelect");
@@ -88,6 +89,9 @@ const toggleMode = () => {
   track += 1;
 
   navbar.classList.toggle("bg-body-tertiary");
+  // navbar.classList.toggle("bg-dark");
+  navbar.classList.toggle("navbar-dark");
+
   navbarBranding.classList.toggle("text-light");
 
   noteTitle.classList.toggle("bg-dark");
@@ -108,6 +112,21 @@ const toggleMode = () => {
 
   folderDropdown.classList.toggle("bg-dark");
   folderDropdown.classList.toggle("text-white");
+
+  standard_drop_down.classList.toggle("bg-dark");
+  standard_drop_down.classList.toggle("bg-gradient");
+  standard_drop_down.classList.toggle("text-white");
+  standard_drop_down.classList.toggle("btn-info");
+
+  drop_down.classList.toggle("bg-dark");
+  drop_down.classList.toggle("bg-gradient");
+  drop_down.classList.toggle("text-white");
+  drop_down.classList.toggle("btn-info");
+
+  uploadImgBtn.classList.toggle("bg-dark");
+  uploadImgBtn.classList.toggle("bg-gradient");
+  uploadImgBtn.classList.toggle("text-white");
+  uploadImgBtn.classList.toggle("btn-info");
 
   ul.forEach((ul) => {
     ul.classList.toggle("bg-dark");

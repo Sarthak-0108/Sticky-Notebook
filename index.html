@@ -187,6 +187,31 @@
     <div class="header">
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
+          <!-- <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+            </ul>
+          </div> -->
           <span class="navbar-brand mb-0 h1" id="navbar-branding"
             ><bold>Your Notebook</bold>
           </span>
@@ -313,12 +338,12 @@
     <div class="ai-notes">
       <div class="container mt-3">
         <div class="contanier">
-          <h2 class="" id="info">Generate AI Notes ✨</h2>
+          <h2 id="info">Generate AI Notes ✨</h2>
 
           <!-- Bootstrap Dropdown -->
-          <div class="dropdown mt-4">
+          <div class="dropdown mt-4" id="dropDownBtns">
             <button
-              class="btn btn-info dropdown-toggle bg-dark bg-gradient text-white"
+              class="btn btn-secondary dropdown-toggle"
               type="button"
               id="choose-standard"
               data-bs-toggle="dropdown"
@@ -326,21 +351,27 @@
             >
               Standard
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuButton"
+              class="allDropDown"
+            >
               <li id="nineth">
                 <a class="dropdown-item" href="#">9th</a>
               </li>
               <li id="tenth">
                 <a class="dropdown-item" href="#">10th</a>
               </li>
-              <li id="eleventh"><a href="#" class="dropdown-item">11th</a></li>
+              <li id="eleventh">
+                <a href="#" class="dropdown-item">11th</a>
+              </li>
               <li id="Twelfth">
                 <a class="dropdown-item" href="#">12th</a>
               </li>
             </ul>
 
             <button
-              class="btn btn-info dropdown-toggle bg-dark bg-gradient text-white"
+              class="btn btn-secondary dropdown-toggle ms-2"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
@@ -348,7 +379,11 @@
             >
               Subject
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuButton"
+              class="allDropDown"
+            >
               <li id="math">
                 <a class="dropdown-item" href="#">Math</a>
               </li>
@@ -379,7 +414,8 @@
 
         <label
           for="imageInput"
-          class="btn btn-info bg-dark bg-gradient text-white mt-2"
+          class="btn btn-secondary mt-2"
+          id="Upload-imgBtn"
         >
           📷 Upload Image
         </label>

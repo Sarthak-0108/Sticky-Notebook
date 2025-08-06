@@ -228,8 +228,12 @@ form,
   display: none;
 }
 
-.dark-mode #add-note,
-#generateBtn {
+.dark-mode #add-note {
+  background-color: #533483;
+  border: 1px solid #16213e;
+}
+
+.dark-mode #generateBtn {
   background-color: #533483;
   border: 1px solid #16213e;
 }
