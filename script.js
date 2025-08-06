@@ -446,7 +446,7 @@ const displayNotes = () => {
     card.id = `note-${i}`;
 
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body", "mx-4");
+    cardBody.classList.add("card-body");
 
     let cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
