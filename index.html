@@ -187,7 +187,7 @@
     <div class="header">
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-          <!-- <button
+          <button
             class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -208,11 +208,16 @@
                 <a class="nav-link" href="#">Features</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="mailto:pieeeenote@gmail.com"
+                  >Contact US</a
+                >
               </li>
             </ul>
-          </div> -->
-          <span class="navbar-brand mb-0 h1" id="navbar-branding"
+          </div>
+          <span
+            class="navbar-brand mb-0 h1"
+            id="navbar-branding"
+            style="margin-left: 1px"
             ><bold>Your Notebook</bold>
           </span>
           <div class="form-check form-switch close-icon">
@@ -351,11 +356,7 @@
             >
               Standard
             </button>
-            <ul
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuButton"
-              class="allDropDown"
-            >
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li id="nineth">
                 <a class="dropdown-item" href="#">9th</a>
               </li>
@@ -379,46 +380,45 @@
             >
               Subject
             </button>
-            <ul
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuButton"
-              class="allDropDown"
-            >
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li id="math">
                 <a class="dropdown-item" href="#">Math</a>
               </li>
               <li id="science">
                 <a class="dropdown-item" href="#">Science</a>
               </li>
-              <li id="arts"><a class="dropdown-item" href="#">Arts</a></li>
+              <li id="arts">
+                <a class="dropdown-item" href="#">Arts</a>
+              </li>
               <li><hr class="dropdown-divider" /></li>
 
               <li id="computer">
                 <a class="dropdown-item" href="#">Computer</a>
               </li>
             </ul>
-            <ul class="dropdown-menu dropdown-menu-dark">
+            <ul class="dropdown-menu">
               <li></li>
               <li></li>
               <li></li>
               <li></li>
             </ul>
+            <input
+              type="file"
+              id="imageInput"
+              accept="image/*"
+              style="display: none"
+            />
+
+            <label
+              for="imageInput"
+              class="btn btn-secondary ms-2"
+              id="Upload-imgBtn"
+            >
+              📷 Upload
+            </label>
           </div>
         </div>
-        <input
-          type="file"
-          id="imageInput"
-          accept="image/*"
-          style="display: none"
-        />
 
-        <label
-          for="imageInput"
-          class="btn btn-secondary mt-2"
-          id="Upload-imgBtn"
-        >
-          📷 Upload Image
-        </label>
         <div class="mt-4" style="width: 95%">
           <label for="noteTopic" class="form-label">Enter topic/question</label>
           <input

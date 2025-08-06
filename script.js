@@ -73,10 +73,10 @@ let aiBtnContainer = document.querySelector(".btnContainer");
 let updateBtn;
 
 const drop_down = document.querySelector("#dropdownMenuButton");
-const options = document.querySelectorAll("a");
+const AllDropdowns = document.querySelectorAll(".dropdown-menu");
+
 let standard_drop_down = document.querySelector("#choose-standard");
 let uploadImgBtn = document.querySelector("#Upload-imgBtn");
-let ul = document.querySelectorAll("ul");
 
 const folderDropdown = document.getElementById("folderSelect");
 
@@ -128,14 +128,14 @@ const toggleMode = () => {
   uploadImgBtn.classList.toggle("text-white");
   uploadImgBtn.classList.toggle("btn-info");
 
-  ul.forEach((ul) => {
-    ul.classList.toggle("bg-dark");
+  AllDropdowns.forEach((dropdown) => {
+    if (track % 2 === 0) {
+      dropdown.classList.remove("dropdown-menu-dark");
+    } else {
+      dropdown.classList.add("dropdown-menu-dark");
+    }
   });
 
-  options.forEach((li) => {
-    li.classList.toggle("bg-dark");
-    li.classList.toggle("text-white");
-  });
   document.body.classList.toggle("dark-mode");
 
   if (track % 2 === 0) {
