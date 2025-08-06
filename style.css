@@ -272,3 +272,7 @@ form,
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+.form-switch {
+  padding-left: 0em !important;
+}
