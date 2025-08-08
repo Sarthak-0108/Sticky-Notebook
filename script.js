@@ -139,6 +139,9 @@ const toggleMode = () => {
   voiceBtn_noteContent.classList.toggle("bg-dark");
   voiceBtn_noteContent.classList.toggle("bg-gradient");
 
+  voiceBtn_noteTopic.classList.toggle("bg-dark");
+  voiceBtn_noteTopic.classList.toggle("bg-gradient");
+
   AllDropdowns.forEach((dropdown) => {
     if (track % 2 === 0) {
       dropdown.classList.remove("dropdown-menu-dark");
@@ -703,9 +706,9 @@ voiceBtn_noteTitle.onclick = () => {
 voiceBtn_noteContent.onclick = () => {
   startVoiceInput("noteContent", voiceBtn_noteContent);
 };
-// voiceBtn_noteTopic.onclick = () => {
-//   startVoiceInput("noteContent", voiceBtn_noteTopic);
-// };
+voiceBtn_noteTopic.onclick = () => {
+  startVoiceInput("noteTopic", voiceBtn_noteTopic);
+};
 
 //<----------------------------  functionality of ai Notes -------------------------------->
 
