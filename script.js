@@ -40,7 +40,12 @@ installBtn.addEventListener("click", async () => {
 dismissBtn.addEventListener("click", () => {
   installBanner.style.display = "none";
 });
+
 //<---------------------- Declaring all Variables ------------------------------>
+
+let voiceBtn_noteTitle = document.querySelector("#voice-input-noteTitle");
+let voiceBtn_noteContent = document.querySelector("#voice-input-noteContent");
+let voiceBtn_noteTopic = document.querySelector("#voice-input-noteTopic");
 
 let noteTitle = document.querySelector("#note-title");
 let noteContent = document.querySelector("#noteContent");
@@ -127,6 +132,12 @@ const toggleMode = () => {
   uploadImgBtn.classList.toggle("bg-gradient");
   uploadImgBtn.classList.toggle("text-white");
   uploadImgBtn.classList.toggle("btn-info");
+
+  voiceBtn_noteTitle.classList.toggle("bg-dark");
+  voiceBtn_noteTitle.classList.toggle("bg-gradient");
+
+  voiceBtn_noteContent.classList.toggle("bg-dark");
+  voiceBtn_noteContent.classList.toggle("bg-gradient");
 
   AllDropdowns.forEach((dropdown) => {
     if (track % 2 === 0) {
@@ -654,6 +665,46 @@ addnoteBtn.addEventListener("click", (event) => {
   createNotes();
   displayNotes();
 });
+
+//adding voice input feature for sticky note
+function startVoiceInput(targetId, button) {
+  const recognition = new (window.SpeechRecognition ||
+    window.webkitSpeechRecognition)();
+  recognition.lang = "en-US"; // Change if needed
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.start();
+  button.innerHTML = `
+              <i class="fas fa-microphone-alt"></i>
+  
+  `;
+  button.style.color = "red";
+
+  recognition.onresult = (event) => {
+    document.getElementById(targetId).value = event.results[0][0].transcript;
+  };
+
+  recognition.onend = () => {
+    button.innerHTML = '<i class="fas fa-microphone"></i>';
+    button.style.color = "";
+  };
+
+  recognition.onerror = (event) => {
+    button.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+    console.error("Voice input error:", event.error);
+  };
+}
+
+voiceBtn_noteTitle.onclick = () => {
+  startVoiceInput("note-title", voiceBtn_noteTitle);
+};
+voiceBtn_noteContent.onclick = () => {
+  startVoiceInput("noteContent", voiceBtn_noteContent);
+};
+// voiceBtn_noteTopic.onclick = () => {
+//   startVoiceInput("noteContent", voiceBtn_noteTopic);
+// };
 
 //<----------------------------  functionality of ai Notes -------------------------------->
 
