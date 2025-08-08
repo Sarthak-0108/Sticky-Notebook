@@ -691,7 +691,8 @@ function startVoiceInput(targetId, button) {
   };
 
   recognition.onerror = (event) => {
-    button.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+    button.innerHTML = '<i class="fas fa-microphone"></i>';
+    button.style.color = "";
     console.error("Voice input error:", event.error);
   };
 }
