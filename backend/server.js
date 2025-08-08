@@ -73,6 +73,9 @@ app.post("/generate-note", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("🛠️ AI Note Backend is running.");
 });
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`🚀 AI Note Backend running on http://localhost:${PORT}`)
