@@ -722,12 +722,13 @@ addnoteBtn.addEventListener("click", (event) => {
 });
 
 //adding voice input feature for sticky note
-function startVoiceInput(targetId, button) {
+function startVoiceInput(targetId, button, callback) {
   const recognition = new (window.SpeechRecognition ||
     window.webkitSpeechRecognition)();
   recognition.lang = "en-US"; // Change if needed
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
+  if (button === voiceBtn_noteTopic) recognition.continuous = false;
 
   recognition.start();
   button.innerHTML = `
@@ -742,8 +743,15 @@ function startVoiceInput(targetId, button) {
   };
 
   recognition.onend = () => {
+    // if (callback) callback();
     button.innerHTML = '<i class="fas fa-microphone"></i>';
     button.style.color = "";
+    if (button === voiceBtn_noteTitle) {
+      startVoiceInput("noteContent", voiceBtn_noteContent, () => {
+        createNotes();
+        displayNotes();
+      });
+    }
   };
 
   recognition.onerror = (event) => {
