@@ -161,12 +161,12 @@ form,
 @keyframes pulse {
   0% {
     transform: scale(1);
-    background-color: #0f3460;
+    background-color: rgb(7, 132, 170);
     color: #16213e;
   }
   50% {
     transform: scale(1.15);
-    background-color: #0f3460;
+    background-color: rgb(7, 132, 170);
     color: #16213e;
   }
   100% {
@@ -174,6 +174,12 @@ form,
     background-color: #0f3460;
     color: #16213e;
   }
+}
+
+#info,
+#lang-icon {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .pulsing {
@@ -305,4 +311,8 @@ form,
 
 .form-switch {
   padding-left: 0em !important;
+}
+
+.lang-lightMode {
+  color: #0f3460;
 }

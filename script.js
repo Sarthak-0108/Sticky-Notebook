@@ -84,6 +84,7 @@ let standard_drop_down = document.querySelector("#choose-standard");
 let uploadImgBtn = document.querySelector("#Upload-imgBtn");
 
 const folderDropdown = document.getElementById("folderSelect");
+let lanIcon = document.querySelector("#lang-icon");
 
 //<-------------------- Dark Mode Functionality ------------------------------->
 
@@ -141,6 +142,8 @@ const toggleMode = () => {
 
   voiceBtn_noteTopic.classList.toggle("bg-dark");
   voiceBtn_noteTopic.classList.toggle("bg-gradient");
+
+  lanIcon.classList.toggle("lang-lightMode");
 
   AllDropdowns.forEach((dropdown) => {
     if (track % 2 === 0) {
@@ -815,7 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let subject;
-let standard;
+let standard = "12th";
 
 document.querySelector("#math").addEventListener("click", () => {
   subject = "Math";
@@ -857,6 +860,21 @@ document.querySelector("#Twelfth").addEventListener("click", () => {
   standard_drop_down.innerText = standard;
   console.log(standard);
 });
+
+let medium = "english";
+
+document.querySelector("#hindi").onclick = () => {
+  lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>हिं</span>
+  `;
+  medium = "hindi";
+  console.log(medium);
+};
+document.querySelector("#english").onclick = () => {
+  lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>EN</span>
+  `;
+  medium = "english";
+  console.log(medium);
+};
 
 const createAiNotes = (title, note) => {
   class AiNotes {
@@ -1101,31 +1119,32 @@ function generateNote() {
 
   switch (subject) {
     case "Math":
-      prompt = `You are an expert mathematics teacher for Class ${standard} (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
+      prompt = `You are an expert mathematics teacher for Class ${standard} (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
 
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Science":
-      prompt = `"prompt": "You are an expert teacher for Class ${standard} Science (Bihar Board, 2025). Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+      prompt = `"prompt": "You are an expert teacher for Class ${standard} Science (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Arts":
-      prompt = `You are an expert teacher for Class ${standard} Arts (Bihar Board, 2025). Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+      prompt = `You are an expert teacher for Class ${standard} Arts (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
 
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
     case "Computer":
-      prompt = `You are an expert teacher for Class ${standard} Computer (CBSE,2025).Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+      prompt = `You are an expert teacher for Class ${standard} Computer (CBSE,2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
           Question: ${noteTopic.value.toUpperCase()}
     `;
       break;
     default:
-      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
+      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). Respond in ${medium} language. The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
 
           Q: ${noteTopic.value.toUpperCase()}`;
       break;
   }
-  if (isHinglish(prompt)) {
+  if (isHinglish(prompt) || medium == "hindi") {
     console.log(isHinglish(prompt));
+    console.log(medium);
     currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
   }
 
