@@ -494,7 +494,7 @@ const displayNotes = () => {
     };
 
     let shareBtn = document.createElement("button");
-    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn");
+    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn", "ms-2");
     shareBtn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
     shareBtn.id = `share-btn-${i}`;
 
@@ -738,6 +738,7 @@ function startVoiceInput(targetId, button) {
 
   recognition.onresult = (event) => {
     document.getElementById(targetId).value = event.results[0][0].transcript;
+    if (button === voiceBtn_noteTopic) generateNote();
   };
 
   recognition.onend = () => {
@@ -939,7 +940,7 @@ const displayAiNotes = () => {
     };
 
     let shareBtn = document.createElement("button");
-    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn");
+    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn", "ms-2");
     shareBtn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
     shareBtn.id = `aiNote-share-btn-${i}`;
 
