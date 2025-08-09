@@ -743,7 +743,7 @@ function startVoiceInput(targetId, button, callback) {
   };
 
   recognition.onend = () => {
-    if (callback) callback();
+    // if (callback) callback();
     button.innerHTML = '<i class="fas fa-microphone"></i>';
     button.style.color = "";
     if (button === voiceBtn_noteTitle) {
