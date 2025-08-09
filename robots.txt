@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pieeeenote.netlify.app/sitemap.xml
