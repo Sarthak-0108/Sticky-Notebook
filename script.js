@@ -490,6 +490,15 @@ const displayNotes = () => {
       });
     };
 
+    let shareBtn = document.createElement("button");
+    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn");
+    shareBtn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+    shareBtn.id = `share-btn-${i}`;
+
+    shareBtn.onclick = () => {
+      shareNote(`note-${i}`, `share-btn-${i}`);
+    };
+
     let noteDate = document.createElement("span");
     if (currentArr[i].date) {
       noteDate.classList.add("note-date");
@@ -552,7 +561,7 @@ const displayNotes = () => {
 
     noteContainer.append(card);
     card.append(badgeContainer, downloadBtn, cardBody);
-    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
+    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn, shareBtn);
     badgeContainer.append(brand, serialBadge);
     cardTitle.innerText = currentArr[i].title;
     cardText.innerText = currentArr[i].content;
@@ -568,6 +577,46 @@ function downloadNoteAsImage(noteId) {
     link.href = canvas.toDataURL();
     link.click();
   });
+}
+
+async function shareNote(noteId, iconId) {
+  const icon = document.getElementById(iconId);
+  icon.classList.add("pulsing");
+  const noteElement = document.getElementById(noteId);
+
+  try {
+    // Convert note to canvas
+    const canvas = await html2canvas(noteElement);
+
+    // Convert canvas to Blob
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/png")
+    );
+    const file = new File([blob], `${noteId}.png`, { type: "image/png" });
+
+    // Share via Web Share API if supported
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: "My Pi Note",
+        text: "Check out my note from Pi Note 📝",
+        files: [file],
+      });
+    } else {
+      // Fallback: Download image
+      const link = document.createElement("a");
+      link.download = `${noteId}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+      alert(
+        "Sharing not supported on this browser. Note has been downloaded instead."
+      );
+    }
+  } catch (err) {
+    console.error("Share failed:", err);
+  } finally {
+    // Stop rotating icon
+    icon.classList.remove("pulsing");
+  }
 }
 
 const deleteNote = (
@@ -871,6 +920,15 @@ const displayAiNotes = () => {
       });
     };
 
+    let shareBtn = document.createElement("button");
+    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn");
+    shareBtn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+    shareBtn.id = `aiNote-share-btn-${i}`;
+
+    shareBtn.onclick = () => {
+      shareNote(`ai-note-${i}`, `aiNote-share-btn-${i}`);
+    };
+
     let noteDate = document.createElement("span");
     if (aiNotesArr[i].date) {
       noteDate.classList.add("note-date");
@@ -949,7 +1007,7 @@ const displayAiNotes = () => {
     aiNotesContainer.append(card);
     card.append(badgeContainer, downloadBtn, cardBody);
     badgeContainer.append(brand, serialBadge);
-    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn);
+    cardBody.append(noteDate, cardTitle, cardText, editBtn, dltBtn, shareBtn);
   }
 };
 
