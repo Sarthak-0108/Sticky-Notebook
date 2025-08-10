@@ -26,9 +26,9 @@ body {
 .share-btn {
   border: none;
   cursor: pointer;
-  background-color: #0f3460;
+  background-color: rgb(7, 132, 170);
   width: 2.5rem;
-  color: #395b64;
+  color: #0946e0;
 }
 
 .banner {
@@ -161,7 +161,7 @@ form,
 @keyframes pulse {
   0% {
     transform: scale(1);
-    background-color: rgb(7, 132, 170);
+    background-color: #0f3460;
     color: #16213e;
   }
   50% {
