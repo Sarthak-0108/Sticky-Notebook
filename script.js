@@ -870,8 +870,8 @@ document.querySelector("#Twelfth").addEventListener("click", () => {
   console.log(standard);
 });
 
-// let medium = "english";
-let medium_selected = false;
+let medium = "english";
+// let medium_selected = false;
 
 document.querySelector("#hindi").onclick = () => {
   lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>हिं</span>
