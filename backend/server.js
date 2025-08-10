@@ -11,7 +11,10 @@ app.use(bodyParser.json());
 
 // Google Gemini Setup
 console.log(process.env.GEMINI_API_KEY);
-const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
+const gemini_API_forHindi = new GoogleGenAI(process.env.GEMINI_API_KEY);
+const gemini_API_forEnglish = new GoogleGenAI(
+  process.env.GEMINI_API_KEY_ENGLISH
+);
 
 // Route
 app.post("/gemini-note", async (req, res) => {
@@ -23,7 +26,30 @@ app.post("/gemini-note", async (req, res) => {
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await gemini_API_forHindi.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    res.json({ text: response.text });
+
+    console.log(response);
+    console.log(response.text);
+  } catch (error) {
+    console.error("Error generating content:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/gemini-englishNote", async (req, res) => {
+  // return res.status(403).json({ error: "Gemini quota exceeded" });
+  const { prompt } = req.body;
+
+  if (!prompt) {
+    return res.status(400).json({ error: "Prompt is required" });
+  }
+
+  try {
+    const response = await gemini_API_forEnglish.models.generateContent({
       model: "gemini-2.0-flash",
       contents: prompt,
     });

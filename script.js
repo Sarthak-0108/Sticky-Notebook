@@ -870,18 +870,21 @@ document.querySelector("#Twelfth").addEventListener("click", () => {
   console.log(standard);
 });
 
-let medium = "english";
+// let medium = "english";
+let medium_selected = false;
 
 document.querySelector("#hindi").onclick = () => {
   lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>हिं</span>
   `;
   medium = "hindi";
+  // medium_selected = true;
   console.log(medium);
 };
 document.querySelector("#english").onclick = () => {
   lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>EN</span>
   `;
   medium = "english";
+  // medium_selected = true;
   console.log(medium);
 };
 
@@ -1107,7 +1110,7 @@ let currentRoute;
 generatBtn.addEventListener("click", generateNote);
 
 function generateNote() {
-  currentRoute = "https://sticky-note-backend.onrender.com/generate-note";
+  currentRoute = "https://sticky-note-backend.onrender.com/gemini-englishNote";
   if (!noteTopic.value || noteTopic.value === "") {
     console.log("invalid input");
 
