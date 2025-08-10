@@ -407,6 +407,7 @@ addFolderBtn.addEventListener("click", () => {
 // <--------------------------------------  core functionality of sticky note --------------------------------->
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString("en-GB");
+let hours = currentDate.getHours();
 
 const createNotes = () => {
   class Note {
@@ -1044,6 +1045,8 @@ const displayAiNotes = () => {
 window.onload = () => {
   init();
   displayAiNotes();
+  checkAndGenerateQuote();
+
   if (mode === "light") {
     toggleBtn.checked = false;
     Alert.style.display = "block";
@@ -1129,31 +1132,47 @@ function generateNote() {
   document.getElementById("loadingSpinner").style.display = "block";
   let prompt;
 
-  switch (subject) {
-    case "Math":
-      prompt = `You are an expert mathematics teacher for Class ${standard} (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
+  if (noteTopic.value === "quote of the day") {
+    prompt = `You are an expert in sourcing authentic, verified quotes from a wide range of great writers, leaders, and successful people. Each time this prompt is run, generate one **unique**, **less commonly used**, but still **highly inspiring and motivating** quote specifically for students. The quote must be:
 
-          Q: ${noteTopic.value.toUpperCase()}`;
-      break;
-    case "Science":
-      prompt = `"prompt": "You are an expert teacher for Class ${standard} Science (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
-      break;
-    case "Arts":
-      prompt = `You are an expert teacher for Class ${standard} Arts (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+- Short and impactful (under 20 words)
+- Written in simple, clear, and easy-to-understand English
+- Verified and attributed to a real person
+- Not repeated from previous outputs
+- Relevant to the theme of "${selectedTheme}"
+- If the original quote is complex, simplify or rephrase it while keeping the original meaning
 
-          Q: ${noteTopic.value.toUpperCase()}`;
-      break;
-    case "Computer":
-      prompt = `You are an expert teacher for Class ${standard} Computer (CBSE,2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
-          Question: ${noteTopic.value.toUpperCase()}
+
+Return only the quote and the author's name, without any extra text or formatting.
     `;
-      break;
-    default:
-      prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). Respond in ${medium} language. The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
+  } else {
+    switch (subject) {
+      case "Math":
+        prompt = `You are an expert mathematics teacher for Class ${standard} (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation, examples, or technical complexity.
 
-          Q: ${noteTopic.value.toUpperCase()}`;
-      break;
+              Q: ${noteTopic.value.toUpperCase()}`;
+        break;
+      case "Science":
+        prompt = `"prompt": "You are an expert teacher for Class ${standard} Science (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer for this question in just one line. Avoid extra explanation.\n\nQ: ${noteTopic.value.toUpperCase()}`;
+        break;
+      case "Arts":
+        prompt = `You are an expert teacher for Class ${standard} Arts (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+
+              Q: ${noteTopic.value.toUpperCase()}`;
+        break;
+      case "Computer":
+        prompt = `You are an expert teacher for Class ${standard} Computer (CBSE,2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+              Question: ${noteTopic.value.toUpperCase()}
+        `;
+        break;
+      default:
+        prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). Respond in ${medium} language. The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
+
+              Q: ${noteTopic.value.toUpperCase()}`;
+        break;
+    }
   }
+
   if (isHinglish(prompt) || medium == "hindi") {
     console.log(isHinglish(prompt));
     console.log(medium);
@@ -1186,4 +1205,34 @@ function generateNote() {
       displayAiNotes();
     })
     .catch((err) => console.error("⚠️ Error:", err));
+}
+
+//generate daily quote
+
+const themes = [
+  "perseverance",
+  "curiosity",
+  "discipline",
+  "growth",
+  "focus",
+  "learning",
+  "confidence",
+  "resilience",
+  "creativity",
+  "ambition",
+];
+const selectedTheme = themes[Math.floor(Math.random() * themes.length)];
+
+function checkAndGenerateQuote() {
+  const today = new Date().toDateString();
+  const lastGeneratedDate = localStorage.getItem("lastQuoteDate");
+
+  if (lastGeneratedDate !== today) {
+    noteTopic.value = "quote of the day";
+    generateNote();
+
+    localStorage.setItem("lastQuoteDate", today);
+  } else {
+    console.log("Quote already generated for today.");
+  }
 }
