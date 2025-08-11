@@ -134,12 +134,15 @@ const toggleMode = () => {
   uploadImgBtn.classList.toggle("text-white");
   uploadImgBtn.classList.toggle("btn-info");
 
+  voiceBtn_noteTitle.classList.toggle("voice-btn-color");
   voiceBtn_noteTitle.classList.toggle("bg-dark");
   voiceBtn_noteTitle.classList.toggle("bg-gradient");
 
+  voiceBtn_noteContent.classList.toggle("voice-btn-color");
   voiceBtn_noteContent.classList.toggle("bg-dark");
   voiceBtn_noteContent.classList.toggle("bg-gradient");
 
+  voiceBtn_noteTopic.classList.toggle("voice-btn-color");
   voiceBtn_noteTopic.classList.toggle("bg-dark");
   voiceBtn_noteTopic.classList.toggle("bg-gradient");
 
@@ -730,8 +733,11 @@ function startVoiceInput(targetId, button, callback) {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
   if (button === voiceBtn_noteTopic) recognition.continuous = false;
+  document.getElementById(targetId).focus();
 
   recognition.start();
+
+  button.classList.remove("voice-btn-color");
   button.innerHTML = `
               <i class="fas fa-microphone-alt"></i>
   
@@ -745,6 +751,7 @@ function startVoiceInput(targetId, button, callback) {
 
   recognition.onend = () => {
     // if (callback) callback();
+    button.classList.add("voice-btn-color");
     button.innerHTML = '<i class="fas fa-microphone"></i>';
     button.style.color = "";
     if (button === voiceBtn_noteTitle) {
@@ -756,6 +763,7 @@ function startVoiceInput(targetId, button, callback) {
   };
 
   recognition.onerror = (event) => {
+    button.classList.add("voice-btn-color");
     button.innerHTML = '<i class="fas fa-microphone"></i>';
     button.style.color = "";
     console.error("Voice input error:", event.error);
@@ -952,7 +960,7 @@ const displayAiNotes = () => {
     };
 
     let shareBtn = document.createElement("button");
-    shareBtn.classList.add("btn", "btn-outline-secondary", "share-btn", "ms-2");
+    shareBtn.classList.add("btn", "share-btn", "ms-2");
     shareBtn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
     shareBtn.id = `aiNote-share-btn-${i}`;
 
