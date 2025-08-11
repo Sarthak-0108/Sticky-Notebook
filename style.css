@@ -26,9 +26,9 @@ body {
 .share-btn {
   border: none;
   cursor: pointer;
-  background-color: rgb(7, 132, 170);
+  background-color: #1c352d !important;
   width: 2.5rem;
-  color: #0946e0;
+  color: #a6b28b !important;
 }
 
 .banner {
@@ -161,18 +161,12 @@ form,
 @keyframes pulse {
   0% {
     transform: scale(1);
-    background-color: #0f3460;
-    color: #16213e;
   }
   50% {
     transform: scale(1.15);
-    background-color: rgb(7, 132, 170);
-    color: #16213e;
   }
   100% {
     transform: scale(1);
-    background-color: #0f3460;
-    color: #16213e;
   }
 }
 
@@ -315,4 +309,18 @@ form,
 
 .lang-lightMode {
   color: #0f3460;
+}
+
+#voice-input-noteTopic {
+  position: absolute;
+  right: 10.2vw;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-top: 2.6em;
+  font-size: small;
+}
+
+.voice-btn-color {
+  color: rgb(15, 52, 96) !important;
 }
