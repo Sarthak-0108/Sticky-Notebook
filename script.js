@@ -160,10 +160,10 @@ const toggleMode = () => {
 
   if (track % 2 === 0) {
     mode = "light";
-    console.log("light mode");
+    // console.log("light mode");
   } else {
     mode = "dark";
-    console.log("dark mode");
+    // console.log("dark mode");
   }
   localStorage.setItem("mode", mode);
 };
@@ -219,8 +219,12 @@ let updateNoteBtn;
 let userName;
 
 function setUserName() {
-  userName = document.getElementById("userInput").value;
-  console.log("User entered:", userName);
+  let userFullName = document
+    .getElementById("userInput")
+    .value.trim()
+    .split(/\s+/);
+  userName = userFullName[0];
+  // console.log("User entered:", userName);
   myModal.hide();
 }
 
@@ -232,12 +236,12 @@ if (localStorage.getItem("userName")) {
   submitNameBtn.addEventListener("click", () => {
     submitNameBtn.blur();
     setUserName();
-    if (userName === null || !userName) {
+    if (!userName) {
       //agar user input na  de
       navbarBranding.innerHTML = `Your Pibook`;
     } else {
       navbarBranding.innerHTML = `${userName}'s Pibook`;
-      localStorage.setItem("userName", userName.trim());
+      localStorage.setItem("userName", userName);
     }
   });
 }
@@ -272,9 +276,9 @@ const init = () => {
   }
   if (!currentFolder) {
     currentFolder = "general";
-    console.log("abhi wala hu" + currentFolder);
+    // console.log("abhi wala hu" + currentFolder);
   }
-  console.log(currentFolder);
+  // console.log(currentFolder);
   if (!data[currentFolder]) data[currentFolder] = [];
 
   localStorage.setItem("allNotes", JSON.stringify(data));
@@ -348,7 +352,7 @@ const folderManagement = (folder) => {
           currentFolder = null;
           init();
           displayNotes();
-          console.log(deleteData);
+          // console.log(deleteData);
         } else {
           console.warn("this folder does not exist");
         }
@@ -368,7 +372,6 @@ folderDropdown.addEventListener("change", () => {
 
 folderManageIcon.onclick = () => {
   folderList.innerHTML = "";
-  console.log("i am working");
   folderManagement(Object.keys(data));
   folderMangeModal.show();
 };
@@ -754,12 +757,12 @@ function startVoiceInput(targetId, button, callback) {
     button.classList.add("voice-btn-color");
     button.innerHTML = '<i class="fas fa-microphone"></i>';
     button.style.color = "";
-    if (button === voiceBtn_noteTitle) {
-      startVoiceInput("noteContent", voiceBtn_noteContent, () => {
-        createNotes();
-        displayNotes();
-      });
-    }
+    // if (button === voiceBtn_noteTitle) {
+    //   startVoiceInput("noteContent", voiceBtn_noteContent, () => {
+    //     createNotes();
+    //     displayNotes();
+    //   });
+    // }
   };
 
   recognition.onerror = (event) => {
@@ -798,11 +801,10 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.onload = () => {
       imageToCrop.src = reader.result;
 
-      // Delay to ensure image is loaded
       setTimeout(() => {
-        if (cropper) cropper.destroy(); // remove previous instance
+        if (cropper) cropper.destroy();
         cropper = new Cropper(imageToCrop, {
-          aspectRatio: NaN, // user-defined crop
+          aspectRatio: NaN,
           viewMode: 1,
           background: false,
         });
@@ -821,11 +823,10 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.toBlob((blob) => {
       if (!blob) return;
 
-      // Manually add a fake name to blob (to avoid .name error)
       blob.name = "image.png";
       // Now pass this blob to Tesseract.js for OCR
       Tesseract.recognize(blob, "eng").then(({ data: { text } }) => {
-        console.log("Extracted Text:", text);
+        // console.log("Extracted Text:", text);
         noteTopic.value = text;
         document.getElementById("processingBar").style.display = "none";
         generateNote();
@@ -841,60 +842,55 @@ let standard = "12th";
 document.querySelector("#math").addEventListener("click", () => {
   subject = "Math";
   drop_down.innerHTML = subject;
-  console.log(subject);
 });
 document.querySelector("#science").addEventListener("click", () => {
   subject = "Science";
   drop_down.innerHTML = subject;
-  console.log(subject);
 });
 document.querySelector("#arts").addEventListener("click", () => {
   subject = "Arts";
   drop_down.innerHTML = subject;
-  console.log(subject);
+});
+document.querySelector("#hindiSubject").addEventListener("click", () => {
+  subject = "Hindi";
+  drop_down.innerHTML = subject;
+});
+document.querySelector("#englishSubject").addEventListener("click", () => {
+  subject = "English";
+  drop_down.innerHTML = subject;
 });
 document.querySelector("#computer").addEventListener("click", () => {
   subject = "Computer";
   drop_down.innerHTML = subject;
-  console.log(subject);
 });
 document.querySelector("#nineth").addEventListener("click", () => {
   standard = "9th";
   standard_drop_down.innerText = standard;
-  console.log(standard);
 });
 document.querySelector("#tenth").addEventListener("click", () => {
   standard = "10th";
   standard_drop_down.innerText = standard;
-  console.log(standard);
 });
 document.querySelector("#eleventh").addEventListener("click", () => {
   standard = "11th";
   standard_drop_down.innerText = standard;
-  console.log(standard);
 });
 document.querySelector("#Twelfth").addEventListener("click", () => {
   standard = "12th";
   standard_drop_down.innerText = standard;
-  console.log(standard);
 });
 
 let medium = "english";
-// let medium_selected = false;
 
 document.querySelector("#hindi").onclick = () => {
   lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>हिं</span>
   `;
   medium = "hindi";
-  // medium_selected = true;
-  console.log(medium);
 };
 document.querySelector("#english").onclick = () => {
   lanIcon.innerHTML = `<i class="fas fa-language"></i> <span>EN</span>
   `;
   medium = "english";
-  // medium_selected = true;
-  console.log(medium);
 };
 
 const createAiNotes = (title, note) => {
@@ -1122,6 +1118,9 @@ generatBtn.addEventListener("click", generateNote);
 
 function generateNote() {
   currentRoute = "https://sticky-note-backend.onrender.com/gemini-englishNote";
+  if (medium === "hinglish") {
+    medium = "english";
+  }
   if (!noteTopic.value || noteTopic.value === "") {
     console.log("invalid input");
 
@@ -1138,6 +1137,16 @@ function generateNote() {
     return "please enter a question to continue:";
   }
   document.getElementById("loadingSpinner").style.display = "block";
+
+  if (isHinglish(noteTopic.value)) {
+    // console.log(medium);
+    medium = "hinglish";
+    // console.log(medium);
+    // console.log(isHinglish(noteTopic.value));
+    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
+  } else if (medium == "hindi") {
+    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
+  }
   let prompt;
 
   if (noteTopic.value === "quote of the day") {
@@ -1173,18 +1182,24 @@ Return only the quote and the author's name, without any extra text or formattin
               Question: ${noteTopic.value.toUpperCase()}
         `;
         break;
+      case "Hindi":
+        prompt = `You are an expert teacher for Class ${standard} Hindi (Bihar Board, 2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+
+              Q: ${noteTopic.value.toUpperCase()}`;
+        // console.log(prompt);
+        break;
+      case "English":
+        prompt = `You are an expert teacher for Class ${standard} English (CBSE,2025). Respond in ${medium} language. Give the correct and updated answer to the following question in a short, precise, and one-line format that is easy to understand. Avoid extra explanation or complex language.
+              Question: ${noteTopic.value.toUpperCase()}
+        `;
+        // console.log(prompt);
+        break;
       default:
         prompt = `You are a highly knowledgeable and student-friendly teacher for Class 10 and 11 and 12 students (Bihar Board, 2025). Respond in ${medium} language. The student has asked a question but not selected any subject. Identify the subject automatically and give the correct and updated answer in just one line. Avoid complex language and unnecessary explanation. Avoid to mention subject in response.
 
               Q: ${noteTopic.value.toUpperCase()}`;
         break;
     }
-  }
-
-  if (isHinglish(prompt) || medium == "hindi") {
-    console.log(isHinglish(prompt));
-    console.log(medium);
-    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
   }
 
   fetch(currentRoute, {
@@ -1205,7 +1220,7 @@ Return only the quote and the author's name, without any extra text or formattin
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log("🟨 Sticky Note:", data.text);
+      // console.log("🟨 Sticky Note:", data.text);
 
       createAiNotes(noteTopic.value.toLowerCase(), data.text);
       document.getElementById("loadingSpinner").style.display = "none";
@@ -1241,6 +1256,6 @@ function checkAndGenerateQuote() {
 
     localStorage.setItem("lastQuoteDate", today);
   } else {
-    console.log("Quote already generated for today.");
+    // console.log("Quote already generated for today.");
   }
 }
