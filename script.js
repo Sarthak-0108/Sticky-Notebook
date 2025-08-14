@@ -1259,3 +1259,15 @@ function checkAndGenerateQuote() {
     // console.log("Quote already generated for today.");
   }
 }
+
+//inform users about offline notes availablity
+const offlineModal = new bootstrap.Modal(
+  document.getElementById("offlineModal")
+);
+
+setTimeout(() => {
+  if (!localStorage.getItem("acknowledge_offline")) {
+    localStorage.setItem("acknowledge_offline", true);
+    offlineModal.show();
+  }
+}, 30000);
