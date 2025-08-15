@@ -1138,13 +1138,13 @@ function generateNote() {
   }
   document.getElementById("loadingSpinner").style.display = "block";
 
-  if (isHinglish(noteTopic.value)) {
+  if (medium === "hindi") {
     // console.log(medium);
-    medium = "hinglish";
     // console.log(medium);
     // console.log(isHinglish(noteTopic.value));
     currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
-  } else if (medium == "hindi") {
+  } else if (isHinglish(noteTopic.value)) {
+    medium = "hinglish";
     currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
   }
   let prompt;
