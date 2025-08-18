@@ -4,17 +4,17 @@
   "start_url": "./index.html",
   "icons": [
     {
-      "src": "android-icon-192x192.png",
+      "src": "png/android-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "favicon-32x32.png",
+      "src": "png/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "apple-icon-180x180.png",
+      "src": "png/apple-icon-180x180.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"

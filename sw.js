@@ -3,8 +3,8 @@ const CACHE_FILES = [
   "/index.html",
   "/style.css",
   "/script.js",
-  "/notes.png",
-  "/android-icon-192x192.png",
+  "png/notes.png",
+  "png/android-icon-192x192.png",
 ];
 
 self.addEventListener("install", (event) => {
