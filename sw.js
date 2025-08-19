@@ -1,8 +1,8 @@
-const cacheName = "PiNOte/v-1.0";
+const cacheName = "PiNOte/v-1.1";
 const CACHE_FILES = [
-  "/index.html",
-  "/style.css",
-  "/script.js",
+  "index.html",
+  "style.css",
+  "script.js",
   "png/notes.png",
   "png/android-icon-192x192.png",
 ];
