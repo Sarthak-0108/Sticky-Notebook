@@ -1227,7 +1227,21 @@ Return only the quote and the author's name, without any extra text or formattin
 
       displayAiNotes();
     })
-    .catch((err) => console.error("⚠️ Error:", err));
+    .catch((err) => {
+      document.getElementById("loadingSpinner").style.display = "none";
+      console.error("⚠️ Error:", err);
+      Alert.style.display = "block";
+      Alert.innerHTML =
+        "⚠️ Backend is not responding. Please refresh the page or try again later.";
+      Alert.classList.add("alert-danger");
+
+      setTimeout(() => {
+        Alert.style.display = "none";
+        Alert.innerHTML = "";
+        Alert.classList.remove("alert-danger");
+      }, 3000);
+      console.error("⚠️ Error:", err);
+    });
 }
 
 //generate daily quote
