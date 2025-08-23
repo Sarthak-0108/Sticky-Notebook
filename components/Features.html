@@ -64,7 +64,7 @@
         <div class="collapse navbar-collapse" id="navbarMenu">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home</a>
+              <a id="home" class="nav-link active" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="componenets/Features.html">Features</a>
@@ -212,9 +212,19 @@
       let navbar = document.querySelector("nav");
       let navbarBranding = document.getElementById("navbar-branding");
       const swapBtn = document.querySelector(".swap");
+      const home = document.getElementById("home");
+
+      if (window.location.href.includes("github")) {
+        home.href = "https://sarthak-0108.github.io/Sticky-Notebook";
+      }
 
       swapBtn.onclick = () => {
-        window.location.href = "/";
+        if (window.location.href.includes("github")) {
+          window.location.href =
+            "https://sarthak-0108.github.io/Sticky-Notebook";
+        } else {
+          window.location.href = "/";
+        }
       };
 
       navbarBranding.innerText = `${localStorage.getItem("userName")}'s Pibook`;
