@@ -1117,7 +1117,8 @@ let currentRoute;
 generatBtn.addEventListener("click", generateNote);
 
 function generateNote() {
-  currentRoute = "https://sticky-note-backend.onrender.com/gemini-englishNote";
+  currentRoute =
+    "https://sticky-notebook-production.up.railway.app/gemini-englishNote";
   if (medium === "hinglish") {
     medium = "english";
   }
@@ -1142,10 +1143,12 @@ function generateNote() {
     // console.log(medium);
     // console.log(medium);
     // console.log(isHinglish(noteTopic.value));
-    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
+    currentRoute =
+      "https://sticky-notebook-production.up.railway.app/gemini-note";
   } else if (isHinglish(noteTopic.value)) {
     medium = "hinglish";
-    currentRoute = "https://sticky-note-backend.onrender.com/gemini-note";
+    currentRoute =
+      "https://sticky-notebook-production.up.railway.app/gemini-note";
   }
   let prompt;
 
@@ -1210,11 +1213,14 @@ Return only the quote and the author's name, without any extra text or formattin
     .then(async (res) => {
       if (!res.ok) {
         console.warn("⚠️ Gemini failed. Switching to Cohere...");
-        return fetch("https://sticky-note-backend.onrender.com/generate-note", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
-        });
+        return fetch(
+          "https://sticky-notebook-production.up.railway.app/generate-note",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          }
+        );
       }
       return res;
     })
