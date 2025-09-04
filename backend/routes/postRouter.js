@@ -25,7 +25,7 @@ router.post("/storeUserData", async (req, res) => {
       password,
       confirmPassword
     );
-    res.redirect("http://localhost:5002/congrats");
+    res.redirect("https://pinote-eight.vercel.app/congrats");
   } catch (error) {
     console.log(error);
   }

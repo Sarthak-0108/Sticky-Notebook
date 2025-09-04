@@ -10,7 +10,7 @@ import { connectDB } from "./db.js";
 const app = express();
 connectDB();
 app.use(cors());
-app.use(cors({ origin: "http://localhost:5002" }));
+app.use(cors({ origin: "https://pinote-eight.vercel.app/" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/post", postRoute);
