@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { trakcApiRequest } from "../services/apiTrack.js";
+import { trakcApiRequest } from "./services/apiTrack.js";
 
 router.post("/", (req, res) => {
   res.send("i m a post router");
