@@ -4,10 +4,16 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { GoogleGenAI } from "@google/genai";
+import postRoute from "./routes/postRouter.js";
+import { connectDB } from "./db.js";
 
 const app = express();
+connectDB();
 app.use(cors());
+app.use(cors({ origin: "http://localhost:5002" }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/post", postRoute);
 
 // Google Gemini Setup
 console.log(process.env.GEMINI_API_KEY);
@@ -102,7 +108,7 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
-const PORT = 5000;
+const PORT = 4004;
 app.listen(PORT, () =>
   console.log(`🚀 AI Note Backend running on http://localhost:${PORT}`)
 );
