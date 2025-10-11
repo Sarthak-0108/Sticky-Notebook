@@ -1,10 +1,10 @@
 const cacheName = "PiNOte/v-1.1";
 const CACHE_FILES = [
   "index.html",
-  "style.css",
-  "script.js",
-  "png/notes.png",
-  "png/android-icon-192x192.png",
+  "frontend/style.css",
+  "frontend/script.js",
+  "frontend/png/notes.png",
+  "frontend/png/android-icon-192x192.png",
 ];
 
 self.addEventListener("install", (event) => {

@@ -132,13 +132,13 @@
       referrerpolicy="no-referrer"
     />
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="Frontend/style.css" />
 
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="png/favicon-32x32.png"
+      href="frontend/Assets/png/favicon-32x32.png"
     />
 
     <!-- Android and PWA -->
@@ -146,14 +146,14 @@
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="png/android-icon-192x192.png"
+      href="frontend/Assets/png/android-icon-192x192.png"
     />
 
     <!-- Apple Touch Icon (used when added to home screen) -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="png/apple-icon-180x180.png"
+      href="frontend/Assets/png/apple-icon-180x180.png"
     />
 
     <!-- Manifest -->
@@ -210,7 +210,11 @@
     </div>
 
     <div id="installBanner" class="banner" hidden>
-      <img src="png/android-icon-192x192.png" alt="App Logo" class="logo" />
+      <img
+        src="frontend/Assets/png/android-icon-192x192.png"
+        alt="App Logo"
+        class="logo"
+      />
       <div class="banner-text">
         <strong>Pi Note</strong><br />
         Fast. Easy. Use our free app.
@@ -239,13 +243,13 @@
               <li class="nav-item">
                 <a class="nav-link active" href="#">Home</a>
               </li>
-<!--               <li class="nav-item">
+              <!--               <li class="nav-item">
                 <a class="nav-link" href="https://pinote.onrender.com/objective"
                   >pi-objective</a
                 >
               </li> -->
               <li class="nav-item">
-                <a class="nav-link" href="Features.html">Features</a>
+                <a class="nav-link" href="frontend/Features.html">Features</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="mailto:pieeeenote@gmail.com"
@@ -338,7 +342,10 @@
               class="dismiss"
               style="border: 2px solid #0dcaf0; border-radius: 12px"
             >
-              <img src="webp/plus.webp" style="width: 2rem; height: 2rem" />
+              <img
+                src="frontend/Assets/webp/plus.webp"
+                style="width: 2rem; height: 2rem"
+              />
             </button>
           </div>
         </div>
@@ -670,7 +677,6 @@
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="frontend/script.js"></script>
   </body>
 </html>
-
