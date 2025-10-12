@@ -1294,3 +1294,4 @@ setTimeout(() => {
     offlineModal.show();
   }
 }, 30000);
+console.log("this line just for to show off changes are made");
